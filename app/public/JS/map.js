@@ -2,6 +2,7 @@ async function initMap()
 {
 	// Request needed libraries.
 	const { Map } = await google.maps.importLibrary("maps");
+	const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
 
 	// Options for the map
 	var mapOptions = {
@@ -43,4 +44,24 @@ async function initMap()
 			map.panTo(allowedRegion.getCenter());
 		}
 	}
+
+
+
+
+	
+	google.maps.event.addListener(Rectangle, 'click', RectangleClick);
+
+
+	//NOT WORKING
+	function RectangleClick(e)
+	{
+		alert(e.latLng.lat() + ", " + e.latLng.lng());
+
+		const marker = new AdvancedMarkerElement({
+			position: e.latLng,
+			map: map,
+			title: "You clicked here"
+		});
+	}
+
 }

@@ -3,3 +3,27 @@
 	width: 100%;
 	height: 80%;
 }
+
+
+#main-content
+{
+	position: relative;
+}
+
+#network-condition
+{
+	position: fixed;
+	top: 10%;
+	left:45%;
+	width: 10%;
+	z-index: 99;
+	display: flex;
+	justify-content: center;
+	background-color: rgb(252, 234, 200);
+	border-radius: 15px;
+	border: 2px solid black;
+
+	
+	/* start off hidden */
+	display: none;
+}
