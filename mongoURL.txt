@@ -1,0 +1,25 @@
+
+const { MongoClient, ServerApiVersion } = require('mongodb');
+const uri = "mongodb+srv://tyb23mnu:NHplzJDtvulUoyCC@synoptic.f2e5msh.mongodb.net/?retryWrites=true&w=majority&appName=Synoptic";
+
+// this is the code to be put in app.js for connecting to MongoDB. I'll implement the rest of the stuff later :)
+
+// MongoDB connection (from SoftEng coursework)
+const mongoose = require("mongoose");
+mongoose
+    .connect(
+        "mongodb+srv://tyb23mnu:NHplzJDtvulUoyCC@synoptic.f2e5msh.mongodb.net/?retryWrites=true&w=majority&appName=Synoptic";
+        {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        }
+    )
+    .then(() => {
+        console.log("Connected to MongoDB");
+    })
+    .catch((err) => {
+        console.error("MongoDB connection error:", err);
+    });
+
+
+
