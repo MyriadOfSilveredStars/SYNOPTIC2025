@@ -5,12 +5,10 @@ window.onload = () => {
 		xhr.open("GET", "https://jsonplaceholder.typicode.com/posts", true);
 		xhr.onload = () => {
 			if (xhr.status >= 200 && xhr.status < 300) {//online
-				console.log("good");
 				ConnectionStatusSet(true);
 			}
 		}
 		xhr.onerror = () => {
-			//console.error("Network error occurred.");
 			ConnectionStatusSet(false);
 		}
 		xhr.send();
