@@ -116,13 +116,14 @@ async function initMap() //called by google maps API once loaded
 	//called by clicking in rectangle
 	function PlaceNewMarker(e)
 	{
+		const center = map.getCenter();
 		const params = 
 		{
 			"id": 123, // TODO we need unique id from backend/DB
 			"position":
 			{
-				"lat": e.latLng.lat(),
-				"lng": e.latLng.lng()
+				"lat": center.lat(),
+				"lng": center.lng()
 			}
 		}
 		PlaceMarker(params);//gets the id and places it
@@ -175,4 +176,9 @@ async function initMap() //called by google maps API once loaded
 			markerElementIn.zIndex = 999; //front
 		}
 	}
+
+	// When the make new marker button is pressed, the PlaceNewMarker function above is called.
+	const makeNewMarkerButton = document.getElementById("makeNewMarkerButton");
+	makeNewMarkerButton.addEventListener('click', PlaceNewMarker, false);
+	
 }

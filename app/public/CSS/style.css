@@ -58,7 +58,7 @@ div.gm-style {
 	max-height: 80vw;
 }
 
-#makeMarkerButton {
+#makeNewMarkerButton {
     position: fixed;
 	left: 60%;
 	top: 60%;
@@ -73,7 +73,7 @@ div.gm-style {
 	z-index: 11;
 }
 
-#makeMarkerButton:hover {
+#makeNewMarkerButton:hover {
     background-color: whitesmoke;
     border-color: #52918b;
     transition-duration: 0.2s;
@@ -81,7 +81,7 @@ div.gm-style {
     cursor: pointer;
 }
 
-#makeMarkerButton:active {
+#makeNewMarkerButton:active {
     box-shadow: 0 0px #afaeae;
     transform: translateY(2px);
     transition-duration: 0s;
