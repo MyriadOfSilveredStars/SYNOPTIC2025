@@ -14,3 +14,5 @@ app.get('/', (req, res) =>
 {
 	res.render('layout.ejs', { title: "Map", mainContent: "pages/map", includeParams: { API_URL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyDx1nDqigjyOixfMY4kj485EaIkEi1VXX0&loading=async&callback=initMap" } });
 });
+
+//todo page not found
