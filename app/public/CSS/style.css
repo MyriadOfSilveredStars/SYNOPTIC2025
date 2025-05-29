@@ -1,33 +1,41 @@
-#map
-{
-	width: 100%;
-	height: 80%;
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap");
+
+body {
+    font-family: "Noto Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
+    font-variation-settings: "wdth" 100;
+}
+div.gm-style {
+    font-family: "Noto Sans", sans-serif;
+}
+#map {
+    width: 100%;
+    height: 80%;
 }
 
-
-#main-content
-{
-	position: relative;
+#main-content {
+    position: relative;
 }
 
-#network-condition
-{
-	position: fixed;
-	top: 10%;
-	left:45%;
-	width: 10%;
-	z-index: 99;
-	display: flex;
-	justify-content: center;
-	background-color: rgb(252, 234, 200);
-	border-radius: 15px;
-	border: 2px solid black;
+#network-condition {
+    position: fixed;
+    top: 10%;
+    left: 45%;
+    width: 10%;
+    z-index: 99;
+    display: flex;
+    justify-content: center;
+    background-color: rgb(252, 203, 200);
+    border-radius: 15px;
+    border: 2px solid black;
 
-	
-	/* start off hidden */
-	display: none;
+    /* start off hidden */
+    display: none;
 }
 
+<<<<<<< HEAD
 #crosshair {
 	position: fixed;
 	left: 50%;
@@ -78,11 +86,17 @@
 	height: 50px;
 	background-color: white;
 	border: solid black;
+=======
+.markerDiv {
+    text-align: center;
+    width: 50px;
+    height: 50px;
+    background-color: white;
+    border: solid black;
+>>>>>>> 2bbbe183a71a79b1cc346707808cffc9bc362924
 }
 
-
-.expand
-{
-	width: 300px;
-	height: 100px;
+.expand {
+    width: 300px;
+    height: 100px;
 }
