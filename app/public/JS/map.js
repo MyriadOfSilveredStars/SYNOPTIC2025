@@ -8,11 +8,11 @@ async function initMap() //called by google maps API once loaded
 	map = new Map(document.getElementById("map"), 
 	{
 		center: { lat: -26.193554014913836, lng: 28.069132270603006 },
-			zoom: 12,// Initial zoom
-			minZoom: 10,// Min zoom
-			maxZoom: 9999,// Max zoom
-			streetViewControl: false,
-			mapId: "53ec86221c5b181adc2e8fe0"
+		zoom: 12,// Initial zoom
+		minZoom: 10,// Min zoom
+		maxZoom: 9999,// Max zoom
+		streetViewControl: false,
+		mapId: "53ec86221c5b181adc2e8fe0"
 	});
 
 	//4 edges of allowed region
@@ -52,7 +52,6 @@ async function initMap() //called by google maps API once loaded
 
 	//finally place markers stored in DB
 	placeMarkers(loadMarkers());
-
 
 
 	//begin functions

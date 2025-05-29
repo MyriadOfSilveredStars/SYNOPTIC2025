@@ -28,6 +28,50 @@
 	display: none;
 }
 
+#crosshair {
+	position: fixed;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	pointer-events: none;
+	z-index: 10;
+}
+
+#crosshair img {
+	width: 40px;
+	height: 40px;
+	max-weidth: 80vw;
+	max-height: 80vw;
+}
+
+#makeMarkerButton {
+    position: fixed;
+	left: 60%;
+	top: 60%;
+    margin: 2rem 35%;
+    background-color: #52918b;
+    width: 40px;
+    min-height: 50px;
+    padding: 7px;
+    border: .25rem solid #52918b;
+    font-size: 20px;
+    font-weight: bold;
+	z-index: 11;
+}
+
+#makeMarkerButton:hover {
+    background-color: whitesmoke;
+    border-color: #52918b;
+    transition-duration: 0.2s;
+    color: #52918b;
+    cursor: pointer;
+}
+
+#makeMarkerButton:active {
+    box-shadow: 0 0px #afaeae;
+    transform: translateY(2px);
+    transition-duration: 0s;
+}
 
 .markerDiv
 {	width: 50px;
