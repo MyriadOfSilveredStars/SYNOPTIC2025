@@ -1,17 +1,17 @@
 window.onload = () => {
 	function TestConnection() //inspiration from https://www.codingnepalweb.com/detect-internet-connection-javascript/
 	{
-		var xhr = new XMLHttpRequest();
-		xhr.open("GET", "https://jsonplaceholder.typicode.com/posts", true);
-		xhr.onload = () => {
-			if (xhr.status >= 200 && xhr.status < 300) {//online
+		var request = new XMLHttpRequest();
+		request.open("GET", "https://jsonplaceholder.typicode.com/posts", true);
+		request.onload = () => {
+			if (request.status >= 200 && request.status < 300) {//online
 				ConnectionStatusSet(true);
 			}
 		}
-		xhr.onerror = () => {
+		request.onerror = () => {
 			ConnectionStatusSet(false);
 		}
-		xhr.send();
+		request.send();
 		
 	}
 
