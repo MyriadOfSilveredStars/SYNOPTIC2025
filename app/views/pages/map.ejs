@@ -1,19 +1,4 @@
-<script async src="<%= params.API_URL %>"></script>
-<script src="JS/map.js"></script>
-<script src="https://kit.fontawesome.com/7cead2e1fc.js" crossorigin="anonymous"></script>
-
-<!-- Container For Map Elements -->
-<div id="mapWrapper">
-    <!-- Map -->
-    <div id="map"></div>
-
-    <!-- Crosshair -->
-    <div id="crosshair">
-        <img src="images/crosshair.svg" alt="Crosshair" />
-    </div>
-
-    <!-- Make New Marker Button -->
-    <button id="makeNewMarkerButton">
-        <i class="fa-solid fa-square-plus"></i>
-    </button>
-</div>
+<div id="map"></div>
+<script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDx1nDqigjyOixfMY4kj485EaIkEi1VXX0&loading=async&callback=initMap"></script>
+<link rel="stylesheet" href="CSS/style.css">
+<script src="/JS/map.js"></script>
