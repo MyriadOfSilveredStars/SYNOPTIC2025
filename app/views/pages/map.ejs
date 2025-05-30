@@ -1,14 +1,19 @@
-<div id="map"></div>
 <script async src="<%= params.API_URL %>"></script>
 <script src="JS/map.js"></script>
 <script src="https://kit.fontawesome.com/7cead2e1fc.js" crossorigin="anonymous"></script>
 
-<!-- Crosshair -->
-<div id="crosshair">
-    <img src="images/crosshair.svg" alt="Crosshair" />
-</div>
+<!-- Container For Map Elements -->
+<div id="mapWrapper">
+    <!-- Map -->
+    <div id="map"></div>
 
-<!-- Make New Marker Button -->
-<button id="makeNewMarkerButton">
-    <i class="fa-solid fa-square-plus"></i>
-</button>
+    <!-- Crosshair -->
+    <div id="crosshair">
+        <img src="images/crosshair.svg" alt="Crosshair" />
+    </div>
+
+    <!-- Make New Marker Button -->
+    <button id="makeNewMarkerButton">
+        <i class="fa-solid fa-square-plus"></i>
+    </button>
+</div>

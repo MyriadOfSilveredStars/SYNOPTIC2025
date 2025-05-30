@@ -12,12 +12,18 @@ div.gm-style {
     font-family: "Noto Sans", sans-serif;
 }
 
-#map
+#mapWrapper
 {
+	position: relative;
 	width: 100%;
 	height: 80%;
 }
 
+#map {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
 
 #main-content
 {
@@ -43,10 +49,10 @@ div.gm-style {
 }
 
 #crosshair {
-	position: fixed;
+	position: absolute;
 	left: 50%;
-	top: 50%;
-	transform: translate(-50%, -50%);
+	top: 47%;
+	transform: translate(-50%, -47%);
 	pointer-events: none;
 	z-index: 10;
 }
