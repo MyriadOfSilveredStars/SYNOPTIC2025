@@ -2,9 +2,6 @@ async function initMap() //called by google maps API once loaded
 {
 	//temporary id for markers, should be replaced with backend id
 	var tempID = 2;
-	
-	// Store placed markers' latitudes and longitudes
-	var markerPositions = [];
 
 	// Local array of markers (will have DB markers loaded initially, then any new markers pushed onto it if added)
 	var markersLocal = [];
