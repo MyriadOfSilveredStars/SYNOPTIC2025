@@ -5,7 +5,6 @@ const PORT = process.env.PORT || 3000; // Needed for gcloud
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const { isAuthenticated } = require('./middleware/authMiddleware');
-const _ = require('lodash');
 
 // MongoDB connection
 const mongoose = require('mongoose');
