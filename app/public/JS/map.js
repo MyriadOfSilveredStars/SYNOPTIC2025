@@ -55,9 +55,6 @@ async function initMap() //called by google maps API once loaded
 	//event listeners for enforcing allowed region
 	google.maps.event.addListener(map, 'drag', MoveMapToAllowedRegion); //drag map
 	google.maps.event.addListener(map, 'zoom_changed', MoveMapToAllowedRegion); //zoom map
-	
-	//click to place new marker
-	google.maps.event.addListener(Rectangle, 'click', PlaceNewMarker);
 
 	//finally place markers stored in DB
 	placeMarkers(loadMarkers());
