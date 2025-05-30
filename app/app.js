@@ -60,7 +60,7 @@ app.get('/policy', (req, res) => {
 });
 
 app.get('/map', (req, res) => {
-    EJSrender(res, 'pages/map', 'Map');
+    EJSrender(res, 'pages/map', 'Map', { API_URL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyDx1nDqigjyOixfMY4kj485EaIkEi1VXX0&loading=async&callback=initMap" });
 });
 
 app.get('/user-profile', isAuthenticated, async (req, res) => {
