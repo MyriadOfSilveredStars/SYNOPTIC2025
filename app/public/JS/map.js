@@ -1,5 +1,14 @@
 async function initMap() //called by google maps API once loaded
 {
+	//temporary id for markers, should be replaced with backend id
+	var tempID = 2;
+	
+	// Store placed markers' latitudes and longitudes
+	var markerPositions = [];
+
+	// Local array of markers (will have DB markers loaded initially, then any new markers pushed onto it if added)
+	var markersLocal = [];
+
 	//get libraries
 	const { Map } = await google.maps.importLibrary("maps");
 	const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
@@ -89,37 +98,45 @@ async function initMap() //called by google maps API once loaded
 	{
 		//TO DO fetch markers from DB/backend
 		// for now well use this:
-		const markers =
-			[
+		markersLocal.push({
+				"id": "0",
+				"position":
 				{
-					"id": "0",
-					"position":
-					{
-						"lat": -26.20818987447669,
-						"lng": 28.03096522520447
-					}
-				},
-				{
-					"id": "1",
-					"position":
-					{
-						"lat": -26.189536852345,
-						"lng": 28.125304702770286
-					}
+					"lat": -26.20818987447669,
+					"lng": 28.03096522520447
 				}
-			]
+			}
+		);
 
+		markersLocal.push({
+				"id": "1",
+				"position":
+				{
+					"lat": -26.189536852345,
+					"lng": 28.125304702770286
+				}
+			}
+		);
 
-		return markers
+		return markersLocal;
 	}
 
 	//called by clicking in rectangle
 	function PlaceNewMarker(e)
 	{
+		// Retrieve coordinates of selected point
 		const center = map.getCenter();
-		const params = 
-		{
-			"id": 123, // TODO we need unique id from backend/DB
+		const lat = center.lat();
+		const lng = center.lng();
+
+		// Check if the selected point already exists within the array of markers
+		if (markersLocal.some(marker => marker.position.lat == lat && marker.position.lng == lng)) {
+			alert("A marker already exists at this position.");
+			return; // Do not place the marker if it already exists
+		}
+
+		const params = {
+			"id": tempID++, // TODO we need unique id from backend/DB
 			"position":
 			{
 				"lat": center.lat(),
@@ -127,6 +144,7 @@ async function initMap() //called by google maps API once loaded
 			}
 		}
 		PlaceMarker(params);//gets the id and places it
+		markersLocal.push(params); // Add new marker to the local array of markers
 	}
 
 	//for each existing marker place it
