@@ -104,9 +104,10 @@ app.get('/verifyAccount', jsonParser, authController.verifyAccount);
 app.post('/resetPassword', jsonParser, authController.resetPassword);
 
 // 404 Handler
-app.get('*', (req, res) => {
-    EJSrender(res, 'pages/404', 'Page not Found');
-});
+app.use((req, res) => {
+		res.status(404).send("Page Not Found");
+	}
+);
 
 // Start server
 app.listen(PORT, () => {
