@@ -107,6 +107,9 @@ async function initMap() //called by google maps API once loaded
 		//fetch('/maps').then(response => response.json())
 		//.then(markers => markersLocal.push(markers.markersData))
 		//.catch(error => console.error('Error:', error));;
+		
+		// Test to fetch markers from backend - seems to work.
+		console.log(window.markerDataFromBackend);
 
 		// for now we'll use this:
 		markersLocal.push({
@@ -182,9 +185,9 @@ async function initMap() //called by google maps API once loaded
 	//for each existing marker place it
 	function placeMarkers(markersData)
 	{
-		for (let i = 0; i < markersData.length; i++)
+		for (let i = 0; i < window.markerDataFromBackend.length; i++)
 		{
-			PlaceMarker(markersData[i]);
+			PlaceMarker(window.markerDataFromBackend[i]);
 		}
 	}
 

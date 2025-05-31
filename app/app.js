@@ -71,8 +71,8 @@ app.get('/map', async (req, res) => {
     
     //okay that gives us flattenMarkers as an array of all markers in the database
     //now to send that to the map
-    res.header("markers", JSON.stringify(flattenMarkers));
-    EJSrender(res, 'pages/map', 'Map', { API_URL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyDx1nDqigjyOixfMY4kj485EaIkEi1VXX0&loading=async&callback=initMap"});
+    EJSrender(res, 'pages/map', 'Map', { API_URL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyDx1nDqigjyOixfMY4kj485EaIkEi1VXX0&loading=async&callback=initMap", 
+        markers: JSON.stringify(flattenMarkers)});
 });
 
 
