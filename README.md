@@ -1,5 +1,5 @@
 # SYNOPTIC 2025
-GitHub for our 2025 synoptic project
+GitHub for our 2025 synoptic project, group 38
 ## To run locally
 1. ```git clone```
 2. navigate to app folder
@@ -12,4 +12,4 @@ GitHub for our 2025 synoptic project
 3. ```gcloud app browse``` which opens [[synoptic-project-38.nw.r.appspot.com](https://synoptic-project-38.nw.r.appspot.com/)]
 <br>
 
-Only SW can do this (for now!)
+Ask SW or GE to do this
