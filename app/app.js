@@ -8,7 +8,7 @@ const { isAuthenticated } = require('./middleware/authMiddleware');
 
 // MongoDB connection
 const mongoose = require('mongoose');
-mongoose.connect('mongodb+srv://rhoboat:1nc0rr3ct@courseworkdatabase.cfhqxbf.mongodb.net/?retryWrites=true&w=majority&appName=CourseworkDatabase', {
+mongoose.connect('mongodb+srv://tyb23mnu:NHplzJDtvulUoyCC@synoptic.f2e5msh.mongodb.net/?retryWrites=true&w=majority&appName=Synoptic', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => {
@@ -28,6 +28,7 @@ app.set('view engine', 'ejs'); // Express looks in views folder for ejs template
 // Import controllers and models
 const authController = require('./controllers/authController');
 const userModel = require('./models/userModel');
+const markerModel = require('./models/markerModel');
 
 // Rendering pages with ejs using layout.ejs
 function EJSrender(res, main, titleIn, params) {
@@ -98,6 +99,7 @@ app.post('/settings', jsonParser, userModel.updateUserDetails);
 app.post('/log-in', jsonParser, authController.logIn);
 app.get('/verifyAccount', jsonParser, authController.verifyAccount);
 app.post('/resetPassword', jsonParser, authController.resetPassword);
+app.post('/map', jsonParser, markerModel.newMarker);
 
 // 404 Handler
 app.use((req, res) => {

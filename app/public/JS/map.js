@@ -139,7 +139,29 @@ async function initMap() //called by google maps API once loaded
 		}
 		PlaceMarker(params);//gets the id and places it
 		markersLocal.push(params); // Add new marker to the local array of markers
-	}
+
+		//add this new marker to the database
+		data = {
+			id: params.id,
+			position: params.position,
+			creator: "testCreator",
+			description: "This is a description"
+		}
+
+		const serializedData = JSON.stringify(data);
+    	const fetchOptions = {
+			method: 'POST',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: serializedData
+    	};
+
+		fetch('http://localhost:3000/map', fetchOptions)
+			.then(onResponse)
+			.then(onTextReady);
+	}	
 
 	//for each existing marker place it
 	function placeMarkers(markersData)
@@ -192,5 +214,18 @@ async function initMap() //called by google maps API once loaded
 	// When the make new marker button is pressed, the PlaceNewMarker function above is called.
 	const makeNewMarkerButton = document.getElementById("makeNewMarkerButton");
 	makeNewMarkerButton.addEventListener('click', PlaceNewMarker, false);
+
+	function onResponse(response) {
+		//Checks to see if the action was successful
+		const success = response.status === 200;
+		//Return an object containing both response flag and text
+		return response.text().then(text => {
+			return {text, success};
+		});
+	}
+
+	function onTextReady(result) {
+		console.log("Marker placed successfully!");
+	}
 	
 }
