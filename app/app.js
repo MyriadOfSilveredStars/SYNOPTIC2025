@@ -60,34 +60,8 @@ app.get('/map', (req, res) => {
     EJSrender(res, 'pages/map', 'Map', { API_URL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyDx1nDqigjyOixfMY4kj485EaIkEi1VXX0&loading=async&callback=initMap" });
 });
 
-app.get('/user-profile', isAuthenticated, async (req, res) => {
-    const user = req.user;
-    const profile = {
-        name: user.fName,
-        surname: user.lName,
-        profile: user.userProfile,
-    };
-    EJSrender(res, 'pages/user-profile', 'User Profile', profile);
-});
-
-app.get('/delete-account', (req, res) => {
-    EJSrender(res, 'pages/delete-account', 'Account Deletion');
-});
-
 app.get('/settings', isAuthenticated, async (req, res) => {
     const user = req.user;
-
-    const goal = {
-        name: user.fName,
-        surname: user.lName,
-        gender: user.gender,
-        birth: user.bday,
-        height: user.height,
-        weight: user.weight,
-        precons: user.precons,
-        profile: user.userProfile,
-        email: user.email,
-    };
 
     EJSrender(res, 'pages/settings', 'Settings', goal);
 });

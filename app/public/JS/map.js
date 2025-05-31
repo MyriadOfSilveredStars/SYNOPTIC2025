@@ -1,5 +1,10 @@
+
+
 async function initMap() //called by google maps API once loaded
 {
+	//get mongoose
+	//const mongoose = require('mongoose');
+
 	//temporary id for markers, should be replaced with backend id
 	var tempID = 2;
 
@@ -88,9 +93,16 @@ async function initMap() //called by google maps API once loaded
 	}
 
 	//load markers from DB, for now we used temp data
-	function loadMarkers()
+	async function loadMarkers()
 	{
-		//TO DO fetch markers from DB/backend
+		//use the mongoose model to fetch all marker values from DB
+		const markersModel = mongoose.model('Marker');
+		let allMarkers = await markersModel.find();
+		
+		//just to check it worked
+		console.log(allMarkers);
+
+
 		// for now well use this:
 		markersLocal.push({
 				"id": "0",
