@@ -18,12 +18,12 @@ const markerSchema = new mongoose.Schema({
 const Marker = mongoose.model('Marker', markerSchema);
 
 exports.newMarker = async (req, res) => {
-    const {markerID, position, creator, description} = req.body;
+    const {position, creator, description} = req.body;
 
     try {
-
+        //create a new marker using the schema
         const newMarker = new Marker({
-            id: markerID,//Needs to be hashed before being stored in the database for finding accounts via cookies
+            id: crypto.randomUUID(),
             position: position,
             creator: creator,
             description: description

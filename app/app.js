@@ -5,6 +5,7 @@ const PORT = process.env.PORT || 3000; // Needed for gcloud
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const { isAuthenticated } = require('./middleware/authMiddleware');
+const _ = require("lodash"); //for flattening mongo objects into arrays
 
 // MongoDB connection
 const mongoose = require('mongoose');
@@ -56,9 +57,25 @@ app.get('/policy', (req, res) => {
     EJSrender(res, 'pages/policy', 'Policy');
 });
 
-app.get('/map', (req, res) => {
-    EJSrender(res, 'pages/map', 'Map', { API_URL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyDx1nDqigjyOixfMY4kj485EaIkEi1VXX0&loading=async&callback=initMap" });
+app.get('/map', async (req, res) => {
+
+    //use the mongoose model to fetch all marker values from DB
+    const markersModel = mongoose.model('Marker');
+    let allMarkers = await markersModel.find();
+
+    //now we use lodash to flatten the object of objects that mongo returns
+    //into a nice array of objects instead
+    const flattenMarkers = _(allMarkers).flatten().value();
+    //console.log(flattenMarkers) //check if the markers are alright with this
+
+    
+    //okay that gives us flattenMarkers as an array of all markers in the database
+    //now to send that to the map
+    res.header("markers", JSON.stringify(flattenMarkers));
+    EJSrender(res, 'pages/map', 'Map', { API_URL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyDx1nDqigjyOixfMY4kj485EaIkEi1VXX0&loading=async&callback=initMap"});
 });
+
+
 
 app.get('/settings', isAuthenticated, async (req, res) => {
     const user = req.user;

@@ -1,9 +1,5 @@
-
-
 async function initMap() //called by google maps API once loaded
 {
-	//get mongoose
-	//const mongoose = require('mongoose');
 
 	//temporary id for markers, should be replaced with backend id
 	var tempID = 2;
@@ -95,15 +91,24 @@ async function initMap() //called by google maps API once loaded
 	//load markers from DB, for now we used temp data
 	async function loadMarkers()
 	{
-		//use the mongoose model to fetch all marker values from DB
-		const markersModel = mongoose.model('Marker');
-		let allMarkers = await markersModel.find();
-		
-		//just to check it worked
-		console.log(allMarkers);
 
+		try {
+        	const response = await fetch('./maps');
+        	if (response.ok) {
+            	const data = await response.json(); 
+            	console.log(data);
+        	} else {
+            	throw new Error('Failed to fetch data');
+        	}
+		} catch (error) {
+			console.error('Error:', error); 
+		}
 
-		// for now well use this:
+		//fetch('/maps').then(response => response.json())
+		//.then(markers => markersLocal.push(markers.markersData))
+		//.catch(error => console.error('Error:', error));;
+
+		// for now we'll use this:
 		markersLocal.push({
 				"id": "0",
 				"position":
@@ -154,7 +159,6 @@ async function initMap() //called by google maps API once loaded
 
 		//add this new marker to the database
 		data = {
-			id: params.id,
 			position: params.position,
 			creator: "testCreator",
 			description: "This is a description"
