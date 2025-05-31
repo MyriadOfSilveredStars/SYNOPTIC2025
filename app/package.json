@@ -1,12 +1,12 @@
 {
-  "name": "sp",
+  "name": "synoptic-2025-group-38",
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js"
   },
-  "author": "SW",
+  "author": "group-38",
   "license": "ISC",
   "description": "",
   "dependencies": {
@@ -15,7 +15,6 @@
     "cookie-parser": "^1.4.7",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
-    "lodash": "^4.17.21",
     "mongodb": "^6.16.0",
     "mongoose": "^8.15.1",
     "nodemailer": "^7.0.3",
