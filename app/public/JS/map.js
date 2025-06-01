@@ -136,10 +136,10 @@ async function initMap() //called by google maps API once loaded
 			body: serializedData
     	};
 
-		fetch('http://localhost:3000/map', fetchOptions)
+		fetch('/map', fetchOptions)
 			.then(onResponse)
 			.then(onReceiveNewPlacedMarker);
-	}	
+	}
 
 	//for each existing marker place it
 	function placeMarkers(markersData)
