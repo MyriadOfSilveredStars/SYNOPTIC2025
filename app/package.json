@@ -5,6 +5,7 @@
     "scripts": {
         "prestart": "npm install",
         "start": "node app.js",
+        "predev": "npm install",
         "dev": "nodemon app.js"
     },
     "author": "group-38",
