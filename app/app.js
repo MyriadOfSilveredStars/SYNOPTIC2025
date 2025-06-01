@@ -5,10 +5,11 @@ const PORT = process.env.PORT || 3000; // Needed for gcloud
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const { isAuthenticated } = require('./middleware/authMiddleware');
+const _ = require("lodash"); //for flattening mongo objects into arrays
 
 // MongoDB connection
 const mongoose = require('mongoose');
-mongoose.connect('mongodb+srv://rhoboat:1nc0rr3ct@courseworkdatabase.cfhqxbf.mongodb.net/?retryWrites=true&w=majority&appName=CourseworkDatabase', {
+mongoose.connect('mongodb+srv://tyb23mnu:NHplzJDtvulUoyCC@synoptic.f2e5msh.mongodb.net/?retryWrites=true&w=majority&appName=Synoptic', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => {
@@ -28,6 +29,7 @@ app.set('view engine', 'ejs'); // Express looks in views folder for ejs template
 // Import controllers and models
 const authController = require('./controllers/authController');
 const userModel = require('./models/userModel');
+const markerModel = require('./models/markerModel');
 
 // Rendering pages with ejs using layout.ejs
 function EJSrender(res, main, titleIn, params) {
@@ -55,38 +57,28 @@ app.get('/policy', (req, res) => {
     EJSrender(res, 'pages/policy', 'Policy');
 });
 
-app.get('/map', (req, res) => {
-    EJSrender(res, 'pages/map', 'Map', { API_URL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyDx1nDqigjyOixfMY4kj485EaIkEi1VXX0&loading=async&callback=initMap" });
+app.get('/map', async (req, res) => {
+
+    //use the mongoose model to fetch all marker values from DB
+    const markersModel = mongoose.model('Marker');
+    let allMarkers = await markersModel.find();
+
+    //now we use lodash to flatten the object of objects that mongo returns
+    //into a nice array of objects instead
+    const flattenMarkers = _(allMarkers).flatten().value();
+    //console.log(flattenMarkers) //check if the markers are alright with this
+
+    
+    //okay that gives us flattenMarkers as an array of all markers in the database
+    //now to send that to the map
+    EJSrender(res, 'pages/map', 'Map', { API_URL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyDx1nDqigjyOixfMY4kj485EaIkEi1VXX0&loading=async&callback=initMap", 
+        markers: JSON.stringify(flattenMarkers)});
 });
 
-app.get('/user-profile', isAuthenticated, async (req, res) => {
-    const user = req.user;
-    const profile = {
-        name: user.fName,
-        surname: user.lName,
-        profile: user.userProfile,
-    };
-    EJSrender(res, 'pages/user-profile', 'User Profile', profile);
-});
 
-app.get('/delete-account', (req, res) => {
-    EJSrender(res, 'pages/delete-account', 'Account Deletion');
-});
 
 app.get('/settings', isAuthenticated, async (req, res) => {
     const user = req.user;
-
-    const goal = {
-        name: user.fName,
-        surname: user.lName,
-        gender: user.gender,
-        birth: user.bday,
-        height: user.height,
-        weight: user.weight,
-        precons: user.precons,
-        profile: user.userProfile,
-        email: user.email,
-    };
 
     EJSrender(res, 'pages/settings', 'Settings', goal);
 });
@@ -98,6 +90,7 @@ app.post('/settings', jsonParser, userModel.updateUserDetails);
 app.post('/log-in', jsonParser, authController.logIn);
 app.get('/verifyAccount', jsonParser, authController.verifyAccount);
 app.post('/resetPassword', jsonParser, authController.resetPassword);
+app.post('/map', jsonParser, markerModel.newMarker);
 
 // 404 Handler
 app.use((req, res) => {

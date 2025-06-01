@@ -6,68 +6,37 @@ const crypto = require('crypto');
 // user collection in MongoDB
 const userSchema = new mongoose.Schema({
     id: { type: String, default: () => crypto.randomUUID() },
-    fName: String,
-    lName: String,
+    userName: String,
     email: { type: String, unique: true },
-    bday: Date,
-    gender: String,
-    password: String,
-    verificationCode: String,
-    verifiedAccount: { type: Boolean, default: false },
-    height: {type: Number, default:null},
-    weight: {type: Number, default:null},
-    precons: {type: String, default:null},
-    userProfile: {type: String, default:null},
-    allowEmails: {type: Boolean, default: true}
-
+    password: String
 });
 
 const User = mongoose.model('User', userSchema);
 
 // creates a new user and emails them a verification link
 exports.signUp = async (req, res) => {
-    const { firstName, lastName, email, birthDate, gender, password } = req.body;
+    const { userName, email, password } = req.body;
 
     try {
-        const uniqueUserCode = general.generateUniqueCode();
+        //creates a random ID for each new user
         const userId = crypto.randomUUID();
-        
+        //then hashes that ID for security
         const hashedUUID = await security.hashPassword(userId);
-
+        //also hashes the password
         const hashedPassword = await security.hashPassword(password);
 
+        //create a new user using the mongoose schema
         const newMember = new User({
             id: hashedUUID,//Needs to be hashed before being stored in the database for finding accounts via cookies
-            fName: firstName,
-            lName: lastName,
+            userName: userName,
             email: email,
-            bday: birthDate,
-            gender: gender,
-            password: hashedPassword,
-            verificationCode: uniqueUserCode,
-            verifiedAccount: false, 
-            height: null,
-            weight: null,
-            precons: null,
-            userProfile: null,
-            allowEmails: null
+            password: hashedPassword
         });
 
+        //save the new member to the database
         await newMember.save();
 
-        const emailMessage = `
-            <h2>${firstName} ${lastName}, Thanks for registering on our site!</h2>
-            <h3>Please click on the link below to verify your account.</h3>
-            <a href="https://localhost:3001/verifyAccount?email=${email}&code=${uniqueUserCode}">Verify Account</a>
-        `;
-
-        await general.sendEmail({
-            to: email,
-            subject: 'Thank you for registering!',
-            htmlContent: emailMessage
-        });
-
-        return res.status(200).send("Account Created.\nPlease check your emails.");
+        return res.status(200).send("Account Created!");
     } catch (err) {
         console.error("Error during sign-up: ", err);
         return res.status(400).send("Error Occurred!");

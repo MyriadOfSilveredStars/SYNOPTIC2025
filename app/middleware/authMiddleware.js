@@ -14,7 +14,7 @@ exports.isAuthenticated = async (req, res, next) => {
 
     try {
         //changing this to read from the database not the json file
-        const client = new MongoClient('mongodb+srv://rhoboat:1nc0rr3ct@courseworkdatabase.cfhqxbf.mongodb.net/?retryWrites=true&w=majority&appName=CourseworkDatabase')
+        const client = new MongoClient('mongodb+srv://tyb23mnu:NHplzJDtvulUoyCC@synoptic.f2e5msh.mongodb.net/?retryWrites=true&w=majority&appName=Synoptic')
         await client.connect();
         const db = client.db("test");
         const coll = db.collection("users");
