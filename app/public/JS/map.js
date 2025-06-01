@@ -208,3 +208,5 @@ async function initMap() //called by google maps API once loaded
 		console.log("Marker placed successfully!");
 	}
 }
+
+window.initMap = initMap; // Make this function global so that Google Maps API can run it once loaded
