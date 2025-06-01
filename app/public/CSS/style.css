@@ -8,6 +8,12 @@ body {
     font-variation-settings: "wdth" 100;
 }
 
+.header-item-left {
+    color:white;
+    text-decoration: none;
+    padding-right: 16px;
+}
+
 div.gm-style {
     font-family: "Noto Sans", sans-serif;
 }
