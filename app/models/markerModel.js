@@ -27,7 +27,8 @@ exports.newMarker = async (req, res) => {
             id: crypto.randomUUID(),
             position: position,
             creator: creator,
-            description: description
+            description: description,
+            date: new Date(8.64e15).toString()
         });
 
         await newMarker.save();
