@@ -28,6 +28,7 @@ app.set('view engine', 'ejs'); // Express looks in views folder for ejs template
 
 // Import controllers and models
 const authController = require('./controllers/authController');
+const voteController = require('./controllers/voteController')
 const userModel = require('./models/userModel');
 const markerModel = require('./models/markerModel');
 
@@ -91,6 +92,8 @@ app.post('/log-in', jsonParser, authController.logIn);
 app.get('/verifyAccount', jsonParser, authController.verifyAccount);
 app.post('/resetPassword', jsonParser, authController.resetPassword);
 app.post('/map', jsonParser, markerModel.newMarker);
+app.post('/upvote', jsonParser, voteController.upvote);
+app.post('/downvote', jsonParser, voteController.downvote);
 
 // 404 Handler
 app.use((req, res) => {

@@ -172,7 +172,21 @@ async function initMap() //called by google maps API once loaded
 
 		markerDiv.classList.add("markerDiv");
 		markerDiv.style.backgroundColor = "white";
-		markerDiv.innerHTML = `<p> Marker ID: ${markerDataIn.id}</p>`
+		markerDiv.innerHTML = 
+		`<p> Marker ID: ${markerDataIn.id}</p>
+		<div class="voteButtons" style="display:none">
+			<button class=upvoteButton>👍${markerDataIn.upvotes}</button>
+			<button class=downvoteButton>👎${markerDataIn.downvotes}</button>
+		</div>`;
+
+		//get buttons
+		const upvoteButton = markerDiv.querySelector('.upvoteButton')
+		const downvoteButton = markerDiv.querySelector('.downvoteButton')
+
+		//add event listeners
+		upvoteButton.addEventListener('click', () => HandleVote(markerDataIn.id,'upvote', markerDiv))
+		downvoteButton.addEventListener('click', () => HandleVote(markerDataIn.id,'downvote', markerDiv))
+
 		return markerDiv;
 	}
 
@@ -180,15 +194,18 @@ async function initMap() //called by google maps API once loaded
 	function MarkerClicked(markerElementIn, MarkerDataIn)
 	{
 		console.log("Marker clicked: ", MarkerDataIn.id);
+		const voteButtons = markerElementIn.content.querySelector(".voteButtons")
 		if (markerElementIn.content.classList.contains("expand"))
 		{
 			markerElementIn.content.classList.remove("expand");
 			markerElementIn.zIndex = 0;
+			voteButtons.style.display = "none";
 		}
 		else
 		{
 			markerElementIn.content.classList.add("expand");
 			markerElementIn.zIndex = 999; //front
+			voteButtons.style.display = "inline";
 		}
 	}
 
@@ -199,6 +216,23 @@ async function initMap() //called by google maps API once loaded
 	function onResponse(response) {
 		//Return the JSON data
 		return response.json();
+	}
+
+	//sends the vote to the server
+	async function HandleVote(markerID, vote, markerDiv) {
+		console.log('voting?')
+			const response = await fetch (`/${vote}`, {
+			method: 'POST',
+			headers: {'Content-Type': 'application/json'},
+			body: JSON.stringify({markerID:markerID}),
+		});
+		const data = await response.json();
+
+		const upvoteButton = markerDiv.querySelector('.upvote-count');
+        const downvoteButton = markerDiv.querySelector('.downvote-count');
+
+		upvoteButton.textContent = `👍${data.upvotes}`;
+        downvoteButton.textContent = `👎${data.downvotes}`;
 	}
 
 	// Used to place the marker that this client has just added to the database, so that it can retrieve it's unique ID from that.
