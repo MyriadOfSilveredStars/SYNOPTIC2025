@@ -12,7 +12,8 @@ const markerSchema = new mongoose.Schema({
     creator: String,
     upvotes: {type: Number, default: 0},
     downvotes: {type: Number, default: 0},
-    description: String
+    description: String,
+    markerDate: Date
 });
 
 const Marker = mongoose.model('Marker', markerSchema);
