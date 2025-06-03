@@ -225,7 +225,10 @@ async function initMap() //called by google maps API once loaded
 			const response = await fetch (`/${vote}`, {
 			method: 'POST',
 			headers: {'Content-Type': 'application/json'},
-			body: JSON.stringify({markerID:markerID}),
+			body: JSON.stringify({
+				markerID: markerID,
+				userID: "8",
+			}),
 		});
 		const data = await response.json();
 
