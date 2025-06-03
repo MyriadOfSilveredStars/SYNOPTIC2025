@@ -218,25 +218,23 @@ async function initMap() //called by google maps API once loaded
 		//Return the JSON data
 		return response.json();
 	}
-
 	//sends the vote to the server
 	async function HandleVote(markerID, vote, markerDiv) {
 		console.log('voting?')
-			const response = await fetch (`/${vote}`, {
+		const response = await fetch (`/${vote}`, {
 			method: 'POST',
 			headers: {'Content-Type': 'application/json'},
 			body: JSON.stringify({
-				markerID: markerID,
-				userID: "8",
+			markerID: markerID,
+			userID: "8",
 			}),
 		});
 		const data = await response.json();
 
-		const upvoteButton = markerDiv.querySelector('.upvote-count');
-        const downvoteButton = markerDiv.querySelector('.downvote-count');
-
-		upvoteButton.textContent = `👍${data.upvotes}`;
-        downvoteButton.textContent = `👎${data.downvotes}`;
+		//const upvoteButton = markerDiv.querySelector('.upvote-count');
+        //const downvoteButton = markerDiv.querySelector('.downvote-count');
+		//upvoteButton.textContent = `✔${data.upvotes}`;
+        //downvoteButton.textContent = `❌${data.downvotes}`;
 	}
 
 	// Used to place the marker that this client has just added to the database, so that it can retrieve it's unique ID from that.
