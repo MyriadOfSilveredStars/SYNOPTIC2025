@@ -173,8 +173,9 @@ async function initMap() //called by google maps API once loaded
 		markerDiv.classList.add("markerDiv");
 		markerDiv.style.backgroundColor = "white";
 		markerDiv.innerHTML = 
-		`<p> Marker ID: ${markerDataIn.id}</p>
+		`<p>${markerDataIn.markerType}</p>
 		<div class="voteButtons" style="display:none">
+			<p>${markerDataIn.description}</p>
 			<button class=upvoteButton>👍${markerDataIn.upvotes}</button>
 			<button class=downvoteButton>👎${markerDataIn.downvotes}</button>
 		</div>`;

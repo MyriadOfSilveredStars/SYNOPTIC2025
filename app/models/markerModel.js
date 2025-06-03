@@ -13,7 +13,9 @@ const markerSchema = new mongoose.Schema({
     upvotes: {type: Number, default: 0},
     downvotes: {type: Number, default: 0},
     description: String,
-    markerDate: Date
+    markerDate: Date,
+    markerType: String,
+    voterList: Array
 });
 
 const Marker = mongoose.model('Marker', markerSchema);
@@ -28,7 +30,9 @@ exports.newMarker = async (req, res) => {
             position: position,
             creator: creator,
             description: description,
-            date: new Date(8.64e15).toString()
+            markerDate: new Date(8.64e15).toString(),
+            markerType: "test type",
+            voterList: []
         });
 
         await newMarker.save();
@@ -42,12 +46,4 @@ exports.newMarker = async (req, res) => {
 
 }
 
-let testPos = {lat: -26.20818987447669, long: 28.03096522520447};
 
-const testMarker = new Marker({
-    position: testPos,
-    creator: "testCreator",
-    upvotes: 0,
-    downvotes: 0,
-    description: "This is a test marker. It probably won't show on the map"
-});
