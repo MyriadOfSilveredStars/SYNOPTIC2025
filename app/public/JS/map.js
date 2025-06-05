@@ -218,17 +218,28 @@ async function initMap() //called by google maps API once loaded
 		//Return the JSON data
 		return response.json();
 	}
+
 	//sends the vote to the server
 	async function HandleVote(markerID, vote, markerDiv) {
 		console.log('voting?')
-		const response = await fetch (`/${vote}`, {
+
+		const fetchOptions = {
 			method: 'POST',
-			headers: {'Content-Type': 'application/json'},
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+
 			body: JSON.stringify({
 			markerID: markerID,
 			userID: "8",
-			}),
-		});
+			})
+    	};
+		
+		fetch(`/${vote}`, fetchOptions)
+			.then(onResponse)
+			.then(onReceiveVoteUpdate);
+
 		const data = await response.json();
 
 		const upvoteButton = markerDiv.querySelector('.upvote-count');
@@ -242,5 +253,24 @@ async function initMap() //called by google maps API once loaded
 		markersLocal.push(newMarkerDataFromBackend);
 		PlaceMarker(newMarkerDataFromBackend);
 		console.log("Marker placed successfully!");
+	}
+
+	/*
+	function onReceiveVoteUpdate(voteData) {
+		// Update the marker's upvote and downvote counts
+		const marker = markersLocal.find(m => m.id === voteData.markerID);
+		if (marker) {
+			marker.upvotes = voteData.upvotes;
+			marker.downvotes = voteData.downvotes;
+			// Update the marker on the map if needed
+			// This could involve re-rendering the marker or updating its content
+		}
+	}
+	*/
+
+	// Handle vote update locally once received data back from server upon pressing either upvote or downvote.
+	function onReceiveVoteUpdate(voteData) {
+		const upvoteButton = markerDiv.querySelector('.upvote-count');
+        const downvoteButton = markerDiv.querySelector('.downvote-count');
 	}
 }
