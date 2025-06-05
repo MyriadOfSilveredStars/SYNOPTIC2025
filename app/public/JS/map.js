@@ -126,7 +126,7 @@ async function initMap() //called by google maps API once loaded
 				"lat": center.lat(),
 				"lng": center.lng()
 			},
-			creator: "testCreator",
+			creator: getSessionToken(), // Get the session token for the creator
 			description: description,
 			category: category
 		}
