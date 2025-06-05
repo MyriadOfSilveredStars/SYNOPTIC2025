@@ -194,7 +194,7 @@ async function initMap() //called by google maps API once loaded
 
 		markerDiv.classList.add("markerDiv");
 		markerDiv.style.backgroundColor = "white";
-		markerDiv.innerHTML = `<p> Marker ID: ${markerDataIn.id}</p>`
+		markerDiv.innerHTML = `<p>${markerDataIn.markerType}</p><p>${markerDataIn.description}</p>`
 
         //Added delete button
         const deleteButton = document.createElement("button");
