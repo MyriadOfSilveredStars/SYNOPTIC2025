@@ -71,5 +71,8 @@ function onTextReady(result) {
     let banner = document.getElementById('title-banner');
     banner.innerText = result.text;
     banner.style.cssText = result.success ? "color: green" : "color: red";
+    if (result.text == "Error Occurred!") { // To pause the sign up page from resetting and removing failed sign up alert so user can see it.
+        alert(result.text);
+    }
     location.replace(result.success ? '/log-in' : '/'); // Redirect on success
 }
