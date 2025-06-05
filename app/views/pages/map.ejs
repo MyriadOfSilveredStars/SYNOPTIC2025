@@ -1,5 +1,6 @@
 <script defer src="JS/map.js"></script>
 <script defer src="<%= params.API_URL %>"></script>
+<script defer>window.isAdmin = <%= includeParams.isAdmin%></script>
 <script src="https://kit.fontawesome.com/7cead2e1fc.js" crossorigin="anonymous"></script>
 <script>window.markerDataFromBackend = <%- includeParams.markers %></script>
 

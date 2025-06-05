@@ -9,8 +9,11 @@
 
 <body>
 	<header>
-		<a href="/" class="header-item-left">home</a>
-		<a href="/map" class="header-item-left">map</a>
+        <nav>
+			<ul id="nav-list">
+				<!-- Dynamically loaded -->>
+			</ul>
+		</nav>
 	</header>
 
 
@@ -24,5 +27,15 @@
 	<main class="main-content">
 		<%- include(mainContent, {params: includeParams}) %>
 	</main>
+
+    <footer>
+		<p>&copy; 2025 Group 38. All rights reserved.</p>
+		<ul class="footer-links">
+			<li><a href="/policy">Privacy Policy</a></li>
+			<li><a href="/policy">Terms of Service</a></li>
+		</ul>
+	</footer> 
+
 </div>
+<script src="/JS/navbar.js"></script>
 </body>

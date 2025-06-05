@@ -8,7 +8,8 @@ const userSchema = new mongoose.Schema({
     id: { type: String, default: () => crypto.randomUUID() },
     userName: String,
     email: { type: String, unique: true },
-    password: String
+    password: String,
+    isAdmin: { type: Boolean, default: false }
 });
 
 const User = mongoose.model('User', userSchema);

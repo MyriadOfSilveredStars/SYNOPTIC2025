@@ -51,7 +51,7 @@ function processSubmit(e) {
         body: serializedData
     };
 
-    fetch('https://localhost:3001/log-in', fetchOptions)
+    fetch('http://localhost:3000/log-in', fetchOptions)
         .then(onLogInResponse)
         .then(onLogInTextReady);
 }
@@ -70,6 +70,10 @@ function onLogInTextReady(result) {
     let banner = document.getElementById('title-banner');
     banner.innerText = result.text;
     banner.style.cssText = result.success ? "color: green" : "color: red";
+    if (result.text == "Email not found.") { // To pause the login page from resetting and removing failed login alert so user can see it.
+        alert(result.text);
+    }
+    location.replace(result.success ? '/' : '/log-in'); // Redirect on success
 }
   
 function processForgotPassword(e) {
@@ -93,7 +97,7 @@ function processForgotPassword(e) {
         body: serializedData
     };
     
-    fetch('https://localhost:3001/forgot-password', fetchOptions)
+    fetch('http://localhost:3000/forgot-password', fetchOptions)
         .then(onPResetResponse)
         .then(onPResetTextReady);
 }

@@ -105,6 +105,7 @@ div.gm-style {
 	height: 50px;
 	background-color: white;
 	border: solid black;
+    overflow: hidden;
 }
 
 
@@ -140,6 +141,7 @@ header {
     background: #333;
     color: #fff;
     padding: 1rem;
+    z-index: 1;
 }
 
 header nav ul {
@@ -149,7 +151,8 @@ header nav ul {
 }
 
 header nav ul li {
-    margin-left: 20px;
+    margin-left: 15px;
+    padding-right: 10px;
 }
 
 header nav ul li a {
