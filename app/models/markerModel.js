@@ -13,27 +13,34 @@ const markerSchema = new mongoose.Schema({
     upvotes: {type: Number, default: 0},
     downvotes: {type: Number, default: 0},
     description: String,
-    markerDate: Date
+    markerDate: Date,
+    markerType: String,
+    downVoterList: Array,
+    upVoterList: Array
 });
 
 const Marker = mongoose.model('Marker', markerSchema);
 
 exports.newMarker = async (req, res) => {
-    const {position, creator, description} = req.body;
+    const {position, creator, description, category} = req.body;
 
     try {
-        //create a new marker using the schema
+
         const newMarker = new Marker({
             id: crypto.randomUUID(),
             position: position,
             creator: creator,
             description: description,
-            date: new Date(8.64e15).toString()
+            markerDate: new Date(8.64e15).toString(),
+            markerType: category,
+            downVoterList: [],
+            upVoterList: []
         });
 
         await newMarker.save();
 
         return res.status(200).json(newMarker);
+        
 
     } catch (err) {
         console.error("Error adding marker: ", err);
@@ -41,13 +48,3 @@ exports.newMarker = async (req, res) => {
     }
 
 }
-
-let testPos = {lat: -26.20818987447669, long: 28.03096522520447};
-
-const testMarker = new Marker({
-    position: testPos,
-    creator: "testCreator",
-    upvotes: 0,
-    downvotes: 0,
-    description: "This is a test marker. It probably won't show on the map"
-});
