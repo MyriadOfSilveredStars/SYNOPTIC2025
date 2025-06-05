@@ -51,7 +51,7 @@ function processSubmit(e) {
         body: serializedData
     };
 
-    fetch('http://localhost:3000/log-in', fetchOptions)
+    fetch('/log-in', fetchOptions)
         .then(onLogInResponse)
         .then(onLogInTextReady);
 }
@@ -97,7 +97,7 @@ function processForgotPassword(e) {
         body: serializedData
     };
     
-    fetch('http://localhost:3000/forgot-password', fetchOptions)
+    fetch('/forgot-password', fetchOptions)
         .then(onPResetResponse)
         .then(onPResetTextReady);
 }

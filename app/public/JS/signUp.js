@@ -52,7 +52,7 @@ function processSubmit(e) {
         body: serializedData
     };
 
-    fetch('http://localhost:3000/sign-up', fetchOptions)
+    fetch('/sign-up', fetchOptions)
         .then(onResponse)
         .then(onTextReady);
 }
