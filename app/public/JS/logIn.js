@@ -69,6 +69,9 @@ function onLogInTextReady(result) {
     //Displays response message from server 
     let banner = document.getElementById('title-banner');
     banner.innerText = result.text;
+    if (result.text == "Email not found.") { // To pause the login page from resetting and removing failed login alert so user can see it.
+        alert(result.text);
+    }
     banner.style.cssText = result.success ? "color: green" : "color: red";
     location.replace(result.success ? '/' : '/log-in'); // Redirect on success
 }
