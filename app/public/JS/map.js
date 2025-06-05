@@ -181,14 +181,15 @@ async function initMap() //called by google maps API once loaded
 		const markerElement = new AdvancedMarkerElement({
 			position: markerData.position,
 			map: map,
-			content: MakeMarkerContent(markerData),
+			content: MakeMarkerContent(markerData, markerData),
 			title: "Marker " + markerData.id
 		});
+		markerData._markerElement = markerElement; // Store the reference
 		markerElement.addListener("gmp-click", () => MarkerClicked(markerElement, markerData));
 	}
 
 	//generate the html for marker
-	function MakeMarkerContent(markerDataIn)
+	function MakeMarkerContent(markerDataIn, markerDataRef)
 	{
 		const markerDiv = document.createElement("div");
 
@@ -202,7 +203,7 @@ async function initMap() //called by google maps API once loaded
         deleteButton.onclick = function() {
             const userUUID = getSessionToken();
             if ((userUUID && markerDataIn.creator === userUUID) || isAdmin) {
-                deleteMarker(markerDataIn.id, markerDiv)
+                deleteMarker(markerDataIn.id, markerDiv, markerDataRef._markerElement)
             } else {
                 alert("You can only delete markers you created.");
             }
@@ -212,7 +213,7 @@ async function initMap() //called by google maps API once loaded
 		return markerDiv;
 	}
 
-    function deleteMarker(markerId, markerDiv) {
+    function deleteMarker(markerId, markerDiv, markerElement) {
         //Send a DELETE request to the backend to delete the marker
         fetch(`/map/${markerId}`, {
             method: 'DELETE',
@@ -226,6 +227,9 @@ async function initMap() //called by google maps API once loaded
                 //Remove the marker from the map and local array, saves changes if DB hasnt refreshed yet
                 markersLocal = markersLocal.filter(marker => marker.id !== markerId);
                 markerDiv.remove(); //Remove the marker element from the DOM
+				if (markerElement) {
+					markerElement.map = null; // Remove the marker from the map
+				}
                 console.log("Marker deleted successfully!");
             } else {
                 console.error("Failed to delete marker.");
