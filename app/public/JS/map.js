@@ -1,3 +1,5 @@
+var markerDiv;
+const userID=8;
 async function initMap() //called by google maps API once loaded
 {
 	// Local array of markers (will have DB markers loaded initially, then any new markers pushed onto it if added)
@@ -168,7 +170,7 @@ async function initMap() //called by google maps API once loaded
 	//generate the html for marker
 	function MakeMarkerContent(markerDataIn)
 	{
-		const markerDiv = document.createElement("div");
+		markerDiv = document.createElement("div");
 
 		markerDiv.classList.add("markerDiv");
 		markerDiv.style.backgroundColor = "white";
@@ -176,14 +178,20 @@ async function initMap() //called by google maps API once loaded
 		`<p>${markerDataIn.markerType}</p>
 		<div class="voteButtons" style="display:none">
 			<p>${markerDataIn.description}</p>
-			<button class=upvoteButton>👍${markerDataIn.upvotes}</button>
-			<button class=downvoteButton>👎${markerDataIn.downvotes}</button>
+			<button class="upvoteButton">👍</button>
+			<span class="totalVotes" id="number">${markerDataIn.upvotes-markerDataIn.downvotes}</span>
+			<button class="downvoteButton">👎</button>
 		</div>`;
 
 		//get buttons
 		const upvoteButton = markerDiv.querySelector('.upvoteButton')
 		const downvoteButton = markerDiv.querySelector('.downvoteButton')
-
+		//check if pressed by user
+		if (markerDataIn.upVoterList.includes(userID)){
+			upvoteButton.classList.add("pressedVote")
+		} else if (markerDataIn.downVoterList.includes(userID)){
+			downvoteButton.classList.add("pressedVote")
+		}
 		//add event listeners
 		upvoteButton.addEventListener('click', () => HandleVote(markerDataIn.id,'upvote', markerDiv))
 		downvoteButton.addEventListener('click', () => HandleVote(markerDataIn.id,'downvote', markerDiv))
@@ -232,20 +240,13 @@ async function initMap() //called by google maps API once loaded
 
 			body: JSON.stringify({
 			markerID: markerID,
-			userID: "8",
+			userID: userID,
 			})
     	};
 		
 		fetch(`/${vote}`, fetchOptions)
 			.then(onResponse)
 			.then(onReceiveVoteUpdate);
-
-		const data = await response.json();
-
-		const upvoteButton = markerDiv.querySelector('.upvote-count');
-        const downvoteButton = markerDiv.querySelector('.downvote-count');
-		//upvoteButton.textContent = `✔${data.upvotes}`;
-        //downvoteButton.textContent = `❌${data.downvotes}`;
 	}
 
 	// Used to place the marker that this client has just added to the database, so that it can retrieve it's unique ID from that.
@@ -255,22 +256,25 @@ async function initMap() //called by google maps API once loaded
 		console.log("Marker placed successfully!");
 	}
 
-	/*
-	function onReceiveVoteUpdate(voteData) {
-		// Update the marker's upvote and downvote counts
-		const marker = markersLocal.find(m => m.id === voteData.markerID);
-		if (marker) {
-			marker.upvotes = voteData.upvotes;
-			marker.downvotes = voteData.downvotes;
-			// Update the marker on the map if needed
-			// This could involve re-rendering the marker or updating its content
+	//logic for toggling the button appearance
+	function modifyButton(button, vote){
+		if (vote ==1){
+			button.classList.add("pressedVote");
+		} else {
+			button.classList.remove("pressedVote");
 		}
 	}
-	*/
 
 	// Handle vote update locally once received data back from server upon pressing either upvote or downvote.
 	function onReceiveVoteUpdate(voteData) {
-		const upvoteButton = markerDiv.querySelector('.upvote-count');
-        const downvoteButton = markerDiv.querySelector('.downvote-count');
+		const advancedMarkerElement = document.querySelector(`gmp-advanced-marker[title="Marker ${voteData.markerID}"]`);
+		console.log(advancedMarkerElement);
+		markerDiv=advancedMarkerElement;
+		const upvoteButton = markerDiv.querySelector('.upvoteButton');
+        const downvoteButton = markerDiv.querySelector('.downvoteButton');
+		const numbers = markerDiv.querySelector('.totalVotes');
+		numbers.innerHTML=parseInt(numbers.innerHTML)+voteData.upvotes-voteData.downvotes;
+		modifyButton(upvoteButton, voteData.upvotes);
+		modifyButton(downvoteButton, voteData.downvotes);
 	}
 }
