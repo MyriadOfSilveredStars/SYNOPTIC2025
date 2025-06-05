@@ -642,13 +642,13 @@ p {
   z-index: 9;
 }
 
-.form-container {
+.form-containerdesc {
   max-width: 500px;
   padding: 10px;
   background-color: white;
 }
 
-.form-container input[type=text] {
+.form-containerdesc input[type=text] {
   width: 100%;
   padding: 15px;
   margin: 5px 0 22px 0;
@@ -656,12 +656,12 @@ p {
   background: #f1f1f1;
 }
 
-.form-container input[type=text]:focus, .form-container input[type=password]:focus {
+.form-containerdesc input[type=text]:focus, .form-containerdesc input[type=password]:focus {
   background-color: #ddd;
   outline: none;
 }
 
-.form-container .btn {
+.form-containerdesc .btn {
   background-color: #04AA6D;
   color: white;
   padding: 16px 20px;
