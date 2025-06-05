@@ -73,10 +73,7 @@ exports.downvote = async (req, res) => {
             marker.downvotes-=1;
             console.log("removed downvote");
         }
-    } catch (err){
-        console.error("Error modifying votes: ", err);
-        return res.status(400).send("Error Occurred!");
-    }
+
     try {
         const savedMarker=await marker.save();
         console.log("saved changes");
@@ -84,4 +81,8 @@ exports.downvote = async (req, res) => {
         console.error("Error modifying upvotes: ", err);
         return res.status(400).send("Error Occurred!");
     }
+} catch (err){
+    console.error("Error modifying votes: ", err);
+    return res.status(400).send("Error Occurred!");
+}
 }

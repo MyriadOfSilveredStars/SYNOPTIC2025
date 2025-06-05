@@ -231,8 +231,8 @@ async function initMap() //called by google maps API once loaded
 		});
 		const data = await response.json();
 
-		//const upvoteButton = markerDiv.querySelector('.upvote-count');
-        //const downvoteButton = markerDiv.querySelector('.downvote-count');
+		const upvoteButton = markerDiv.querySelector('.upvote-count');
+        const downvoteButton = markerDiv.querySelector('.downvote-count');
 		//upvoteButton.textContent = `✔${data.upvotes}`;
         //downvoteButton.textContent = `❌${data.downvotes}`;
 	}
