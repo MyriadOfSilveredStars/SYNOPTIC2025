@@ -229,7 +229,8 @@ async function initMap() //called by google maps API once loaded
                 alert("You can only delete markers you created.");
             }
         }
-        markerDiv.appendChild(deleteButton);
+		const voteButtonsDiv = markerDiv.querySelector('.voteButtons');
+        voteButtonsDiv.appendChild(deleteButton);
 
 		return markerDiv;
 	}
