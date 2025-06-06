@@ -1,5 +1,4 @@
 var markerDiv;
-const userID=8;
 async function initMap() //called by google maps API once loaded
 {
 	// Local array of markers (will have DB markers loaded initially, then any new markers pushed onto it if added)
@@ -193,6 +192,7 @@ async function initMap() //called by google maps API once loaded
 	//generate the html for marker
 	function MakeMarkerContent(markerDataIn, markerDataRef)
 	{
+		userUUID = getSessionToken();
 		markerDiv = document.createElement("div");
 
 		markerDiv.classList.add("markerDiv");
@@ -210,9 +210,9 @@ async function initMap() //called by google maps API once loaded
 		const upvoteButton = markerDiv.querySelector('.upvoteButton')
 		const downvoteButton = markerDiv.querySelector('.downvoteButton')
 		//check if pressed by user
-		if (markerDataIn.upVoterList.includes(userID)){
+		if (markerDataIn.upVoterList.includes(userUUID)){
 			upvoteButton.classList.add("pressedVote")
-		} else if (markerDataIn.downVoterList.includes(userID)){
+		} else if (markerDataIn.downVoterList.includes(userUUID)){
 			downvoteButton.classList.add("pressedVote")
 		}
 		//add event listeners
@@ -290,6 +290,7 @@ async function initMap() //called by google maps API once loaded
 
 	//sends the vote to the server
 	async function HandleVote(markerID, vote, markerDiv) {
+		const userUUID = getSessionToken();
 		console.log('voting?')
 
 		const fetchOptions = {
@@ -301,7 +302,7 @@ async function initMap() //called by google maps API once loaded
 
 			body: JSON.stringify({
 			markerID: markerID,
-			userID: userID,
+			userID: userUUID,
 			})
     	};
 		
