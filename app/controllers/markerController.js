@@ -2,7 +2,7 @@ const Marker = require('../models/markerModel');
 const crypto = require('crypto');
 
 exports.newMarker = async (req, res) => {
-    const {position, creator, description} = req.body;
+    const {position, creator, description, category} = req.body;
 
     try {
         //create a new marker using the schema
@@ -12,8 +12,9 @@ exports.newMarker = async (req, res) => {
             creator: creator,
             description: description,
             markerDate: new Date(8.64e15).toString(),
-            markerType: "test type",
-            voterList: []
+            markerType: category,
+            downVoterList: [],
+            upVoterList: [],
         });
 
         await newMarker.save();
