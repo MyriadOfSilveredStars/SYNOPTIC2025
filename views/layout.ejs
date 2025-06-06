@@ -1,0 +1,41 @@
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title><%=title%></title>
+	<link rel="icon" type="image/x-icon" href="/favicon.ico">
+	<link rel="stylesheet" href="/CSS/style.css" />
+	<script src="/JS/NetworkCondition.js"></script>
+</head>
+
+<body>
+	<header>
+        <nav>
+			<ul id="nav-list">
+				<!-- Dynamically loaded -->>
+			</ul>
+		</nav>
+	</header>
+
+
+
+<div>
+	<div id="network-condition">
+		<p> Connection Lost </p>
+	</div>
+
+
+	<main class="main-content">
+		<%- include(mainContent, {params: includeParams}) %>
+	</main>
+
+    <footer>
+		<p>&copy; 2025 Group 38. All rights reserved.</p>
+		<ul class="footer-links">
+			<li><a href="/policy">Privacy Policy</a></li>
+			<li><a href="/policy">Terms of Service</a></li>
+		</ul>
+	</footer> 
+
+</div>
+<script src="/JS/navbar.js"></script>
+</body>
