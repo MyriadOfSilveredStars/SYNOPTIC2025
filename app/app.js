@@ -59,7 +59,7 @@ app.get('/policy', (req, res) => {
     EJSrender(res, 'pages/policy', 'Policy');
 });
 
-app.get('/map', async (req, res) => {
+app.get('/map', isAuthenticated, async (req, res) => {
 
     //use the mongoose model to fetch all marker values from DB
     const markersModel = mongoose.model('Marker');
@@ -70,25 +70,33 @@ app.get('/map', async (req, res) => {
     const flattenMarkers = _(allMarkers).flatten().value();
     //console.log(flattenMarkers) //check if the markers are alright with this
 
+    //Gets the users admin status
+    const isAdmin = req.user && req.user.isAdmin ? true : false;
     
     //okay that gives us flattenMarkers as an array of all markers in the database
     //now to send that to the map
-    EJSrender(res, 'pages/map', 'Map', { API_URL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyDx1nDqigjyOixfMY4kj485EaIkEi1VXX0&loading=async&callback=initMap", 
-        markers: JSON.stringify(flattenMarkers)});
+    EJSrender(res, 'pages/map', 'Map',
+        { API_URL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyDx1nDqigjyOixfMY4kj485EaIkEi1VXX0&loading=async&callback=initMap", 
+        markers: JSON.stringify(flattenMarkers),
+        isAdmin: isAdmin});
 });
 
+app.delete('/map/:id', async (req, res) => {
+    const markerId = req.params.id;
 
-
-app.get('/settings', isAuthenticated, async (req, res) => {
-    const user = req.user;
-
-    EJSrender(res, 'pages/settings', 'Settings', goal);
-});
+    try {
+        const markersModel = mongoose.model('Marker');
+        await markersModel.deleteOne({ id: markerId });
+        res.status(200).send({success: true});
+    } catch (err)  {
+        //Potential vulnerability: Do not expose error details in production
+        res.status(500).send({success: false, error: err.message});
+    }
+})
 
 // Routing
 app.post('/sign-up', jsonParser, userModel.signUp);
 app.post('/forgot-password', jsonParser, userModel.forgotPassword);
-app.post('/settings', jsonParser, userModel.updateUserDetails);
 app.post('/log-in', jsonParser, authController.logIn);
 app.get('/verifyAccount', jsonParser, authController.verifyAccount);
 app.post('/resetPassword', jsonParser, authController.resetPassword);

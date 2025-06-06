@@ -15,13 +15,11 @@ const markerSchema = new mongoose.Schema({
     description: String,
     markerDate: Date,
     markerType: String,
-    voterList: Array,
     upVoterList: { type: Array, default: [] },
     downVoterList: { type: Array, default: [] }
 });
 
 const Marker = mongoose.model('Marker', markerSchema);
-
 
 
 module.exports = Marker;

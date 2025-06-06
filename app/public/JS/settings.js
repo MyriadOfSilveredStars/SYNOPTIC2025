@@ -89,7 +89,7 @@ function updateSettings(e){
         body: serializedData
     };
 
-    fetch('https://localhost:3001/settings', fetchOptions)
+    fetch('/settings', fetchOptions)
         .then(onResponse)
         .then(onTextReady);
     

@@ -19,8 +19,8 @@ exports.logIn = async (req, res) => {
 
         //Set the session token as a cookie
         res.cookie('sessionToken', sessionToken, {
-            httpOnly: true,
-            secure: false, //Once SSL is set up, change to true
+            httpOnly: false,//Setting true breaks cookie functionality
+            secure: false,
             sameSite: 'Strict',
             maxAge: 24 * 60 * 60 * 1000 // 1 day
         });

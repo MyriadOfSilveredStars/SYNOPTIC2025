@@ -40,7 +40,7 @@ function processSubmit(e) {
         body: serializedData
     };
 
-    fetch('https://localhost:3001/resetPassword', fetchOptions)
+    fetch('/resetPassword', fetchOptions)
         .then(onLogInResponse)
         .then(onLogInTextReady);
 }

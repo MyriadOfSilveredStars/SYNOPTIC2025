@@ -2,6 +2,7 @@
 <script defer src="<%= params.API_URL %>"></script>
 <script src="https://kit.fontawesome.com/7cead2e1fc.js" crossorigin="anonymous"></script>
 <script>window.markerDataFromBackend = <%- includeParams.markers %></script>
+<script>window.isAdmin = <%- includeParams.isAdmin %></script>
 
 <!-- Container For Map Elements -->
 <div id="mapWrapper">
@@ -17,4 +18,27 @@
     <button id="makeNewMarkerButton">
         <i class="fa-solid fa-square-plus"></i>
     </button>
+</div>
+<br>
+<br>
+<br>
+<div class="description-form" id="descForm">
+  <form class="form-containerdesc">
+    <label for="category"><b>What type of issue is it?</b></label><br><br>
+    <select name="category" id="category">
+        <option value="">Select</option>
+        <option value="waste">Waste & Flytipping</option>
+        <option value="crime">Crime Suspected</option>
+        <option value="danger">Dangerous Area</option>
+        <option value="power">No Power</option>
+    </select>
+    <br>
+
+    <br>
+    <label for="description"><b>Describe the Issue</b></label><br>
+    <input type="text" placeholder="The issue is..." name="description" id="description">
+    <br>
+    <br>
+    <button type="submit" class="btn">Submit</button>
+  </form>
 </div>
