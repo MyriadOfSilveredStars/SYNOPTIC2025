@@ -1,8 +1,8 @@
-const Marker = require('../models/markerModel');
-const crypto = require('crypto');
+const Marker = require("../models/markerModel");
+const crypto = require("crypto");
 
 exports.newMarker = async (req, res) => {
-    const {position, creator, description, category} = req.body;
+    const { position, creator, description, category } = req.body;
 
     try {
         //create a new marker using the schema
@@ -20,10 +20,8 @@ exports.newMarker = async (req, res) => {
         await newMarker.save();
 
         return res.status(200).json(newMarker);
-
     } catch (err) {
         console.error("Error adding marker: ", err);
         return res.status(400).send("Error Occurred!");
     }
-
-}
+};

@@ -1,7 +1,7 @@
-const mongoose = require('mongoose');
-const general = require('../controllers/generalController');
-const security = require('../controllers/securityController');
-const crypto = require('crypto');
+const mongoose = require("mongoose");
+const general = require("../controllers/generalController");
+const security = require("../controllers/securityController");
+const crypto = require("crypto");
 
 // user collection in MongoDB
 const userSchema = new mongoose.Schema({
@@ -11,17 +11,17 @@ const userSchema = new mongoose.Schema({
     password: String,
     verificationCode: String,
     verifiedAccount: { type: Boolean, default: false },
-    isAdmin: { type: Boolean, default: false }
+    isAdmin: { type: Boolean, default: false },
 });
 
 //Forgotten password collection
 const forgotPasswordSchema = new mongoose.Schema({
     email: String,
-    oneTimeCode: String
+    oneTimeCode: String,
 });
 
-const User = mongoose.model('User', userSchema);
-const ForgotPassword = mongoose.model('ForgotPassword', forgotPasswordSchema);
+const User = mongoose.model("User", userSchema);
+const ForgotPassword = mongoose.model("ForgotPassword", forgotPasswordSchema);
 
 // creates a new user and emails them a verification link
 exports.signUp = async (req, res) => {
@@ -40,11 +40,11 @@ exports.signUp = async (req, res) => {
 
         //create a new user using the mongoose schema
         const newMember = new User({
-            id: hashedUUID,//Needs to be hashed before being stored in the database for finding accounts via cookies
+            id: hashedUUID, //Needs to be hashed before being stored in the database for finding accounts via cookies
             userName: userName,
             email: email,
             password: hashedPassword,
-            verificationCode: verificationCode
+            verificationCode: verificationCode,
         });
 
         //Send verification email
@@ -53,7 +53,7 @@ exports.signUp = async (req, res) => {
             <a href="http://localhost:3000/verifyAccount?email=${email}&code=${verificationCode}">Verify Account</a>\n\n
             Your verification code is '${verificationCode}'
         `;
-/*
+        /*
         await general.sendEmail({
             to: email,
             subject: 'Account Verification',
@@ -71,12 +71,34 @@ exports.signUp = async (req, res) => {
 };
 
 exports.updateUserDetails = async (req, res) => {
-    const { firstName, lastName, age, gender, email, height, weight, precons, profile } = req.body;
-    console.log(firstName)
+    const {
+        firstName,
+        lastName,
+        age,
+        gender,
+        email,
+        height,
+        weight,
+        precons,
+        profile,
+    } = req.body;
+    console.log(firstName);
 
-    await User.updateOne({id : "bc08d450-c6b4-4299-90ac-a8995254a09f"}, {fName : firstName, lName : lastName, email : email, bday : age, gender : gender, height : height, weight : weight, precons : precons, userProfile : profile});
-
-}
+    await User.updateOne(
+        { id: "bc08d450-c6b4-4299-90ac-a8995254a09f" },
+        {
+            fName: firstName,
+            lName: lastName,
+            email: email,
+            bday: age,
+            gender: gender,
+            height: height,
+            weight: weight,
+            precons: precons,
+            userProfile: profile,
+        }
+    );
+};
 
 //finds a user by their email address
 exports.findUserByEmail = async (email) => {
@@ -90,14 +112,16 @@ exports.findUserByEmail = async (email) => {
     }
 };
 
-// send a reset password link to email address 
+// send a reset password link to email address
 exports.forgotPassword = async (req, res) => {
     const { email } = req.body;
 
     try {
         const user = await User.findOne({ email: email });
         if (!user) {
-            return res.status(400).send(`Account with that email does not exist`);
+            return res
+                .status(400)
+                .send(`Account with that email does not exist`);
         }
 
         const uniqueUserCode = general.generateUniqueCode();
@@ -116,8 +140,8 @@ exports.forgotPassword = async (req, res) => {
 
         await general.sendEmail({
             to: email,
-            subject: 'Password Reset',
-            htmlContent: emailMessage
+            subject: "Password Reset",
+            htmlContent: emailMessage,
         });
 
         return res.status(200).send("Reset link sent to email.");
@@ -130,36 +154,44 @@ exports.forgotPassword = async (req, res) => {
 //verifies a user's account
 exports.verifyAccount = async (email, code) => {
     try {
-        const user = await User.findOne({ email: email, verificationCode: code });
+        const user = await User.findOne({
+            email: email,
+            verificationCode: code,
+        });
         if (!user) {
-            return { success: false, message: 'Verification Failed: Invalid Code or Email.' };
+            return {
+                success: false,
+                message: "Verification Failed: Invalid Code or Email.",
+            };
         }
 
         user.verifiedAccount = true;
-        user.verificationCode = undefined; 
+        user.verificationCode = undefined;
 
         await user.save();
 
         return { success: true };
     } catch (err) {
         console.error(err);
-        return { success: false, message: 'Internal Server Error' };
+        return { success: false, message: "Internal Server Error" };
     }
 };
 
 //handles the user resetting their password
 exports.resetPassword = async (uniqueCode, newPassword) => {
     try {
-        const resetEntry = await ForgotPassword.findOne({ oneTimeCode: uniqueCode });
+        const resetEntry = await ForgotPassword.findOne({
+            oneTimeCode: uniqueCode,
+        });
 
         if (!resetEntry) {
-            return { success: false, message: 'Reset Failed: Invalid Code.' };
+            return { success: false, message: "Reset Failed: Invalid Code." };
         }
 
         const userEmail = resetEntry.email;
         const user = await User.findOne({ email: userEmail });
         if (!user) {
-            return { success: false, message: 'Email not found in database.' };
+            return { success: false, message: "Email not found in database." };
         }
 
         const newHashedPassword = await security.hashPassword(newPassword);
@@ -171,6 +203,6 @@ exports.resetPassword = async (uniqueCode, newPassword) => {
         return { success: true };
     } catch (err) {
         console.error(err);
-        return { success: false, message: 'Internal Server Error' };
+        return { success: false, message: "Internal Server Error" };
     }
 };

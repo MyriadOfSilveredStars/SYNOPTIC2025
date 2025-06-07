@@ -1,12 +1,12 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const formElement = document.getElementById('signUpForm');
-    formElement.addEventListener('submit', processSubmit);
+document.addEventListener("DOMContentLoaded", function () {
+    const formElement = document.getElementById("signUpForm");
+    formElement.addEventListener("submit", processSubmit);
 });
-  
+
 function processSubmit(e) {
     e.preventDefault();
     const form = e.target;
-    
+
     // Gather form values
     const firstName = form.firstName.value.trim();
     const lastName = form.lastName.value.trim();
@@ -14,17 +14,24 @@ function processSubmit(e) {
     const birthDate = form.birthDate.value;
     const gender = form.gender.value;
     const password = form.password.value;
-    const confirmPassword= form.confirmPassword.value;
-    
+    const confirmPassword = form.confirmPassword.value;
+
     // Check if passwords match
     if (password !== confirmPassword) {
-        alert('Passwords do not match!');
+        alert("Passwords do not match!");
         return;
     }
 
     // Ensure all required fields are filled
-    if (!firstName || !lastName || !email || !birthDate || !gender || !password) {
-        alert('Please fill in all required fields.');
+    if (
+        !firstName ||
+        !lastName ||
+        !email ||
+        !birthDate ||
+        !gender ||
+        !password
+    ) {
+        alert("Please fill in all required fields.");
         return;
     }
 
@@ -35,40 +42,39 @@ function processSubmit(e) {
         email: email,
         birthDate: birthDate,
         gender: gender,
-        password: password
+        password: password,
     };
 
     const serializedData = JSON.stringify(data);
     const fetchOptions = {
-        method: 'POST',
+        method: "POST",
         headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            Accept: "application/json",
+            "Content-Type": "application/json",
         },
-        body: serializedData
+        body: serializedData,
     };
 
-    fetch('/sign-up', fetchOptions)
-        .then(onResponse)
-        .then(onTextReady);
+    fetch("/sign-up", fetchOptions).then(onResponse).then(onTextReady);
 }
 
 function onResponse(response) {
     //Checks to see if the action was successful
     const success = response.status === 200;
     //Return an object containing both response flag and text
-    return response.text().then(text => {
-        return {text, success};
+    return response.text().then((text) => {
+        return { text, success };
     });
 }
 
 function onTextReady(result) {
-    //Displays response message from server 
-    let banner = document.getElementById('title-banner');
+    //Displays response message from server
+    let banner = document.getElementById("title-banner");
     banner.innerText = result.text;
     banner.style.cssText = result.success ? "color: green" : "color: red";
-    if (result.text == "Error Occurred!") { // To pause the sign up page from resetting and removing failed sign up alert so user can see it.
+    if (result.text == "Error Occurred!") {
+        // To pause the sign up page from resetting and removing failed sign up alert so user can see it.
         alert(result.text);
     }
-    location.replace(result.success ? '/log-in' : '/'); // Redirect on success
+    location.replace(result.success ? "/log-in" : "/"); // Redirect on success
 }

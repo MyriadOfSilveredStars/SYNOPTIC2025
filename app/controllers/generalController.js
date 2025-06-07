@@ -1,8 +1,8 @@
-const nodemailer = require('nodemailer');
-const crypto = require('crypto');
+const nodemailer = require("nodemailer");
+const crypto = require("crypto");
 
 exports.generateUniqueCode = (length = 5) => {
-    return crypto.randomBytes(length).toString('hex').slice(0, length);
+    return crypto.randomBytes(length).toString("hex").slice(0, length);
 };
 
 exports.sendEmail = ({ to, subject, htmlContent }) => {
@@ -10,22 +10,22 @@ exports.sendEmail = ({ to, subject, htmlContent }) => {
         const transporter = nodemailer.createTransport({
             service: "gmail",
             auth: {
-                user: 'webdevcoursework79@gmail.com',
-                pass: 'zlgs dddm ypkf syjp'
-            }
+                user: "webdevcoursework79@gmail.com",
+                pass: "zlgs dddm ypkf syjp",
+            },
         });
         const mailDetails = {
-            from: 'webdevcoursework79@gmail.com',
+            from: "webdevcoursework79@gmail.com",
             to: to,
             subject: subject,
-            html: htmlContent
+            html: htmlContent,
         };
         transporter.sendMail(mailDetails, (err, info) => {
             if (err) {
-                console.log('An error occurred...', err);
+                console.log("An error occurred...", err);
                 reject(err);
             } else {
-                console.log('Email Sent: Success');
+                console.log("Email Sent: Success");
                 resolve(info);
             }
         });

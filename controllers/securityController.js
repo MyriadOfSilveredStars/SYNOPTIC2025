@@ -1,6 +1,6 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 
-const saltRounds = 12;//Number of rounds to use when hashing a password
+const saltRounds = 12; //Number of rounds to use when hashing a password
 
 //Hash param password and return the hash
 exports.hashPassword = async (password) => {
@@ -21,7 +21,6 @@ exports.comparePassword = async (inputPassword, storedHash) => {
         throw new Error("Internal server error");
     }
 };
-
 
 //$2b$10$nOUIs5kJ7naTuTFkBy1veuK0kSxUFXfuaOKdOKf9xYT0KKIGSJwFa
 // |  |  |                     |
