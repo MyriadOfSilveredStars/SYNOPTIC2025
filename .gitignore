@@ -21,3 +21,4 @@ app/.vscode/
 *.swp
 *.bak
 *.tmp
+app/public/CSS/z-indexes.txt
