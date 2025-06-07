@@ -15,6 +15,7 @@ async function initMap() //called by google maps API once loaded
         minZoom: 10, // Min zoom
         maxZoom: 9999, // Max zoom
         streetViewControl: false,
+        gestureHandling: "greedy",
         mapId: "53ec86221c5b181adc2e8fe0",
     });
 
