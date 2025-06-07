@@ -185,56 +185,61 @@ async function initMap() //called by google maps API once loaded
     }
 
     //generate the html for marker
-    function MakeMarkerContent(markerDataIn, markerDataRef) {
+    function MakeMarkerContent(markerDataIn, markerDataRef)
+    {
         userUUID = getSessionToken();
         markerDiv = document.createElement("div");
 
-		markerDiv.classList.add("markerDiv");
-		markerDiv.style.backgroundColor = "white";
-		markerDiv.innerHTML = 
-		`<p>${markerDataIn.markerType || "Other"}</p>
+        markerDiv.classList.add("markerDiv");
+        markerDiv.style.backgroundColor = "white";
+        markerDiv.innerHTML =
+            `<p>${markerDataIn.markerType || "Other"}</p>
 		<div class="voteButtons" style="display:none">
 			<p>${markerDataIn.description || "No description was provided"}</p>
 			<button class="upvoteButton"><i class="fa-solid fa-thumbs-up"></i></button>
-			<span class="totalVotes" id="number">${markerDataIn.upvotes-markerDataIn.downvotes}</span>
+			<span class="totalVotes" id="number">${markerDataIn.upvotes - markerDataIn.downvotes}</span>
 			<button class="downvoteButton"><i class="fa-solid fa-thumbs-down"></i></button>
 		</div>`;
 
         //get buttons
-        const upvoteButton = markerDiv.querySelector(".upvoteButton");
-        const downvoteButton = markerDiv.querySelector(".downvoteButton");
+        const upvoteButton = markerDiv.querySelector('.upvoteButton')
+        const downvoteButton = markerDiv.querySelector('.downvoteButton')
         //check if pressed by user
-        if (markerDataIn.upVoterList.includes(userUUID)) {
-            upvoteButton.classList.add("pressedVote");
-        } else if (markerDataIn.downVoterList.includes(userUUID)) {
-            downvoteButton.classList.add("pressedVote");
+        if (markerDataIn.upVoterList.includes(userUUID))
+        {
+            upvoteButton.classList.add("pressedVote")
+        } else if (markerDataIn.downVoterList.includes(userUUID))
+        {
+            downvoteButton.classList.add("pressedVote")
         }
         //add event listeners
-        upvoteButton.addEventListener("click", () =>
-            HandleVote(markerDataIn.id, "upvote", markerDiv)
-        );
-        downvoteButton.addEventListener("click", () =>
-            HandleVote(markerDataIn.id, "downvote", markerDiv)
-        );
-        //Added delete button
-        const deleteButton = document.createElement("button");
-        deleteButton.textContent = "Delete Marker";
-        deleteButton.onclick = function () {
-            const userUUID = getSessionToken();
-            if ((userUUID && markerDataIn.creator === userUUID) || isAdmin) {
-                deleteMarker(
-                    markerDataIn.id,
-                    markerDiv,
-                    markerDataRef._markerElement
-                );
-            } else {
-                alert("You can only delete markers you created.");
-            }
-        };
-        const voteButtonsDiv = markerDiv.querySelector(".voteButtons");
-        voteButtonsDiv.appendChild(deleteButton);
+        upvoteButton.addEventListener('click', () => HandleVote(markerDataIn.id, 'upvote', markerDiv))
+        downvoteButton.addEventListener('click', () => HandleVote(markerDataIn.id, 'downvote', markerDiv))
 
+
+        if (hasAdminOverButton(markerDataIn))
+        {
+            const voteButtonsDiv = markerDiv.querySelector('.voteButtons');
+
+            //add br
+            // const brElement = document.createElement("br");
+            // voteButtonsDiv.appendChild(brElement);
+
+            //Added delete button
+            const deleteButton = document.createElement("button");
+            deleteButton.innerHTML = `<i class="fa-solid fa-xmark"></i> Delete Marker`;
+            deleteButton.disabled = hasAdminOverButton(markerDataIn) == false;
+            deleteButton.onclick = () => deleteMarker(markerDataIn.id, markerDiv, markerDataRef._markerElement)
+
+            voteButtonsDiv.appendChild(deleteButton);
+        }
         return markerDiv;
+    }
+
+    function hasAdminOverButton(markerDataIn)
+    {
+        const userUUID = getSessionToken();
+        return ((userUUID && markerDataIn.creator === userUUID) || isAdmin);
     }
 
     function deleteMarker(markerId, markerDiv, markerElement) {
