@@ -1,4 +1,4 @@
-var markerDiv;
+//var markerDiv; // wtf is this doing? global scope causing me issues grrr
 async function initMap() //called by google maps API once loaded
 {
 	// Local array of markers (will have DB markers loaded initially, then any new markers pushed onto it if added)
@@ -198,12 +198,12 @@ async function initMap() //called by google maps API once loaded
 		markerDiv.classList.add("markerDiv");
 		markerDiv.style.backgroundColor = "white";
 		markerDiv.innerHTML = 
-		`<p>${markerDataIn.markerType}</p>
+		`<p>${markerDataIn.markerType || "Other"}</p>
 		<div class="voteButtons" style="display:none">
-			<p>${markerDataIn.description}</p>
-			<button class="upvoteButton">👍</button>
+			<p>${markerDataIn.description || "No description was provided"}</p>
+			<button class="upvoteButton"><i class="fa-solid fa-thumbs-up"></i></button>
 			<span class="totalVotes" id="number">${markerDataIn.upvotes-markerDataIn.downvotes}</span>
-			<button class="downvoteButton">👎</button>
+			<button class="downvoteButton"><i class="fa-solid fa-thumbs-down"></i></button>
 		</div>`;
 
 		//get buttons
@@ -218,21 +218,29 @@ async function initMap() //called by google maps API once loaded
 		//add event listeners
 		upvoteButton.addEventListener('click', () => HandleVote(markerDataIn.id,'upvote', markerDiv))
 		downvoteButton.addEventListener('click', () => HandleVote(markerDataIn.id,'downvote', markerDiv))
-        //Added delete button
-        const deleteButton = document.createElement("button");
-        deleteButton.textContent = "Delete Marker";
-        deleteButton.onclick = function() {
-            const userUUID = getSessionToken();
-            if ((userUUID && markerDataIn.creator === userUUID) || isAdmin) {
-                deleteMarker(markerDataIn.id, markerDiv, markerDataRef._markerElement)
-            } else {
-                alert("You can only delete markers you created.");
-            }
-        }
-		const voteButtonsDiv = markerDiv.querySelector('.voteButtons');
-        voteButtonsDiv.appendChild(deleteButton);
 
+
+		if (hasAdminOverButton(markerDataIn)) {
+			const voteButtonsDiv = markerDiv.querySelector('.voteButtons');
+
+			//add br
+			// const brElement = document.createElement("br");
+			// voteButtonsDiv.appendChild(brElement);
+
+			//Added delete button
+			const deleteButton = document.createElement("button");
+			deleteButton.innerHTML = `<i class="fa-solid fa-xmark"></i> Delete Marker`;
+			deleteButton.disabled = hasAdminOverButton(markerDataIn) == false;
+			deleteButton.onclick = () => deleteMarker(markerDataIn.id, markerDiv, markerDataRef._markerElement)
+			
+			voteButtonsDiv.appendChild(deleteButton);
+		}
 		return markerDiv;
+	}
+
+	function hasAdminOverButton(markerDataIn) {
+		const userUUID = getSessionToken();
+		return ((userUUID && markerDataIn.creator === userUUID) || isAdmin);
 	}
 
     function deleteMarker(markerId, markerDiv, markerElement) {
