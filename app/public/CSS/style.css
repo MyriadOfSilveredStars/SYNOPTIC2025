@@ -18,18 +18,10 @@ div.gm-style {
     font-family: "Noto Sans", sans-serif;
 }
 
-#mapWrapper {
-    position: relative;
-    width: 100%;
-    height: 80%;
-}
-
 #map {
-    /* position: absolute; */
+    display: flex;
     width: 100%;
-    height: 100%;
-    margin-top: 38px;
-    margin-left: -20px;
+    height: 90%;
 }
 
 #main-content {
@@ -58,7 +50,7 @@ div.gm-style {
     top: 47%;
     transform: translate(-50%, -47%);
     pointer-events: none;
-    z-index: 10;
+    z-index: 2;
 }
 
 #crosshair img {
@@ -68,22 +60,23 @@ div.gm-style {
     max-height: 80vw;
 }
 
-#makeNewMarkerButton {
-    position: fixed;
-    left: 50%;
-    top: 60%;
-    margin: 2rem 35%;
+#newMarkerBtn {
+    position: absolute;
+    right: 10%;
+    bottom: 10%;
     background-color: #52918b;
-    width: 40px;
-    min-height: 50px;
-    padding: 7px;
-    border: 0.25rem solid #52918b;
-    font-size: 20px;
-    font-weight: bold;
-    z-index: 11;
+    color: white;
+    border: none;
+    border-radius: 100%;
+    font-size: xx-large;
+    height: 48px;
+    width: 48px;
+    padding: 4px;
+    z-index: 4;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-#makeNewMarkerButton:hover {
+#newMarkerBtn:hover {
     background-color: whitesmoke;
     border-color: #52918b;
     transition-duration: 0.2s;
@@ -91,13 +84,14 @@ div.gm-style {
     cursor: pointer;
 }
 
-#makeNewMarkerButton:active {
-    box-shadow: 0 0px #afaeae;
+#newMarkerBtn:active {
+    box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     transform: translateY(2px);
-    transition-duration: 0s;
+    transition-duration: 0.1s;
 }
 
 .markerDiv {
+    z-index: 1;
     text-align: center;
     width: 50px;
     height: 50px;
@@ -109,6 +103,7 @@ div.gm-style {
 }
 
 .markerDiv.expand {
+    z-index: 3;
     border-radius: 8px;
     width: 300px;
     height: 100px;
@@ -171,8 +166,9 @@ header nav ul li a {
 
 /* Header styling */
 header {
-    position: fixed;
-
+    position: sticky;
+    top: 0;
+    z-index: 1;
     width: 100%;
     background: black;
     color: #fff;
@@ -292,7 +288,15 @@ form button {
     margin: 0.5rem 0 0 0;
     display: block;
 }
-
+label {
+    font-weight: 400;
+}
+select {
+    display: block;
+    margin-top: 1%;
+    margin-bottom: 5%;
+    padding: 1%;
+}
 .form-group input,
 .form-group select {
     font-size: 12pt;
@@ -328,25 +332,6 @@ form button {
 .settings-info {
     text-align: left;
     color: rgb(66, 66, 66);
-}
-.bio-container {
-    border: 1px solid black;
-    width: auto-fit;
-    margin-left: 10%;
-    margin-right: 10%;
-    margin-top: 2%;
-    margin-bottom: 2%;
-    padding: 10px;
-}
-
-.ind-goal-container {
-    border: 1px solid black;
-    width: auto-fit;
-    margin-left: 10%;
-    margin-right: 10%;
-    margin-top: 2%;
-    margin-bottom: 2%;
-    padding: 10px;
 }
 
 .collapsible {
@@ -388,20 +373,19 @@ p {
 
 /*The description pop up box
   /* The popup form - hidden by default */
-.description-form {
-    display: none;
+#descForm {
     position: fixed;
-    bottom: 10px;
-    top: 30px;
-    right: 30px;
-    left: 30px;
-    z-index: 9;
+    left: 0;
+    bottom: 0;
+    z-index: 4;
+    width: 100%;
 }
 
 .form-containerdesc {
-    max-width: 500px;
-    padding: 10px;
+    padding: 32px;
+    /* border: solid red 4px; */
     background-color: white;
+    z-index: 4;
 }
 
 .form-containerdesc input[type="text"] {
@@ -418,17 +402,35 @@ p {
     outline: none;
 }
 
-.form-containerdesc .btn {
-    background-color: #04aa6d;
-    color: white;
-    padding: 16px 20px;
-    border: none;
-    cursor: pointer;
-    width: 60%;
-    margin-bottom: 10px;
-    opacity: 0.8;
-}
-
 .hidden {
     display: none;
+}
+
+.inactive {
+    filter: saturate(50%) brightness(50%);
+}
+
+#marker-form-buttons {
+    display: flex;
+    left: 0;
+
+    align-content: flex-start;
+}
+
+#cancel-marker-btn {
+    position: static;
+    flex-grow: 1;
+    color: red;
+    border: solid red 1px;
+    background: none;
+}
+#submit-marker-btn {
+    position: static;
+
+    background-color: #04aa6d;
+    color: white;
+    cursor: pointer;
+    flex-grow: 10;
+    opacity: 0.8;
+    width: max-content;
 }

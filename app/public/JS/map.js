@@ -147,7 +147,8 @@ async function initMap() //called by google maps API once loaded
 
     //called by clicking in rectangle
     function PlaceNewMarker(e) {
-        document.getElementById("descForm").style.display = "block";
+        document.getElementById("crosshair").classList.remove("hidden");
+        document.getElementById("descForm").classList.remove("hidden");
     }
 
     //for each existing marker place it
@@ -196,13 +197,13 @@ async function initMap() //called by google maps API once loaded
             `<p>${markerDataIn.markerType || "Other"}</p>
 		<div class="voteButtons" style="display:none">
 			<p>${markerDataIn.description || "No description was provided"}</p>
-			<button class="upvoteButton"><i class="fa-solid fa-thumbs-up"></i></button>
+			<button class="upvote-button"><i class="fa-solid fa-thumbs-up"></i></button>
 			<span class="totalVotes" id="number">${markerDataIn.upvotes - markerDataIn.downvotes}</span>
 			<button class="downvoteButton"><i class="fa-solid fa-thumbs-down"></i></button>
 		</div>`;
 
         //get buttons
-        const upvoteButton = markerDiv.querySelector('.upvoteButton')
+        const upvoteButton = markerDiv.querySelector('.upvote-button')
         const downvoteButton = markerDiv.querySelector('.downvoteButton')
         //check if pressed by user
         if (markerDataIn.upVoterList.includes(userUUID))
@@ -286,9 +287,17 @@ async function initMap() //called by google maps API once loaded
     }
 
     // When the make new marker button is pressed, the PlaceNewMarker function above is called.
-    const makeNewMarkerButton = document.getElementById("makeNewMarkerButton");
-    makeNewMarkerButton.addEventListener("click", PlaceNewMarker, false);
+    const newMarkerBtn = document.getElementById("newMarkerBtn");
+    newMarkerBtn.addEventListener("click", PlaceNewMarker, false);
     descForm.addEventListener("submit", giveDescription);
+    const cancelMarker = document.getElementById("cancel-marker-btn");
+    cancelMarker.addEventListener("click", () => {
+        document.getElementById("descForm").classList.add("hidden");
+        document.getElementById("crosshair").classList.add("hidden");
+        
+    })
+    //TODO: add on click cancel button hiding the form and crosshair again
+
 
     function onResponse(response) {
         //Return the JSON data
@@ -323,7 +332,7 @@ async function initMap() //called by google maps API once loaded
         markersLocal.push(newMarkerDataFromBackend);
         PlaceMarker(newMarkerDataFromBackend);
         console.log("Marker placed successfully!");
-        document.getElementById("descForm").style.display = "none";
+        document.getElementById("descForm").classList.add("hidden");
         window.location.href = "/map";
     }
 

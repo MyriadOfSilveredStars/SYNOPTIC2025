@@ -5,34 +5,26 @@
     crossorigin="anonymous"
 ></script>
 <script>
-    window.markerDataFromBackend = <%- includeParams.markers %>
-</script>
-<script>
-    window.isAdmin = <%- includeParams.isAdmin %>
+    window.markerDataFromBackend = <%- includeParams.markers %>;
+    window.isAdmin = <%- includeParams.isAdmin %>;
 </script>
 
 <!-- Container For Map Elements -->
 <div id="mapWrapper">
-    <!-- Map -->
     <div id="map"></div>
 
-    <!-- Crosshair -->
-    <div id="crosshair">
+    <div id="crosshair" class="hidden">
         <img src="images/crosshair.svg" alt="Crosshair" />
     </div>
 
     <!-- Make New Marker Button -->
-    <button id="makeNewMarkerButton">
-        <i class="fa-solid fa-square-plus"></i>
+    <button id="newMarkerBtn">
+        <i class="fa-solid fa-plus"></i>
     </button>
 </div>
-<br />
-<br />
-<br />
-<div class="description-form" id="descForm">
+<div class="description-form hidden" id="descForm">
     <form class="form-containerdesc">
-        <label for="category"><b>What type of issue is it?</b></label
-        ><br /><br />
+        <label for="category">What type of issue is it?</label>
         <select name="category" id="category">
             <option value="">Select</option>
             <option value="waste">Waste & Flytipping</option>
@@ -40,19 +32,21 @@
             <option value="danger">Dangerous Area</option>
             <option value="power">No Power</option>
         </select>
-        <br />
 
-        <br />
-        <label for="description"><b>Describe the Issue</b></label
-        ><br />
+        <label for="description">Describe the Issue (optional)</label>
         <input
             type="text"
             placeholder="The issue is..."
             name="description"
             id="description"
         />
-        <br />
-        <br />
-        <button type="submit" class="btn">Submit</button>
+        <div id="marker-form-buttons">
+            <button type="reset" id="cancel-marker-btn" class="btn">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <button type="submit" id="submit-marker-btn" class="btn">
+                Submit
+            </button>
+        </div>
     </form>
 </div>
