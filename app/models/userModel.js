@@ -9,10 +9,19 @@ const userSchema = new mongoose.Schema({
     userName: String,
     email: { type: String, unique: true },
     password: String,
+    verificationCode: String,
+    verifiedAccount: { type: Boolean, default: false },
     isAdmin: { type: Boolean, default: false },
 });
 
+//Forgotten password collection
+const forgotPasswordSchema = new mongoose.Schema({
+    email: String,
+    oneTimeCode: String,
+});
+
 const User = mongoose.model("User", userSchema);
+const ForgotPassword = mongoose.model("ForgotPassword", forgotPasswordSchema);
 
 // creates a new user and emails them a verification link
 exports.signUp = async (req, res) => {
@@ -26,14 +35,31 @@ exports.signUp = async (req, res) => {
         //also hashes the password
         const hashedPassword = await security.hashPassword(password);
 
+        //Generate a verification code
+        const verificationCode = general.generateUniqueCode(6);
+
         //create a new user using the mongoose schema
         const newMember = new User({
             id: hashedUUID, //Needs to be hashed before being stored in the database for finding accounts via cookies
             userName: userName,
             email: email,
             password: hashedPassword,
+            verificationCode: verificationCode,
         });
 
+        //Send verification email
+        const emailMessage = `
+            Please click on the link to verify your account.\n\n
+            <a href="http://localhost:3000/verifyAccount?email=${email}&code=${verificationCode}">Verify Account</a>\n\n
+            Your verification code is '${verificationCode}'
+        `;
+        /*
+        await general.sendEmail({
+            to: email,
+            subject: 'Account Verification',
+            htmlContent: emailMessage
+        });
+*/
         //save the new member to the database
         await newMember.save();
 
@@ -103,16 +129,12 @@ exports.forgotPassword = async (req, res) => {
         const forgotPasswordEntry = { email, oneTimeCode: uniqueUserCode };
 
         // save the forgot password entry to the database
-        const ForgotPassword = mongoose.model(
-            "ForgotPassword",
-            new mongoose.Schema({ email: String, oneTimeCode: String })
-        );
         const fpData = new ForgotPassword(forgotPasswordEntry);
         await fpData.save();
 
         const emailMessage = `
             Please click on the link to reset your password.\n\n
-            <a href="https://localhost:3001/views/pages/reset-password.html?code=${uniqueUserCode}">Change Password</a>\n\n
+            <a href="http://localhost:3000/reset-password?code=${uniqueUserCode}">Change Password</a>\n\n
             Your verification code to change your password is '${uniqueUserCode}'
         `;
 
@@ -158,7 +180,6 @@ exports.verifyAccount = async (email, code) => {
 //handles the user resetting their password
 exports.resetPassword = async (uniqueCode, newPassword) => {
     try {
-        const ForgotPassword = mongoose.model("ForgotPassword");
         const resetEntry = await ForgotPassword.findOne({
             oneTimeCode: uniqueCode,
         });
