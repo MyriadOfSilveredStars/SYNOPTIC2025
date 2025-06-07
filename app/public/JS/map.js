@@ -1,345 +1,350 @@
 var markerDiv;
-async function initMap() //called by google maps API once loaded
-{
-	// Local array of markers (will have DB markers loaded initially, then any new markers pushed onto it if added)
-	var markersLocal = [];
+async function initMap() {
+    //called by google maps API once loaded
+    // Local array of markers (will have DB markers loaded initially, then any new markers pushed onto it if added)
+    var markersLocal = [];
 
-	//get libraries
-	const { Map } = await google.maps.importLibrary("maps");
-	const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+    //get libraries
+    const { Map } = await google.maps.importLibrary("maps");
+    const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
 
-	//create map
-	map = new Map(document.getElementById("map"), 
-	{
-		center: { lat: -26.193554014913836, lng: 28.069132270603006 },
-		zoom: 12,// Initial zoom
-		minZoom: 10,// Min zoom
-		maxZoom: 9999,// Max zoom
-		streetViewControl: false,
-		mapId: "53ec86221c5b181adc2e8fe0"
-	});
+    //create map
+    map = new Map(document.getElementById("map"), {
+        center: { lat: -26.193554014913836, lng: 28.069132270603006 },
+        zoom: 12, // Initial zoom
+        minZoom: 10, // Min zoom
+        maxZoom: 9999, // Max zoom
+        streetViewControl: false,
+        mapId: "53ec86221c5b181adc2e8fe0",
+    });
 
-	//4 edges of allowed region
-	latN = -26.1; //north latitude
-	latS = -26.3; //south latitude
-	lngE = 28.2; //east longitude
-	lngW = 27.9; //west longitude
-	
-	//create black rectangles to cover non-allowed region
-	RectangleIfy(0, 179, latN, -179);   //N, NE, NW
-	RectangleIfy(latS, 179, -89, -179); //S, SE, SW
-	RectangleIfy(latN, 179, latS, lngE);//E
-	RectangleIfy(latN, lngW, latS, 179);//W
+    //4 edges of allowed region
+    latN = -26.1; //north latitude
+    latS = -26.3; //south latitude
+    lngE = 28.2; //east longitude
+    lngW = 27.9; //west longitude
 
-	//create region that is allowed
-	neAllowedBoundary = new google.maps.LatLng(latN, lngE);
-	swAllowedBoundary = new google.maps.LatLng(latS, lngW);
-	allowedRegion = new google.maps.LatLngBounds(swAllowedBoundary, neAllowedBoundary);
+    //create black rectangles to cover non-allowed region
+    RectangleIfy(0, 179, latN, -179); //N, NE, NW
+    RectangleIfy(latS, 179, -89, -179); //S, SE, SW
+    RectangleIfy(latN, 179, latS, lngE); //E
+    RectangleIfy(latN, lngW, latS, 179); //W
 
-	//allowed region rectangle, this has the click listener
-	var Rectangle = new google.maps.Rectangle({
-		bounds: allowedRegion,
-		map: map,
-		strokeColor: '#000000',
-		strokeOpacity: 1,
-		strokeWeight: 2,
-		fillColor: '#000000',
-		fillOpacity: 0,
-	});
+    //create region that is allowed
+    neAllowedBoundary = new google.maps.LatLng(latN, lngE);
+    swAllowedBoundary = new google.maps.LatLng(latS, lngW);
+    allowedRegion = new google.maps.LatLngBounds(
+        swAllowedBoundary,
+        neAllowedBoundary
+    );
 
-	//event listeners for enforcing allowed region
-	google.maps.event.addListener(map, 'drag', MoveMapToAllowedRegion); //drag map
-	google.maps.event.addListener(map, 'zoom_changed', MoveMapToAllowedRegion); //zoom map
+    //allowed region rectangle, this has the click listener
+    var Rectangle = new google.maps.Rectangle({
+        bounds: allowedRegion,
+        map: map,
+        strokeColor: "#000000",
+        strokeOpacity: 1,
+        strokeWeight: 2,
+        fillColor: "#000000",
+        fillOpacity: 0,
+    });
 
-	//finally place markers stored in DB
-	placeMarkers(loadMarkers());
+    //event listeners for enforcing allowed region
+    google.maps.event.addListener(map, "drag", MoveMapToAllowedRegion); //drag map
+    google.maps.event.addListener(map, "zoom_changed", MoveMapToAllowedRegion); //zoom map
 
+    //finally place markers stored in DB
+    placeMarkers(loadMarkers());
 
-	//begin functions
+    //begin functions
 
+    //create black rectangle based on ne, sw coordinates
+    function RectangleIfy(ne_lat, ne_lng, sw_lat, sw_lng) {
+        const ne = new google.maps.LatLng(ne_lat, ne_lng);
+        const sw = new google.maps.LatLng(sw_lat, sw_lng);
 
-	//create black rectangle based on ne, sw coordinates
-	function RectangleIfy(ne_lat, ne_lng, sw_lat, sw_lng)
-	{
-		const ne = new google.maps.LatLng(ne_lat, ne_lng);
-		const sw = new google.maps.LatLng(sw_lat, sw_lng);
+        var region = new google.maps.LatLngBounds(sw, ne);
+        new google.maps.Rectangle({
+            bounds: region,
+            map: map,
+            fillColor: "#000000",
+            fillOpacity: 0.8,
+            strokeOpacity: 0,
+        });
+    }
 
-		var region = new google.maps.LatLngBounds(sw, ne);
-		new google.maps.Rectangle({
-			bounds: region,
-			map: map,
-			fillColor: '#000000',
-			fillOpacity: 0.8,
-			strokeOpacity: 0
-		});
-	}
+    //check and if needed move map back to allowed region rectangle
+    function MoveMapToAllowedRegion() {
+        // If the current map center is outside of allowed region
+        if (!allowedRegion.contains(map.getCenter())) {
+            // Move the map back inside the allowed boundary
+            map.panTo(allowedRegion.getCenter());
+        }
+    }
 
-	//check and if needed move map back to allowed region rectangle
-	function MoveMapToAllowedRegion()
-	{
-		// If the current map center is outside of allowed region
-		if (!allowedRegion.contains(map.getCenter()))
-		{
-			// Move the map back inside the allowed boundary
-			map.panTo(allowedRegion.getCenter());
-		}
-	}
+    // Load markers from backend into local array
+    function loadMarkers() {
+        // Test to fetch markers from backend - seems to work.
+        //console.log(window.markerDataFromBackend);
+        let dbMarkers = window.markerDataFromBackend;
 
-	// Load markers from backend into local array
-	function loadMarkers()
-	{
-		
-		// Test to fetch markers from backend - seems to work.
-		//console.log(window.markerDataFromBackend);
-		let dbMarkers = window.markerDataFromBackend;
+        for (let i = 0; i < dbMarkers.length; i++) {
+            markersLocal.push(dbMarkers[i]);
+        }
 
-		for (let i = 0; i < dbMarkers.length; i++) {
-			markersLocal.push(dbMarkers[i])
-		}
+        //console.log(markersLocal)
 
-		//console.log(markersLocal)
+        return markersLocal;
+    }
 
-		return markersLocal;
-	}
+    //updates an existing marker with the user's description
+    function giveDescription(e) {
+        e.preventDefault();
+        // Retrieve coordinates of selected point
+        const center = map.getCenter();
+        const lat = center.lat();
+        const lng = center.lng();
 
-	//updates an existing marker with the user's description
-	function giveDescription(e)
-	{	
-		e.preventDefault();
-		// Retrieve coordinates of selected point
-		const center = map.getCenter();
-		const lat = center.lat();
-		const lng = center.lng();
-	
-		// Check if the selected point already exists within the array of markers
-		if (markersLocal.some(marker => marker.position.lat == lat && marker.position.lng == lng)) {
-			alert("A marker already exists at this position.");
-			return; // Do not place the marker if it already exists
-		}
+        // Check if the selected point already exists within the array of markers
+        if (
+            markersLocal.some(
+                (marker) =>
+                    marker.position.lat == lat && marker.position.lng == lng
+            )
+        ) {
+            alert("A marker already exists at this position.");
+            return; // Do not place the marker if it already exists
+        }
 
-		var category = document.getElementById("category").value;
-		var description = document.getElementById("description").value;
+        var category = document.getElementById("category").value;
+        var description = document.getElementById("description").value;
 
-		// Parameters for new marker, but not including ID as this needs to be generated by the database, and sent back to this client.
-		const params = {
-			"position":
-			{
-				"lat": center.lat(),
-				"lng": center.lng()
-			},
-			creator: getSessionToken(), // Get the session token for the creator
-			description: description,
-			category: category
-		}
+        // Parameters for new marker, but not including ID as this needs to be generated by the database, and sent back to this client.
+        const params = {
+            position: {
+                lat: center.lat(),
+                lng: center.lng(),
+            },
+            creator: getSessionToken(), // Get the session token for the creator
+            description: description,
+            category: category,
+        };
 
-		const serializedData = JSON.stringify(params);
-    		const fetchOptions = {
-			method: 'POST',
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json'
-			},
-			body: serializedData
-    	};
+        const serializedData = JSON.stringify(params);
+        const fetchOptions = {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: serializedData,
+        };
 
-		fetch('/map', fetchOptions)
-			.then(onResponse)
-			.then(onReceiveNewPlacedMarker);
+        fetch("/map", fetchOptions)
+            .then(onResponse)
+            .then(onReceiveNewPlacedMarker);
+    }
 
-	}
+    //called by clicking in rectangle
+    function PlaceNewMarker(e) {
+        document.getElementById("descForm").style.display = "block";
+    }
 
-	//called by clicking in rectangle
-	function PlaceNewMarker(e)
-	{
-		document.getElementById("descForm").style.display = "block";
-	}
-
-	//for each existing marker place it
-	function placeMarkers(markersData)
-	{
-		//console.log(markersData)
-		//for each marker in the array, place it on the map
-		for (let i = 0; i < markersData.length; i++)
-		{
-			PlaceMarker(markersData[i]);
-		}
-	}
+    //for each existing marker place it
+    function placeMarkers(markersData) {
+        //console.log(markersData)
+        //for each marker in the array, place it on the map
+        for (let i = 0; i < markersData.length; i++) {
+            PlaceMarker(markersData[i]);
+        }
+    }
 
     //Gets cookie for markers
     function getSessionToken() {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; sessionToken=`);
-            if (parts.length === 2) {
-                return parts.pop().split(';').shift();
-            }
+        if (parts.length === 2) {
+            return parts.pop().split(";").shift();
+        }
         return null;
     }
 
-	//place existing marker on map
-	function PlaceMarker(markerData)
-	{
-		//function to place each individual marker, using lat and long
-		const markerElement = new AdvancedMarkerElement({
-			position: markerData.position,
-			map: map,
-			content: MakeMarkerContent(markerData, markerData),
-			title: "Marker " + markerData.id
-		});
-		markerData._markerElement = markerElement; // Store the reference
-		markerElement.addListener("gmp-click", () => MarkerClicked(markerElement, markerData));
-	}
+    //place existing marker on map
+    function PlaceMarker(markerData) {
+        //function to place each individual marker, using lat and long
+        const markerElement = new AdvancedMarkerElement({
+            position: markerData.position,
+            map: map,
+            content: MakeMarkerContent(markerData, markerData),
+            title: "Marker " + markerData.id,
+        });
+        markerData._markerElement = markerElement; // Store the reference
+        markerElement.addListener("gmp-click", () =>
+            MarkerClicked(markerElement, markerData)
+        );
+    }
 
-	//generate the html for marker
-	function MakeMarkerContent(markerDataIn, markerDataRef)
-	{
-		userUUID = getSessionToken();
-		markerDiv = document.createElement("div");
+    //generate the html for marker
+    function MakeMarkerContent(markerDataIn, markerDataRef) {
+        userUUID = getSessionToken();
+        markerDiv = document.createElement("div");
 
-		markerDiv.classList.add("markerDiv");
-		markerDiv.style.backgroundColor = "white";
-		markerDiv.innerHTML = 
-		`<p>${markerDataIn.markerType}</p>
+        markerDiv.classList.add("markerDiv");
+        markerDiv.style.backgroundColor = "white";
+        markerDiv.innerHTML = `<p>${markerDataIn.markerType}</p>
 		<div class="voteButtons" style="display:none">
 			<p>${markerDataIn.description}</p>
 			<button class="upvoteButton">👍</button>
-			<span class="totalVotes" id="number">${markerDataIn.upvotes-markerDataIn.downvotes}</span>
+			<span class="totalVotes" id="number">${
+                markerDataIn.upvotes - markerDataIn.downvotes
+            }</span>
 			<button class="downvoteButton">👎</button>
 		</div>`;
 
-		//get buttons
-		const upvoteButton = markerDiv.querySelector('.upvoteButton')
-		const downvoteButton = markerDiv.querySelector('.downvoteButton')
-		//check if pressed by user
-		if (markerDataIn.upVoterList.includes(userUUID)){
-			upvoteButton.classList.add("pressedVote")
-		} else if (markerDataIn.downVoterList.includes(userUUID)){
-			downvoteButton.classList.add("pressedVote")
-		}
-		//add event listeners
-		upvoteButton.addEventListener('click', () => HandleVote(markerDataIn.id,'upvote', markerDiv))
-		downvoteButton.addEventListener('click', () => HandleVote(markerDataIn.id,'downvote', markerDiv))
+        //get buttons
+        const upvoteButton = markerDiv.querySelector(".upvoteButton");
+        const downvoteButton = markerDiv.querySelector(".downvoteButton");
+        //check if pressed by user
+        if (markerDataIn.upVoterList.includes(userUUID)) {
+            upvoteButton.classList.add("pressedVote");
+        } else if (markerDataIn.downVoterList.includes(userUUID)) {
+            downvoteButton.classList.add("pressedVote");
+        }
+        //add event listeners
+        upvoteButton.addEventListener("click", () =>
+            HandleVote(markerDataIn.id, "upvote", markerDiv)
+        );
+        downvoteButton.addEventListener("click", () =>
+            HandleVote(markerDataIn.id, "downvote", markerDiv)
+        );
         //Added delete button
         const deleteButton = document.createElement("button");
         deleteButton.textContent = "Delete Marker";
-        deleteButton.onclick = function() {
+        deleteButton.onclick = function () {
             const userUUID = getSessionToken();
             if ((userUUID && markerDataIn.creator === userUUID) || isAdmin) {
-                deleteMarker(markerDataIn.id, markerDiv, markerDataRef._markerElement)
+                deleteMarker(
+                    markerDataIn.id,
+                    markerDiv,
+                    markerDataRef._markerElement
+                );
             } else {
                 alert("You can only delete markers you created.");
             }
-        }
-		const voteButtonsDiv = markerDiv.querySelector('.voteButtons');
+        };
+        const voteButtonsDiv = markerDiv.querySelector(".voteButtons");
         voteButtonsDiv.appendChild(deleteButton);
 
-		return markerDiv;
-	}
+        return markerDiv;
+    }
 
     function deleteMarker(markerId, markerDiv, markerElement) {
         //Send a DELETE request to the backend to delete the marker
         fetch(`/map/${markerId}`, {
-            method: 'DELETE',
+            method: "DELETE",
             headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
         })
-        .then(response => {
-            if (response.ok) {
-                //Remove the marker from the map and local array, saves changes if DB hasnt refreshed yet
-                markersLocal = markersLocal.filter(marker => marker.id !== markerId);
-                markerDiv.remove(); //Remove the marker element from the DOM
-				if (markerElement) {
-					markerElement.map = null; // Remove the marker from the map
-				}
-                console.log("Marker deleted successfully!");
-            } else {
-                console.error("Failed to delete marker.");
-            }
-        })
-        .catch(error => console.error("Error deleting marker:", error));
+            .then((response) => {
+                if (response.ok) {
+                    //Remove the marker from the map and local array, saves changes if DB hasnt refreshed yet
+                    markersLocal = markersLocal.filter(
+                        (marker) => marker.id !== markerId
+                    );
+                    markerDiv.remove(); //Remove the marker element from the DOM
+                    if (markerElement) {
+                        markerElement.map = null; // Remove the marker from the map
+                    }
+                    console.log("Marker deleted successfully!");
+                } else {
+                    console.error("Failed to delete marker.");
+                }
+            })
+            .catch((error) => console.error("Error deleting marker:", error));
     }
 
-	//called by event listener, takes the marker element 
-	function MarkerClicked(markerElementIn, MarkerDataIn)
-	{
-		console.log("Marker clicked: ", MarkerDataIn.id);
-		const voteButtons = markerElementIn.content.querySelector(".voteButtons")
-		if (markerElementIn.content.classList.contains("expand"))
-		{
-			markerElementIn.content.classList.remove("expand");
-			markerElementIn.zIndex = 0;
-			voteButtons.style.display = "none";
-		}
-		else
-		{
-			markerElementIn.content.classList.add("expand");
-			markerElementIn.zIndex = 999; //front
-			voteButtons.style.display = "inline";
-		}
-	}
+    //called by event listener, takes the marker element
+    function MarkerClicked(markerElementIn, MarkerDataIn) {
+        console.log("Marker clicked: ", MarkerDataIn.id);
+        const voteButtons =
+            markerElementIn.content.querySelector(".voteButtons");
+        if (markerElementIn.content.classList.contains("expand")) {
+            markerElementIn.content.classList.remove("expand");
+            markerElementIn.zIndex = 0;
+            voteButtons.style.display = "none";
+        } else {
+            markerElementIn.content.classList.add("expand");
+            markerElementIn.zIndex = 999; //front
+            voteButtons.style.display = "inline";
+        }
+    }
 
-	// When the make new marker button is pressed, the PlaceNewMarker function above is called.
-	const makeNewMarkerButton = document.getElementById("makeNewMarkerButton");
-	makeNewMarkerButton.addEventListener('click', PlaceNewMarker, false);
-	descForm.addEventListener('submit', giveDescription);
+    // When the make new marker button is pressed, the PlaceNewMarker function above is called.
+    const makeNewMarkerButton = document.getElementById("makeNewMarkerButton");
+    makeNewMarkerButton.addEventListener("click", PlaceNewMarker, false);
+    descForm.addEventListener("submit", giveDescription);
 
-	function onResponse(response) {
-		//Return the JSON data
-		return response.json();
-	}
+    function onResponse(response) {
+        //Return the JSON data
+        return response.json();
+    }
 
-	//sends the vote to the server
-	async function HandleVote(markerID, vote, markerDiv) {
-		const userUUID = getSessionToken();
-		console.log('voting?')
+    //sends the vote to the server
+    async function HandleVote(markerID, vote, markerDiv) {
+        const userUUID = getSessionToken();
+        console.log("voting?");
 
-		const fetchOptions = {
-			method: 'POST',
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json'
-			},
+        const fetchOptions = {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
 
-			body: JSON.stringify({
-			markerID: markerID,
-			userID: userUUID,
-			})
-    	};
-		
-		fetch(`/${vote}`, fetchOptions)
-			.then(onResponse)
-			.then(onReceiveVoteUpdate);
-	}
+            body: JSON.stringify({
+                markerID: markerID,
+                userID: userUUID,
+            }),
+        };
 
-	// Used to place the marker that this client has just added to the database, so that it can retrieve it's unique ID from that.
-	function onReceiveNewPlacedMarker(newMarkerDataFromBackend) {
-		markersLocal.push(newMarkerDataFromBackend);
-		PlaceMarker(newMarkerDataFromBackend);
-		console.log("Marker placed successfully!");
-		document.getElementById("descForm").style.display = "none";
-		window.location.href = "/map";
-	}
+        fetch(`/${vote}`, fetchOptions)
+            .then(onResponse)
+            .then(onReceiveVoteUpdate);
+    }
 
-	//logic for toggling the button appearance
-	function modifyButton(button, vote){
-		if (vote ==1){
-			button.classList.add("pressedVote");
-		} else {
-			button.classList.remove("pressedVote");
-		}
-	}
+    // Used to place the marker that this client has just added to the database, so that it can retrieve it's unique ID from that.
+    function onReceiveNewPlacedMarker(newMarkerDataFromBackend) {
+        markersLocal.push(newMarkerDataFromBackend);
+        PlaceMarker(newMarkerDataFromBackend);
+        console.log("Marker placed successfully!");
+        document.getElementById("descForm").style.display = "none";
+        window.location.href = "/map";
+    }
 
-	// Handle vote update locally once received data back from server upon pressing either upvote or downvote.
-	function onReceiveVoteUpdate(voteData) {
-		const advancedMarkerElement = document.querySelector(`gmp-advanced-marker[title="Marker ${voteData.markerID}"]`);
-		console.log(advancedMarkerElement);
-		markerDiv=advancedMarkerElement;
-		const upvoteButton = markerDiv.querySelector('.upvoteButton');
-        const downvoteButton = markerDiv.querySelector('.downvoteButton');
-		const numbers = markerDiv.querySelector('.totalVotes');
-		numbers.innerHTML=parseInt(numbers.innerHTML)+voteData.upvotes-voteData.downvotes;
-		modifyButton(upvoteButton, voteData.upvotes);
-		modifyButton(downvoteButton, voteData.downvotes);
-	}
+    //logic for toggling the button appearance
+    function modifyButton(button, vote) {
+        if (vote == 1) {
+            button.classList.add("pressedVote");
+        } else {
+            button.classList.remove("pressedVote");
+        }
+    }
+
+    // Handle vote update locally once received data back from server upon pressing either upvote or downvote.
+    function onReceiveVoteUpdate(voteData) {
+        const advancedMarkerElement = document.querySelector(
+            `gmp-advanced-marker[title="Marker ${voteData.markerID}"]`
+        );
+        console.log(advancedMarkerElement);
+        markerDiv = advancedMarkerElement;
+        const upvoteButton = markerDiv.querySelector(".upvoteButton");
+        const downvoteButton = markerDiv.querySelector(".downvoteButton");
+        const numbers = markerDiv.querySelector(".totalVotes");
+        numbers.innerHTML =
+            parseInt(numbers.innerHTML) + voteData.upvotes - voteData.downvotes;
+        modifyButton(upvoteButton, voteData.upvotes);
+        modifyButton(downvoteButton, voteData.downvotes);
+    }
 }

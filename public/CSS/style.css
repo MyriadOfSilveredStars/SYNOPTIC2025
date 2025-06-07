@@ -9,7 +9,7 @@ body {
 }
 
 .header-item-left {
-    color:white;
+    color: white;
     text-decoration: none;
     padding-right: 16px;
 }
@@ -18,71 +18,67 @@ div.gm-style {
     font-family: "Noto Sans", sans-serif;
 }
 
-#mapWrapper
-{
-	position: relative;
-	width: 100%;
-	height: 80%;
+#mapWrapper {
+    position: relative;
+    width: 100%;
+    height: 80%;
 }
 
 #map {
-	position: absolute;
-	width: 100%;
-	height: 100%;
+    position: absolute;
+    width: 100%;
+    height: 100%;
 }
 
-#main-content
-{
-	position: relative;
+#main-content {
+    position: relative;
 }
 
-#network-condition
-{
-	position: fixed;
-	top: 10%;
-	left:45%;
-	width: 10%;
-	z-index: 99;
-	display: flex;
-	justify-content: center;
-	background-color: rgb(252, 203, 200);
-	border-radius: 15px;
-	border: 2px solid black;
+#network-condition {
+    position: fixed;
+    top: 10%;
+    left: 45%;
+    width: 10%;
+    z-index: 99;
+    display: flex;
+    justify-content: center;
+    background-color: rgb(252, 203, 200);
+    border-radius: 15px;
+    border: 2px solid black;
 
-	
-	/* start off hidden */
-	display: none;
+    /* start off hidden */
+    display: none;
 }
 
 #crosshair {
-	position: absolute;
-	left: 50%;
-	top: 47%;
-	transform: translate(-50%, -47%);
-	pointer-events: none;
-	z-index: 10;
+    position: absolute;
+    left: 50%;
+    top: 47%;
+    transform: translate(-50%, -47%);
+    pointer-events: none;
+    z-index: 10;
 }
 
 #crosshair img {
-	width: 40px;
-	height: 40px;
-	max-width: 80vw;
-	max-height: 80vw;
+    width: 40px;
+    height: 40px;
+    max-width: 80vw;
+    max-height: 80vw;
 }
 
 #makeNewMarkerButton {
     position: fixed;
-	left: 50%;
-	top: 60%;
+    left: 50%;
+    top: 60%;
     margin: 2rem 35%;
     background-color: #52918b;
     width: 40px;
     min-height: 50px;
     padding: 7px;
-    border: .25rem solid #52918b;
+    border: 0.25rem solid #52918b;
     font-size: 20px;
     font-weight: bold;
-	z-index: 11;
+    z-index: 11;
 }
 
 #makeNewMarkerButton:hover {
@@ -102,23 +98,22 @@ div.gm-style {
 .markerDiv {
     text-align: center;
     width: 50px;
-	height: 50px;
-	background-color: white;
-	border: solid black;
+    height: 50px;
+    background-color: white;
+    border: solid black;
     overflow: hidden;
 }
 
-
 .expand {
-	width: 300px;
-	height: 100px;
+    width: 300px;
+    height: 100px;
 }
-
 
 /*NEW ADDED CSS BELOW*/
 
 /* Ensure html and body take full height */
-html, body {
+html,
+body {
     height: 100%;
     margin: 0;
 }
@@ -160,7 +155,6 @@ header nav ul li a {
     text-decoration: none;
 }
 
-
 /* Footer styling – positioned normally in document flow */
 footer {
     background: #333;
@@ -176,16 +170,15 @@ footer {
     justify-content: center;
     margin-top: 0.5rem;
 }
-  
+
 .footer-links li {
     margin: 0 10px;
 }
-  
+
 .footer-links li a {
     color: #fff;
     text-decoration: none;
 }
-  
 
 /* Center buttons on the main page */
 .center-buttons {
@@ -222,7 +215,7 @@ footer {
     cursor: pointer;
     transition: background 0.3s ease;
 }
-.delbtn:hover{
+.delbtn:hover {
     background: darkred;
 }
 
@@ -265,7 +258,8 @@ form button {
     margin-bottom: 0.5rem;
 }
 
-.form-group input,.form-group select {
+.form-group input,
+.form-group select {
     width: 100%;
     padding: 0.75rem;
     border: 1px solid #ccc;
@@ -324,284 +318,285 @@ form button {
     text-align: left;
     outline: none;
     font-size: 15px;
-  }
+}
 
-  .active, .collapsible:hover {
+.active,
+.collapsible:hover {
     background-color: #ccc;
-  }@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
-  /* Ensure html and body take full height */
-  
-  :root {
-      --blue-0: #c1dfff;
-      --blue-1: #85c0ff;
-      --blue-2: #007bff;
-      --blue-3: #0063cc;
-      --blue-4: #00458f;
-      --blue-5: rgb(38,50,70);
-  
-      --bg-1: #fffffd;
-      --bg-2: #f8fbff;
-  }
-  
-  html,
-  body {
-      background: var(--bg-1);
-      font-family: "Inter", Tahoma, Geneva, Verdana, sans-serif;
-      height: 100%;
-      margin: 0;
-  }
-  
-  /* Wrapper that holds all page sections */
-  .wrapper {
-      min-height: 100%;
-      display: flex;
-      flex-direction: column;
-  }
-  
-  /* Main content expands to fill available space */
-  .main-content {
-      flex: 1;
-      padding: 1rem;
-  }
-  
-  /* Header styling */
-  header {
-      position: fixed;
-      
-      width: 100%;
-      background: var(--blue-5);
-      color: #fff;
-      padding: 0.1rem;
-  }
-  
-  header nav ul {
-      list-style: none;
-      display: flex;
-      justify-content: flex-end;
-  }
-  
-  .nav-item {
-      margin-left: 10px;
-      margin-right: 10px;
-  }
-  .nav-item a {
-      color: #fff;
-      text-decoration: none;
-      border-radius: 4px;
-      padding: 4px 12px;
-      transition: background 0.1s;
-  }
-  .nav-item:hover a {
-      background: #eeeeee34;
-  }
-  
-  /* Footer styling – positioned normally in document flow */
-  footer {
-      background: var(--blue-5);
-      color: #fff;
-      padding: 1rem;
-      text-align: center;
-  }
-  
-  /* Footer links styling */
-  .footer-links {
-      list-style: none;
-      display: flex;
-      justify-content: center;
-      margin-top: 0.5rem;
-  }
-  
-  .footer-links li {
-      margin: 0 10px;
-  }
-  
-  #policy {
-      color: #fff;
-      text-decoration: none;
-  }
-  
-  h1 {
-      margin-top: 2em;
-  }
-  
-  /* Center buttons on the main page */
-  .center-buttons {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 70vh;
-  }
-  
-  /* Button styling */
-  .btn {
-      text-align: center;
-      font-size: large;
-      background: var(--blue-2);
-      color: #fff;
-      padding: 1rem 2rem;
-      margin: 0 1rem;
-      border: none;
-      border-radius: 5px;
-      text-decoration: none;
-      cursor: pointer;
-      transition: background 0.1s ease, font-weight 0.1s;
-  }
-  .btn:hover {
-      background: var(--blue-3);
-      font-weight: bold;
-  }
-  
-  .delbtn {
-      background: rgb(255, 99, 75);
-      color: #fff;
-      padding: 1rem 2rem;
-      margin: 0 1rem;
-      border: none;
-      border-radius: 5px;
-      text-decoration: none;
-      cursor: pointer;
-      transition: background 0.1s ease, font-weight 0.1s;
-  }
-  .delbtn:hover {
-      background: rgb(205, 92, 74);
-      font-weight: 700;
-  }
-  
-  /* Form container styling */
-  .form-container {
-      background: #fafafa;
-      padding: 2rem;
-      margin: 2rem auto;
-      border-radius: 5px;
-      max-width: 400px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  /*This is for centring buttons within forms*/
-  form button {
-      background: var(--blue-2);
-      color: #fff;
-      padding: 1rem 2rem;
-      margin: 0 1rem;
-      position: relative;
-      left: 32%;
-      border: none;
-      border-radius: 5px;
-      text-decoration: none;
-      cursor: pointer;
-      transition: background 0.3s ease;
-  }
-  
-  .form-container h2 {
-      text-align: center;
-      margin-bottom: 1.5rem;
-  }
-  
-  .form-group {
-      margin-bottom: 1rem;
-  }
-  
-  .form-group label {
-      margin: 0.5rem 0 0 0;
-      display: block;
-  }
-  
-  .form-group input,
-  .form-group select {
-      font-size:12pt;
-      appearance: none;
-      background: white;
-      width: 100%;
-      padding: 0.75rem;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-  }
-  
-  .settings-container {
-      border: 1px solid black;
-      width: auto-fit;
-      margin: 10px;
-      padding: 10px;
-  }
-  
-  .inner-settings-container {
-      border: 1px solid black;
-      width: auto-fit;
-      margin-left: 10%;
-      margin-right: 10%;
-      margin-top: 2%;
-      margin-bottom: 2%;
-      padding: 10px;
-  }
-  
-  #settings-btn {
-      display:block;
-      padding: 8px inherit;
-  }
-  .settings-info {
-      text-align: left;
-      color:rgb(66, 66, 66);
-  }
-  .bio-container {
-      border: 1px solid black;
-      width: auto-fit;
-      margin-left: 10%;
-      margin-right: 10%;
-      margin-top: 2%;
-      margin-bottom: 2%;
-      padding: 10px;
-  }
-  
-  .ind-goal-container {
-      border: 1px solid black;
-      width: auto-fit;
-      margin-left: 10%;
-      margin-right: 10%;
-      margin-top: 2%;
-      margin-bottom: 2%;
-      padding: 10px;
-  }
-  
-  .collapsible {
-      background-color: #eee;
-      color: #444;
-      cursor: pointer;
-      padding: 18px;
-      width: 100%;
-      border: none;
-      text-align: left;
-      outline: none;
-      font-size: 15px;
-  }
-  
-  .active,
-  .collapsible:hover {
-      background-color: #ccc;
-  }
-  
-  .content {
-      padding: 0 18px;
-      display: block;
-      overflow: hidden;
-      background-color: #fafafa;
-  }
-  
-  p {
-      text-align: center;
-      margin-top: 1rem;
-  }
-  
-  .para-general {
-      text-align: left;
-  }
-  
+}
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+/* Ensure html and body take full height */
 
-  .content {
+:root {
+    --blue-0: #c1dfff;
+    --blue-1: #85c0ff;
+    --blue-2: #007bff;
+    --blue-3: #0063cc;
+    --blue-4: #00458f;
+    --blue-5: rgb(38, 50, 70);
+
+    --bg-1: #fffffd;
+    --bg-2: #f8fbff;
+}
+
+html,
+body {
+    background: var(--bg-1);
+    font-family: "Inter", Tahoma, Geneva, Verdana, sans-serif;
+    height: 100%;
+    margin: 0;
+}
+
+/* Wrapper that holds all page sections */
+.wrapper {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Main content expands to fill available space */
+.main-content {
+    flex: 1;
+    padding: 1rem;
+}
+
+/* Header styling */
+header {
+    position: fixed;
+
+    width: 100%;
+    background: var(--blue-5);
+    color: #fff;
+    padding: 0.1rem;
+}
+
+header nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.nav-item {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.nav-item a {
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    padding: 4px 12px;
+    transition: background 0.1s;
+}
+.nav-item:hover a {
+    background: #eeeeee34;
+}
+
+/* Footer styling – positioned normally in document flow */
+footer {
+    background: var(--blue-5);
+    color: #fff;
+    padding: 1rem;
+    text-align: center;
+}
+
+/* Footer links styling */
+.footer-links {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    margin-top: 0.5rem;
+}
+
+.footer-links li {
+    margin: 0 10px;
+}
+
+#policy {
+    color: #fff;
+    text-decoration: none;
+}
+
+h1 {
+    margin-top: 2em;
+}
+
+/* Center buttons on the main page */
+.center-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70vh;
+}
+
+/* Button styling */
+.btn {
+    text-align: center;
+    font-size: large;
+    background: var(--blue-2);
+    color: #fff;
+    padding: 1rem 2rem;
+    margin: 0 1rem;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.1s ease, font-weight 0.1s;
+}
+.btn:hover {
+    background: var(--blue-3);
+    font-weight: bold;
+}
+
+.delbtn {
+    background: rgb(255, 99, 75);
+    color: #fff;
+    padding: 1rem 2rem;
+    margin: 0 1rem;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.1s ease, font-weight 0.1s;
+}
+.delbtn:hover {
+    background: rgb(205, 92, 74);
+    font-weight: 700;
+}
+
+/* Form container styling */
+.form-container {
+    background: #fafafa;
+    padding: 2rem;
+    margin: 2rem auto;
+    border-radius: 5px;
+    max-width: 400px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/*This is for centring buttons within forms*/
+form button {
+    background: var(--blue-2);
+    color: #fff;
+    padding: 1rem 2rem;
+    margin: 0 1rem;
+    position: relative;
+    left: 32%;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.form-container h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    margin: 0.5rem 0 0 0;
+    display: block;
+}
+
+.form-group input,
+.form-group select {
+    font-size: 12pt;
+    appearance: none;
+    background: white;
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.settings-container {
+    border: 1px solid black;
+    width: auto-fit;
+    margin: 10px;
+    padding: 10px;
+}
+
+.inner-settings-container {
+    border: 1px solid black;
+    width: auto-fit;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    padding: 10px;
+}
+
+#settings-btn {
+    display: block;
+    padding: 8px inherit;
+}
+.settings-info {
+    text-align: left;
+    color: rgb(66, 66, 66);
+}
+.bio-container {
+    border: 1px solid black;
+    width: auto-fit;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    padding: 10px;
+}
+
+.ind-goal-container {
+    border: 1px solid black;
+    width: auto-fit;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    padding: 10px;
+}
+
+.collapsible {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+}
+
+.active,
+.collapsible:hover {
+    background-color: #ccc;
+}
+
+.content {
+    padding: 0 18px;
+    display: block;
+    overflow: hidden;
+    background-color: #fafafa;
+}
+
+p {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.para-general {
+    text-align: left;
+}
+
+.content {
     padding: 0 18px;
     display: none;
     overflow: hidden;
     background-color: #f1f1f1;
-  }
+}
 
 p {
     text-align: center;
@@ -615,64 +610,64 @@ p {
 #goalProgress {
     width: 100%;
     background-color: grey;
-  }
-  
-  #progressBar {
+}
+
+#progressBar {
     width: 1%;
     height: 30px;
     background-color: green;
-  }
+}
 
-  #map {
+#map {
     margin-top: 38px;
     margin-left: -20px;
     height: 100%;
     width: 102%;
-  }
+}
 
-
-  .pressedVote {
+.pressedVote {
     background-color: darkgray;
-  }
+}
 
-  /*The description pop up box
+/*The description pop up box
   /* The popup form - hidden by default */
 .description-form {
-  display: none;
-  position: fixed;
-  bottom: 10px;
-  top: 30px;
-  right: 30px;
-  left: 30px;
-  z-index: 9;
+    display: none;
+    position: fixed;
+    bottom: 10px;
+    top: 30px;
+    right: 30px;
+    left: 30px;
+    z-index: 9;
 }
 
 .form-containerdesc {
-  max-width: 500px;
-  padding: 10px;
-  background-color: white;
+    max-width: 500px;
+    padding: 10px;
+    background-color: white;
 }
 
-.form-containerdesc input[type=text] {
-  width: 100%;
-  padding: 15px;
-  margin: 5px 0 22px 0;
-  border: none;
-  background: #f1f1f1;
+.form-containerdesc input[type="text"] {
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    border: none;
+    background: #f1f1f1;
 }
 
-.form-containerdesc input[type=text]:focus, .form-containerdesc input[type=password]:focus {
-  background-color: #ddd;
-  outline: none;
+.form-containerdesc input[type="text"]:focus,
+.form-containerdesc input[type="password"]:focus {
+    background-color: #ddd;
+    outline: none;
 }
 
 .form-containerdesc .btn {
-  background-color: #04AA6D;
-  color: white;
-  padding: 16px 20px;
-  border: none;
-  cursor: pointer;
-  width: 60%;
-  margin-bottom:10px;
-  opacity: 0.8;
+    background-color: #04aa6d;
+    color: white;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    width: 60%;
+    margin-bottom: 10px;
+    opacity: 0.8;
 }
