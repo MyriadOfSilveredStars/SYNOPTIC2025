@@ -69,7 +69,7 @@ app.get("/policy", (req, res) => {
     EJSrender(res, "pages/policy", "Policy");
 });
 
-app.get("/map", isAuthenticated, async (req, res) => {
+app.get("/map", async (req, res) => {
     //use the mongoose model to fetch all marker values from DB
     const markersModel = mongoose.model("Marker");
     let allMarkers = await markersModel.find();
@@ -89,6 +89,7 @@ app.get("/map", isAuthenticated, async (req, res) => {
             "https://maps.googleapis.com/maps/api/js?key=AIzaSyDx1nDqigjyOixfMY4kj485EaIkEi1VXX0&loading=async&callback=initMap",
         markers: JSON.stringify(flattenMarkers),
         isAdmin: isAdmin,
+        isLoggedIn: req.cookies.sessionToken ? true : false
     });
 });
 

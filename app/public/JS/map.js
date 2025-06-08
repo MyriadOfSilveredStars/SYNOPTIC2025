@@ -4,6 +4,11 @@ async function initMap() //called by google maps API once loaded
 	// Local array of markers (will have DB markers loaded initially, then any new markers pushed onto it if added)
 	var markersLocal = [];
 
+    // Hide new marker button if the user is not logged in with an account
+    if (!window.isLoggedIn) {
+        document.getElementById("newMarkerBtn").style.display = "none";
+    }
+
     //get libraries
     const { Map } = await google.maps.importLibrary("maps");
     const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
@@ -194,6 +199,17 @@ async function initMap() //called by google maps API once loaded
 
         markerDiv.classList.add("markerDiv");
         markerDiv.style.backgroundColor = "white";
+
+        // Hide voting buttons if the user is not logged in with an account
+        if (!window.isLoggedIn) {
+            markerDiv.innerHTML = 
+                `<p>${markerDataIn.markerType || "Other"}</p>
+		    <div class="voteButtons" style="display:none">
+                <p>${markerDataIn.description || "No description was provided"}</p>
+		    </div>`;
+            return markerDiv; // Skips adding vote buttons and their functionality
+        }
+
         markerDiv.innerHTML =
             `<p>${markerDataIn.markerType || "Other"}</p>
 		<div class="voteButtons" style="display:none">
