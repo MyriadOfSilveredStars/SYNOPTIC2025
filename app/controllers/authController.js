@@ -56,11 +56,7 @@ exports.verifyAccount = async (req, res) => {
 exports.resetPassword = async (req, res) => {
     const { uniqueCode, newPassword } = req.body;
     try {
-        const newHashedPassword = await security.hashPassword(newPassword);
-        const result = await userModel.resetPassword(
-            uniqueCode,
-            newHashedPassword
-        );
+        const result = await userModel.resetPassword(uniqueCode, newPassword);
         if (result.success) {
             res.status(200).send("Password Changed!");
         } else {
