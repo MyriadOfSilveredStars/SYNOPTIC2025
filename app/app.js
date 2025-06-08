@@ -53,6 +53,10 @@ app.get("/", (req, res) => {
     EJSrender(res, "pages/index", "Home");
 });
 
+app.get("/account", (req, res) => {
+    EJSrender(res, "pages/account", "Your Account");
+});
+
 app.get("/sign-up", (req, res) => {
     EJSrender(res, "pages/sign-up", "Sign Up");
 });
@@ -89,7 +93,7 @@ app.get("/map", async (req, res) => {
             "https://maps.googleapis.com/maps/api/js?key=AIzaSyDx1nDqigjyOixfMY4kj485EaIkEi1VXX0&loading=async&callback=initMap",
         markers: JSON.stringify(flattenMarkers),
         isAdmin: isAdmin,
-        isLoggedIn: req.cookies.sessionToken ? true : false
+        isLoggedIn: req.cookies.sessionToken ? true : false,
     });
 });
 

@@ -18,17 +18,17 @@ function clearAllCookiesAndReload() {
     location.reload();
 }
 
-function renderNav() {
-    if (getSessionToken()) {
-        
-        //Add signout event
-        document
-            .getElementById("signout-link")
-            .addEventListener("click", function (e) {
-                e.preventDefault();
-                clearAllCookiesAndReload();
-            });
-    }
-}
+signUpBtn = document.getElementById("sign-up-btn");
+logInBtn = document.getElementById("log-in-btn");
+logOutBtn = document.getElementById("log-out-btn");
 
-document.addEventListener("DOMContentLoaded", renderNav);
+if (getSessionToken()) {
+    signUpBtn.classList.add("hidden");
+    logInBtn.classList.add("hidden");
+    logOutBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        clearAllCookiesAndReload();
+    });
+} else {
+    logOutBtn.classList.add("hidden");
+}

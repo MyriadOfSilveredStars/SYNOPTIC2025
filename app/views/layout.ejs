@@ -11,7 +11,21 @@
     <header>
         <nav>
             <ul id="nav-list">
-                <!-- Dynamically loaded -->>
+                <li class="nav-item">
+                    <a href="/">
+                        <i class="fa-solid fa-home nav-icon"></i> Home
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/map">
+                        <i class="fa-solid fa-map nav-icon"></i> Map
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/account">
+                        <i class="fa-solid fa-user nav-icon"></i> Account
+                    </a>
+                </li>
             </ul>
         </nav>
     </header>
@@ -22,14 +36,6 @@
         <main class="main-content">
             <%- include(mainContent, {params: includeParams}) %>
         </main>
-
-        <footer>
-            <p>&copy; 2025 Group 38. All rights reserved.</p>
-            <ul class="footer-links">
-                <li><a href="/policy">Privacy Policy</a></li>
-                <li><a href="/policy">Terms of Service</a></li>
-            </ul>
-        </footer>
     </div>
     <script src="/JS/navbar.js"></script>
 </body>

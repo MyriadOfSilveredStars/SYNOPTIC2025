@@ -8,12 +8,6 @@ body {
     font-variation-settings: "wdth" 100;
 }
 
-.header-item-left {
-    color: white;
-    text-decoration: none;
-    padding-right: 16px;
-}
-
 div.gm-style {
     font-family: "Noto Sans", sans-serif;
 }
@@ -42,7 +36,7 @@ div.gm-style {
     border-radius: 15px;
     border: 2px solid black;
     opacity: 0.8;
-    
+
     /* start off hidden */
     display: none;
 }
@@ -67,7 +61,7 @@ div.gm-style {
     position: absolute;
     right: 10%;
     bottom: 10%;
-    background-color: #52918b;
+    background-color: green;
     color: white;
     border: none;
     border-radius: 100%;
@@ -134,20 +128,40 @@ body {
     padding: 1rem;
 }
 
-header nav ul {
+/* Header styling */
+header {
+    z-index: 1;
+    width: 100%;
+    color: #fff;
+}
+
+#nav-list {
+    padding: 1%;
     list-style: none;
     display: flex;
     justify-content: flex-end;
 }
-
-header nav ul li {
-    margin-left: 15px;
-    padding-right: 10px;
+.nav-item {
+    transition: background 0.1s;
+    border-radius: 4px;
+    padding: 4px 12px;
+    text-align: center;
 }
-
-header nav ul li a {
+.nav-item:hover {
+    background: #eeeeee34;
+}
+.nav-item a {
     color: #fff;
     text-decoration: none;
+    width: max-content;
+}
+
+/* Footer styling – positioned normally in document flow */
+footer {
+    background: var(--blue-5);
+    color: #000000;
+    padding: 1rem;
+    text-align: center;
 }
 
 /* Footer links styling */
@@ -165,40 +179,6 @@ header nav ul li a {
 .footer-links li a {
     color: #000000;
     text-decoration: none;
-}
-
-/* Header styling */
-header {
-    position: sticky;
-    top: 0;
-    z-index: 1;
-    width: 100%;
-    background: black;
-    color: #fff;
-    padding: 0.1rem;
-}
-
-.nav-item {
-    margin-left: 10px;
-    margin-right: 10px;
-}
-.nav-item a {
-    color: #fff;
-    text-decoration: none;
-    border-radius: 4px;
-    padding: 4px 12px;
-    transition: background 0.1s;
-}
-.nav-item:hover a {
-    background: #eeeeee34;
-}
-
-/* Footer styling – positioned normally in document flow */
-footer {
-    background: var(--blue-5);
-    color: #000000;
-    padding: 1rem;
-    text-align: center;
 }
 
 #policy {
@@ -388,6 +368,7 @@ p {
 .form-containerdesc {
     padding: 32px;
     /* border: solid red 4px; */
+    margin: 0;
     background-color: white;
     z-index: 4;
 }
@@ -400,8 +381,7 @@ p {
     background: #f1f1f1;
 }
 
-.form-containerdesc input[type="text"]:focus,
-.form-containerdesc input[type="password"]:focus {
+.form-containerdesc input[type="text"]:focus {
     background-color: #ddd;
     outline: none;
 }
@@ -437,4 +417,34 @@ p {
     flex-grow: 10;
     opacity: 0.8;
     width: max-content;
+}
+/* Wide browser/Tablets */
+@media only screen and (min-width: 601px) {
+    header {
+        background: red;
+        top: 0;
+        position: sticky;
+    }
+    .nav-icon {
+        font-size: smaller;
+    }
+}
+
+/* Mobile/Narrow browser windows */
+
+@media only screen and (max-width: 600px) {
+    header {
+        background: green;
+        bottom: 0;
+        position: absolute;
+    }
+    .nav-item {
+        flex-grow: 1;
+    }
+    .nav-icon {
+        display: block !important;
+    }
+    #newMarkerBtn {
+        bottom: 15%;
+    }
 }
