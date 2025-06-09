@@ -6,7 +6,6 @@ const crypto = require("crypto");
 // user collection in MongoDB
 const userSchema = new mongoose.Schema({
     id: { type: String, default: () => crypto.randomUUID() },
-    userName: String,
     email: { type: String, unique: true },
     password: String,
     verificationCode: String,
@@ -25,7 +24,7 @@ const ForgotPassword = mongoose.model("ForgotPassword", forgotPasswordSchema);
 
 // creates a new user and emails them a verification link
 exports.signUp = async (req, res) => {
-    const { userName, email, password } = req.body;
+    const { email, password } = req.body;
 
     try {
         //creates a random ID for each new user
@@ -41,7 +40,6 @@ exports.signUp = async (req, res) => {
         //create a new user using the mongoose schema
         const newMember = new User({
             id: hashedUUID, //Needs to be hashed before being stored in the database for finding accounts via cookies
-            userName: userName,
             email: email,
             password: hashedPassword,
             verificationCode: verificationCode,
@@ -68,36 +66,6 @@ exports.signUp = async (req, res) => {
         console.error("Error during sign-up: ", err);
         return res.status(400).send("Error Occurred!");
     }
-};
-
-exports.updateUserDetails = async (req, res) => {
-    const {
-        firstName,
-        lastName,
-        age,
-        gender,
-        email,
-        height,
-        weight,
-        precons,
-        profile,
-    } = req.body;
-    console.log(firstName);
-
-    await User.updateOne(
-        { id: "bc08d450-c6b4-4299-90ac-a8995254a09f" },
-        {
-            fName: firstName,
-            lName: lastName,
-            email: email,
-            bday: age,
-            gender: gender,
-            height: height,
-            weight: weight,
-            precons: precons,
-            userProfile: profile,
-        }
-    );
 };
 
 //finds a user by their email address
