@@ -8,11 +8,7 @@ function processSubmit(e) {
     const form = e.target;
 
     // Gather form values
-    const firstName = form.firstName.value.trim();
-    const lastName = form.lastName.value.trim();
     const email = form.email.value.trim();
-    const birthDate = form.birthDate.value;
-    const gender = form.gender.value;
     const password = form.password.value;
     const confirmPassword = form.confirmPassword.value;
 
@@ -23,14 +19,7 @@ function processSubmit(e) {
     }
 
     // Ensure all required fields are filled
-    if (
-        !firstName ||
-        !lastName ||
-        !email ||
-        !birthDate ||
-        !gender ||
-        !password
-    ) {
+    if (!email || !password) {
         alert("Please fill in all required fields.");
         return;
     }
@@ -40,11 +29,7 @@ function processSubmit(e) {
 
     // Build data object and serialize to JSON
     const data = {
-        firstName: firstName,
-        lastName: lastName,
         email: email,
-        birthDate: birthDate,
-        gender: gender,
         password: password,
     };
 
