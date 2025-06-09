@@ -20,6 +20,7 @@ div.gm-style {
 
 #main-content {
     position: relative;
+    overflow: hidden;
 }
 
 #net-status {
@@ -116,6 +117,8 @@ html,
 body {
     height: 100%;
     margin: 0;
+    padding: 0;
+    overflow: hidden;
 }
 
 /* Wrapper that holds all page sections */
