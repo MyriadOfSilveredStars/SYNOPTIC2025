@@ -18,6 +18,7 @@ function clearAllCookiesAndReload() {
     location.reload();
 }
 
+/*
 function renderNav() {
     if (getSessionToken()) {
         
@@ -32,3 +33,4 @@ function renderNav() {
 }
 
 document.addEventListener("DOMContentLoaded", renderNav);
+*/
