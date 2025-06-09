@@ -17,7 +17,7 @@ async function initMap() //called by google maps API once loaded
     //create map
     map = new Map(document.getElementById("map"), {
         center: { lat: -26.193554014913836, lng: 28.069132270603006 },
-        zoom: 12, // Initial zoom
+        zoom: 15, // Initial zoom
         minZoom: 10, // Min zoom
         maxZoom: 9999, // Max zoom
         streetViewControl: false,
