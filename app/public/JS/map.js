@@ -260,8 +260,8 @@ async function initMap() //called by google maps API once loaded
             downvoteButton.classList.add("pressedVote")
         }
         //add event listeners
-        upvoteButton.addEventListener('click', () => HandleVote(markerDataIn.id, 'upvote', markerDiv))
-        downvoteButton.addEventListener('click', () => HandleVote(markerDataIn.id, 'downvote', markerDiv))
+        upvoteButton.addEventListener('click', (e) => HandleVote(e, markerDataIn.id, 'upvote', markerDiv))
+        downvoteButton.addEventListener('click', (e) => HandleVote(e, markerDataIn.id, 'downvote', markerDiv))
 
 
         if (hasAdminOverButton(markerDataIn))
@@ -351,7 +351,8 @@ async function initMap() //called by google maps API once loaded
     }
 
     //sends the vote to the server
-    async function HandleVote(markerID, vote, markerDiv) {
+    async function HandleVote(e, markerID, vote, markerDiv) {
+        e.stopPropagation(); //prevents closing the div
         const userUUID = getSessionToken();
         console.log("voting?");
 
