@@ -70,7 +70,7 @@ function onLogInTextReady(result) {
     banner.style.cssText = result.success ? "color: green" : "color: red";
     setTimeout(() => {
             location.replace(result.success ? "/" : "/log-in"); // Redirect on success
-    }, 2000);//Wait 2 seconds before redirecting
+    }, 500);//Wait 0.5 seconds before redirecting
 }
 
 function processForgotPassword(e) {
