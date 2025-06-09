@@ -8,9 +8,10 @@ const { MongoClient } = require("mongodb");
 exports.isAuthenticated = async (req, res, next) => {
     const sessionToken = req.cookies.sessionToken;
 
-    if (!sessionToken) {
-        return res.redirect("/log-in");
-    }
+    // - Uncomment if not logged in users are not allowed to access the page
+    //if (!sessionToken) {
+    //    return res.redirect("/log-in");
+    //}
 
     try {
         //changing this to read from the database not the json file
@@ -24,9 +25,10 @@ exports.isAuthenticated = async (req, res, next) => {
         //Find the user by matching the session token to the hashed DB UUID field
         const user = await coll.findOne({ id: sessionToken });
 
-        if (!user) {
-            return res.redirect("/log-in");
-        }
+        // - Uncomment if not logged in users are not allowed to access the page
+        //if (!user) {
+        //    return res.redirect("/log-in");
+        //}
 
         //Attach user info to the request object
         req.user = user;

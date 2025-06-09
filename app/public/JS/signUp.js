@@ -8,8 +8,11 @@ function processSubmit(e) {
     const form = e.target;
 
     // Gather form values
-
+    const firstName = form.firstName.value.trim();
+    const lastName = form.lastName.value.trim();
     const email = form.email.value.trim();
+    const birthDate = form.birthDate.value;
+    const gender = form.gender.value;
     const password = form.password.value;
     const confirmPassword = form.confirmPassword.value;
 
@@ -20,7 +23,14 @@ function processSubmit(e) {
     }
 
     // Ensure all required fields are filled
-    if (!email || !password) {
+    if (
+        !firstName ||
+        !lastName ||
+        !email ||
+        !birthDate ||
+        !gender ||
+        !password
+    ) {
         alert("Please fill in all required fields.");
         return;
     }
@@ -30,8 +40,11 @@ function processSubmit(e) {
 
     // Build data object and serialize to JSON
     const data = {
+        firstName: firstName,
+        lastName: lastName,
         email: email,
-
+        birthDate: birthDate,
+        gender: gender,
         password: password,
     };
 
@@ -62,9 +75,7 @@ function onTextReady(result) {
     let banner = document.getElementById("title-banner");
     banner.innerText = result.text;
     banner.style.cssText = result.success ? "color: green" : "color: red";
-    if (result.text == "Error Occurred!") {
-        // To pause the sign up page from resetting and removing failed sign up alert so user can see it.
-        alert(result.text);
-    }
-    location.replace(result.success ? "/log-in" : "/"); // Redirect on success
+    setTimeout(() => {
+        location.replace(result.success ? "/log-in" : "/"); // Redirect on success
+    }, 2000);//Wait 2 seconds before redirecting
 }
