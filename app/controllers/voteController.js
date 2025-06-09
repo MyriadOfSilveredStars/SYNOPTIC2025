@@ -11,6 +11,9 @@ exports.upvote = async (req, res) => {
     jsonData.downvotes = 0;
     const markerID = req.body.markerID;
     const userID = req.body.userID;
+
+    const voteWeight = req.user && req.user.verifiedAccount ? 2 : 1;//Weight for verified users
+
     console.log(`${userID} attempting upvote on ${markerID}`);
     try {
         const marker = await Marker.findOne({ id: markerID });
@@ -24,21 +27,21 @@ exports.upvote = async (req, res) => {
             if (voteIndex != -1) {
                 console.log("user id in downvotes");
                 marker.downVoterList.splice(voteIndex, 1);
-                marker.downvotes -= 1;
+                marker.downvotes -= voteWeight;
                 console.log("removed downvote");
-                jsonData.downvotes = -1;
+                jsonData.downvotes = -voteWeight;
             }
             marker.upVoterList.push(userID);
-            marker.upvotes += 1;
+            marker.upvotes += voteWeight;
             console.log("added upvote");
-            jsonData.upvotes = 1;
+            jsonData.upvotes = voteWeight;
         } else {
             //if its in upvotes
             console.log("user id in upvotes");
             marker.upVoterList.splice(voteIndex, 1);
-            marker.upvotes -= 1;
+            marker.upvotes -= voteWeight;
             console.log("removed upvote");
-            jsonData.upvotes = -1;
+            jsonData.upvotes = -voteWeight;
         }
         const savedMarker = await marker.save();
         console.log("saved changes");
@@ -63,6 +66,9 @@ exports.downvote = async (req, res) => {
     jsonData.downvotes = 0;
     const markerID = req.body.markerID;
     const userID = req.body.userID;
+
+    const voteWeight = req.user && req.user.verifiedAccount ? 2 : 1;//Weight for verified users
+
     console.log(`${userID} attempting downvote on ${markerID}`);
     try {
         const marker = await Marker.findOne({ id: markerID });
@@ -76,21 +82,21 @@ exports.downvote = async (req, res) => {
             if (voteIndex != -1) {
                 console.log("user id in upvotes");
                 marker.upVoterList.splice(voteIndex, 1);
-                marker.upvotes -= 1;
+                marker.upvotes -= voteWeight;
                 console.log("removed upvote");
-                jsonData.upvotes = -1;
+                jsonData.upvotes = -voteWeight;
             }
             marker.downVoterList.push(userID);
-            marker.downvotes += 1;
+            marker.downvotes += voteWeight;
             console.log("added downvote");
-            jsonData.downvotes = 1;
+            jsonData.downvotes = voteWeight;
         } else {
             //if its in downvotes
             console.log("user id in downvotes");
             marker.downVoterList.splice(voteIndex, 1);
-            marker.downvotes -= 1;
+            marker.downvotes -= voteWeight;
             console.log("removed downvote");
-            jsonData.downvotes = -1;
+            jsonData.downvotes = -voteWeight;
         }
 
         try {

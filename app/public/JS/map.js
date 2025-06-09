@@ -3,6 +3,7 @@ async function initMap() //called by google maps API once loaded
 {
 	// Local array of markers (will have DB markers loaded initially, then any new markers pushed onto it if added)
 	var markersLocal = [];
+    var markerElements = [];
 
     // Hide new marker button if the user is not logged in with an account
     if (!window.isLoggedIn) {
@@ -25,10 +26,10 @@ async function initMap() //called by google maps API once loaded
     });
 
     //4 edges of allowed region
-    latN = -26.1837; //north latitude
-    latS = -26.2036; //south latitude
-    lngE = 28.0855;  //east longitude
-    lngW = 28.0588;  //west longitude
+    latN = -26.1; //north latitude
+    latS = -26.3; //south latitude
+    lngE = 28.2; //east longitude
+    lngW = 27.9; //west longitude
 
     //create black rectangles to cover non-allowed region
     RectangleIfy(0, 179, latN, -179); //N, NE, NW
@@ -77,6 +78,26 @@ async function initMap() //called by google maps API once loaded
             fillOpacity: 0.8,
             strokeOpacity: 0,
         });
+    }
+
+    function clearMarkers() {
+        markerElements.forEach(markerElement => {
+            if (markerElement.map) {
+                markerElement.map = null; // Remove the marker from the map
+            }
+        });
+        markerElements = []; // Clear the local array of markers
+        markersLocal = []; // Clear the local array of markers
+        console.log("Markers cleared.");
+    }
+
+    async function refreshMarkers() {
+        const response = await fetch("/api/markers");
+        const newMarkers = await response.json();
+        clearMarkers(); //Clear existing markers
+        markersLocal = newMarkers; //Update local markers array
+        placeMarkers(markersLocal); //Place new markers on the map
+        console.log("Markers refreshed.");
     }
 
     //check and if needed move map back to allowed region rectangle
@@ -186,6 +207,7 @@ async function initMap() //called by google maps API once loaded
             title: "Marker " + markerData.id,
         });
         markerData._markerElement = markerElement; // Store the reference
+        markerElements.push(markerElement); // Add to the local array of markers
         markerElement.addListener("gmp-click", () =>
             MarkerClicked(markerElement, markerData)
         );
@@ -198,7 +220,6 @@ async function initMap() //called by google maps API once loaded
         markerDiv = document.createElement("div");
 
         markerDiv.classList.add("markerDiv");
-        markerDiv.classList.add(markerDataIn.markerType.replaceAll(" ", "") || "Other");
         markerDiv.style.backgroundColor = "white";
 
         // Hide voting buttons if the user is not logged in with an account
@@ -347,11 +368,9 @@ async function initMap() //called by google maps API once loaded
 
     // Used to place the marker that this client has just added to the database, so that it can retrieve it's unique ID from that.
     function onReceiveNewPlacedMarker(newMarkerDataFromBackend) {
-        markersLocal.push(newMarkerDataFromBackend);
-        PlaceMarker(newMarkerDataFromBackend);
-        console.log("Marker placed successfully!");
+        refreshMarkers(); // Refresh markers to include the new one
+        console.log("New marker placed:", newMarkerDataFromBackend);
         document.getElementById("descForm").classList.add("hidden");
-        window.location.href = "/map";
     }
 
     //logic for toggling the button appearance

@@ -73,7 +73,7 @@ app.get("/policy", (req, res) => {
     EJSrender(res, "pages/policy", "Policy");
 });
 
-app.get("/map", async (req, res) => {
+app.get("/map", isAuthenticated ,async (req, res) => {
     //use the mongoose model to fetch all marker values from DB
     const markersModel = mongoose.model("Marker");
     let allMarkers = await markersModel.find();
@@ -85,6 +85,7 @@ app.get("/map", async (req, res) => {
 
     //Gets the users admin status
     const isAdmin = req.user && req.user.isAdmin ? true : false;
+    const isVerified = req.user && req.user.verifiedAccount ? true : false;
 
     //okay that gives us flattenMarkers as an array of all markers in the database
     //now to send that to the map
@@ -94,6 +95,7 @@ app.get("/map", async (req, res) => {
         markers: JSON.stringify(flattenMarkers),
         isAdmin: isAdmin,
         isLoggedIn: req.cookies.sessionToken ? true : false,
+        isVerified: isVerified,
     });
 });
 
@@ -110,6 +112,14 @@ app.delete("/map/:id", async (req, res) => {
     }
 });
 
+//API endpoint to get all markers (used by map for updating markers instead of page refresh)
+app.get("/api/markers", async (req, res) => {
+    const markersModel = mongoose.model("Marker");
+    let allMarkers = await markersModel.find();
+    const flattenMarkers = _(allMarkers).flatten().value();
+    res.status(200).json(flattenMarkers);
+});
+
 // Routing
 app.post("/sign-up", jsonParser, userModel.signUp);
 app.post("/forgot-password", jsonParser, userModel.forgotPassword);
@@ -117,8 +127,8 @@ app.post("/log-in", jsonParser, authController.logIn);
 app.get("/verifyAccount", jsonParser, authController.verifyAccount);
 app.post("/resetPassword", jsonParser, authController.resetPassword);
 app.post("/map", jsonParser, markerController.newMarker);
-app.post("/upvote", jsonParser, voteController.upvote);
-app.post("/downvote", jsonParser, voteController.downvote);
+app.post("/upvote", isAuthenticated, jsonParser, voteController.upvote);
+app.post("/downvote", isAuthenticated, jsonParser, voteController.downvote);
 
 // 404 Handler
 app.use((req, res) => {
