@@ -22,30 +22,24 @@ window.onload = () => {
     }, 500);
 };
 
-
 function ConnectionStatusSet(isConnected) {
-    div = document.getElementById("network-condition");
-    
+    good = document.getElementById("net-good");
+    bad = document.getElementById("net-bad");
+
     if (isConnected) {
         if (countdownMessageDismiss <= 0) {
-            div.style.display = "none";
-        }
-        else
-        {
+            good.style.opacity = 0;
+            bad.style.opacity = 0;
+        } else {
             countdownMessageDismiss--;
-            if (countdownMessageDismiss < 8)
-            {
-                div.style.display = "flex";
-                div.innerHTML = `<i class="fa-solid fa-check"></i> &nbsp Back Online`;
-                div.style.backgroundColor = "rgb(200, 252, 200)";
+            if (countdownMessageDismiss < 8) {
+                good.style.opacity = 1;
+                bad.style.opacity = 0;
             }
         }
-    }
-    else
-    {
+    } else {
         countdownMessageDismiss = 10;
-        div.style.display = "flex";
-        div.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> &nbsp No Connection`;
-        div.style.backgroundColor = "rgb(252, 203, 200)";
+        bad.style.opacity = 1;
+        good.style.opacity = 0;
     }
 }
