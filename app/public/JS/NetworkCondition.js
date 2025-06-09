@@ -23,23 +23,22 @@ window.onload = () => {
 };
 
 function ConnectionStatusSet(isConnected) {
-    good = document.getElementById("net-good");
-    bad = document.getElementById("net-bad");
-
+    header = document.querySelector('header');
+    statusEl = document.getElementById("net-status");
     if (isConnected) {
         if (countdownMessageDismiss <= 0) {
-            good.style.opacity = 0;
-            bad.style.opacity = 0;
+            statusEl.innerHTML = ``;
+            header.style.background = 'black';
         } else {
             countdownMessageDismiss--;
             if (countdownMessageDismiss < 8) {
-                good.style.opacity = 1;
-                bad.style.opacity = 0;
+                statusEl.innerHTML = `<i class="fi-xnsuxl-signal-solid"></i> CONNECTED`
+                header.style.background = 'green';
             }
         }
     } else {
         countdownMessageDismiss = 10;
-        bad.style.opacity = 1;
-        good.style.opacity = 0;
+        statusEl.innerHTML = `<i class="fi-xnpuxl-signal"></i> NOT CONNECTED`
+        header.style.background = 'red';
     }
 }

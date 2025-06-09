@@ -22,62 +22,9 @@ div.gm-style {
     position: relative;
 }
 
-.sf-indicator {
-
-    position: fixed;
-    margin: auto;
-    align-items: center;
-    justify-content: center;
-    left: 0;
-    right: 0;
-    top: 10%;
-    width: 200px;
-    height: 50px;
-    z-index: 99;
-    border-radius: 4px;
-    border: 2px solid black;
-    transition: 0.5s;
-    gap: 16px;
-    display: flex;
-    box-shadow: lightgrey 0px 0px 16px;
-
-    /* start off hidden */
-    opacity: 0;
-}
-
-.sf-indicator .status-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    position: relative;
-}
-#net-bad {
-    background-color: #fff1ea;
-}
-#net-good {
-    background-color: #fcfff9;
-}
-.sf-indicator .status-dot::before,
-.sf-indicator .status-dot::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 100%;
-    height: 100%;
-    background: inherit;
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    animation: sf-indicator-pulse 2s infinite linear;
-    opacity: 0.3;
-}
-
-.sf-indicator .status-dot::after {
-    animation-delay: 1s;
-}
-.sf-indicator .status-text {
-    font-weight:700;
-    font-size: larger;
+#net-status {
+    text-align: center;
+    font-weight:bolder
 }
 
 @keyframes sf-indicator-pulse {
@@ -189,6 +136,8 @@ header {
     z-index: 1;
     width: 100%;
     color: #fff;
+    background:black;
+    transition:1s;
 }
 
 #nav-list {
@@ -290,7 +239,7 @@ h1 {
     font-weight: 700;
 }
 
-/* Form container styling */
+/* Fore container styling */
 .form-container {
     background: #fafafa;
     padding: 2rem;
@@ -443,7 +392,7 @@ p {
 }
 
 .hidden {
-    display: none;
+    display: none !important;
 }
 
 .inactive {
@@ -474,10 +423,29 @@ p {
     opacity: 0.8;
     width: max-content;
 }
+
+#main-menu {
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+    justify-content: space-between;
+    text-align: center;
+}
+.menu-btn {
+    display: block;
+    flex-grow: 2;
+    background-color: rgb(0, 128, 255);
+    padding: 1rem 2rem;
+    margin: 0 1rem;
+    border-radius:4px;
+    text-decoration: none;
+    color:rgb(255, 255, 255);
+    font-weight: 400;
+}
+
 /* Wide browser/Tablets */
 @media only screen and (min-width: 601px) {
     header {
-        background: red;
         top: 0;
         position: sticky;
     }
@@ -490,7 +458,6 @@ p {
 
 @media only screen and (max-width: 600px) {
     header {
-        background: green;
         bottom: 0;
         position: absolute;
     }

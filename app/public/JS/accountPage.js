@@ -25,10 +25,13 @@ logOutBtn = document.getElementById("log-out-btn");
 if (getSessionToken()) {
     signUpBtn.classList.add("hidden");
     logInBtn.classList.add("hidden");
+    logOutBtn.classList.remove("hidden");
     logOutBtn.addEventListener("click", function (e) {
         e.preventDefault();
         clearAllCookiesAndReload();
     });
+    document.getElementById("debug-text").innerHTML=`logged in`;
 } else {
     logOutBtn.classList.add("hidden");
+    document.getElementById("debug-text").innerHTML=`not logged in`;
 }
