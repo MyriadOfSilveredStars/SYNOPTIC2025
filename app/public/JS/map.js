@@ -216,8 +216,9 @@ async function initMap() //called by google maps API once loaded
     //generate the html for marker
     function MakeMarkerContent(markerDataIn, markerDataRef)
     {
-        userUUID = getSessionToken();
-        markerDiv = document.createElement("div");
+        //these cannot be global! stop doing it!!
+        const userUUID = getSessionToken();
+        const markerDiv = document.createElement("div");
 
         markerDiv.classList.add("markerDiv");
         markerDiv.classList.add(markerDataIn.markerType.replaceAll(" ", "") || "Other");
