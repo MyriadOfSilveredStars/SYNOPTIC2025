@@ -25,10 +25,10 @@ async function initMap() //called by google maps API once loaded
     });
 
     //4 edges of allowed region
-    latN = -26.1; //north latitude
-    latS = -26.3; //south latitude
-    lngE = 28.2; //east longitude
-    lngW = 27.9; //west longitude
+    latN = -26.1837; //north latitude
+    latS = -26.2036; //south latitude
+    lngE = 28.0855;  //east longitude
+    lngW = 28.0588;  //west longitude
 
     //create black rectangles to cover non-allowed region
     RectangleIfy(0, 179, latN, -179); //N, NE, NW
