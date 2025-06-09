@@ -220,6 +220,7 @@ async function initMap() //called by google maps API once loaded
         markerDiv = document.createElement("div");
 
         markerDiv.classList.add("markerDiv");
+        markerDiv.classList.add(markerDataIn.markerType.replaceAll(" ", "") || "Other");
         markerDiv.style.backgroundColor = "white";
 
         // Hide voting buttons if the user is not logged in with an account
