@@ -375,7 +375,7 @@ async function initMap() //called by google maps API once loaded
 
     //logic for toggling the button appearance
     function modifyButton(button, vote) {
-        if (vote == 1) {
+        if (vote > 0) {
             button.classList.add("pressedVote");
 			console.log('voted!');
         } else {
