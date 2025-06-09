@@ -214,13 +214,13 @@ async function initMap() //called by google maps API once loaded
             `<p>${markerDataIn.markerType || "Other"}</p>
 		<div class="voteButtons" style="display:none">
 			<p>${markerDataIn.description || "No description was provided"}</p>
-			<button class="upvote-button"><i class="fa-solid fa-thumbs-up"></i></button>
+			<button class="upvoteButton"><i class="fa-solid fa-thumbs-up"></i></button>
 			<span class="totalVotes" id="number">${markerDataIn.upvotes - markerDataIn.downvotes}</span>
 			<button class="downvoteButton"><i class="fa-solid fa-thumbs-down"></i></button>
 		</div>`;
 
         //get buttons
-        const upvoteButton = markerDiv.querySelector('.upvote-button')
+        const upvoteButton = markerDiv.querySelector('.upvoteButton')
         const downvoteButton = markerDiv.querySelector('.downvoteButton')
         //check if pressed by user
         if (markerDataIn.upVoterList.includes(userUUID))
@@ -357,6 +357,7 @@ async function initMap() //called by google maps API once loaded
     function modifyButton(button, vote) {
         if (vote == 1) {
             button.classList.add("pressedVote");
+			console.log('voted!');
         } else {
             button.classList.remove("pressedVote");
         }
