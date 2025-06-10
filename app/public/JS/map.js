@@ -238,6 +238,11 @@ async function initMap() //called by google maps API once loaded
                         <p>${markerDataIn.description || "No description was provided"}</p>
                     </div>
 		        </div>`;
+
+            // stop propagation of scroll event to the map
+            const scrollableDescription = markerDiv.querySelector('.scrollableDescription');
+            scrollableDescription.addEventListener('wheel', (e) => {e.stopPropagation();});
+            
             return markerDiv; // Skips adding vote buttons and their functionality
         }
 
