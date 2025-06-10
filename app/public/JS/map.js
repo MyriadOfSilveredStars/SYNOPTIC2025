@@ -391,6 +391,7 @@ async function initMap() //called by google maps API once loaded
         refreshMarkers(); // Refresh markers to include the new one
         console.log("New marker placed:", newMarkerDataFromBackend);
         document.getElementById("descForm").classList.add("hidden");
+        document.getElementById("crosshair").classList.add("hidden");
     }
 
     //logic for toggling the button appearance
