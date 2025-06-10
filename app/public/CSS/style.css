@@ -124,6 +124,11 @@ div.gm-style {
     border-color: rgb(97, 48, 13);
     background-color:linen;
 }
+.markerDiv.power {
+    color:darkgoldenrod;
+    border-color:darkgoldenrod;
+    background-color: lightgoldenrodyellow;
+}
 .markerDiv.other {
     color:darkblue;
     border-color:darkblue;
