@@ -233,20 +233,24 @@ async function initMap() //called by google maps API once loaded
         if (!window.isLoggedIn) {
             markerDiv.innerHTML = 
                 `<p>${markerDataIn.markerType || "Other"}</p>
-		    <div class="voteButtons" style="display:none">
-                <p>${markerDataIn.description || "No description was provided"}</p>
-		    </div>`;
+		        <div class="voteButtons" style="display:none">
+                    <div class="scrollableDescription">
+                        <p>${markerDataIn.description || "No description was provided"}</p>
+                    </div>
+		        </div>`;
             return markerDiv; // Skips adding vote buttons and their functionality
         }
 
         markerDiv.innerHTML =
             `<p>${markerDataIn.markerType || "Other"}</p>
-		<div class="voteButtons" style="display:none">
-			<p>${markerDataIn.description || "No description was provided"}</p>
-			<button class="upvoteButton"><i class="fa-solid fa-thumbs-up"></i></button>
-			<span class="totalVotes" id="number">${markerDataIn.upvotes - markerDataIn.downvotes}</span>
-			<button class="downvoteButton"><i class="fa-solid fa-thumbs-down"></i></button>
-		</div>`;
+		        <div class="voteButtons" style="display:none">
+                    <div class="scrollableDescription">
+			            <p>${markerDataIn.description || "No description was provided"}</p>
+                    </div>
+			        <button class="upvoteButton"><i class="fa-solid fa-thumbs-up"></i></button>
+			        <span class="totalVotes" id="number">${markerDataIn.upvotes - markerDataIn.downvotes}</span>
+			        <button class="downvoteButton"><i class="fa-solid fa-thumbs-down"></i></button>
+		        </div>`;
 
         //get buttons
         const upvoteButton = markerDiv.querySelector('.upvoteButton')

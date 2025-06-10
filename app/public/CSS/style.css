@@ -363,6 +363,11 @@ p {
     background-color: darkgray;
 }
 
+.scrollableDescription {
+    max-height: 35px;
+    overflow-y: auto;
+}
+
 /*The description pop up box
   /* The popup form - hidden by default */
 #descForm {
