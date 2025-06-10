@@ -243,14 +243,14 @@ async function initMap() //called by google maps API once loaded
 
         markerDiv.innerHTML =
             `<p>${markerDataIn.markerType || "Other"}</p>
-		        <div class="voteButtons" style="display:none">
-                    <div class="scrollableDescription">
-			            <p>${markerDataIn.description || "No description was provided"}</p>
-                    </div>
-			        <button class="upvoteButton"><i class="fa-solid fa-thumbs-up"></i></button>
-			        <span class="totalVotes" id="number">${markerDataIn.upvotes - markerDataIn.downvotes}</span>
-			        <button class="downvoteButton"><i class="fa-solid fa-thumbs-down"></i></button>
-		        </div>`;
+		    <div class="voteButtons" style="display:none">
+                <div class="scrollableDescription">
+			        <p>${markerDataIn.description || "No description was provided"}</p>
+                </div>
+			    <button class="upvoteButton"><i class="fa-solid fa-thumbs-up"></i></button>
+			    <span class="totalVotes" id="number">${markerDataIn.upvotes - markerDataIn.downvotes}</span>
+			    <button class="downvoteButton"><i class="fa-solid fa-thumbs-down"></i></button>
+		    </div>`;
 
         //get buttons
         const upvoteButton = markerDiv.querySelector('.upvoteButton')
@@ -266,6 +266,10 @@ async function initMap() //called by google maps API once loaded
         //add event listeners
         upvoteButton.addEventListener('click', (e) => HandleVote(e, markerDataIn.id, 'upvote', markerDiv))
         downvoteButton.addEventListener('click', (e) => HandleVote(e, markerDataIn.id, 'downvote', markerDiv))
+        
+        // stop propagation of scroll event to the map
+        const scrollableDescription = markerDiv.querySelector('.scrollableDescription');
+        scrollableDescription.addEventListener('wheel', (e) => {e.stopPropagation();});
 
 
         if (hasAdminOverButton(markerDataIn))
