@@ -234,7 +234,7 @@ async function initMap() //called by google maps API once loaded
                 `<p>${markerDataIn.markerType || "Other"}</p>
 		        <div class="voteButtons" style="display:none">
                     <div class="scrollableDescription">
-                        <p>${markerDataIn.description || "No description was provided"}</p>
+                        ${markerDataIn.description || "No description was provided"}
                     </div>
 		        </div>`;
 
@@ -251,21 +251,21 @@ async function initMap() //called by google maps API once loaded
                 <div class="scrollableDescription">
 			        <p>${markerDataIn.description || "No description was provided"}</p>
                 </div>
-			    <button class="upvoteButton"><i class="fa-solid fa-thumbs-up"></i></button>
+			    <button class="upvote-btn"><i class="fa-solid fa-thumbs-up"></i></button>
 			    <span class="totalVotes" id="number">${markerDataIn.upvotes - markerDataIn.downvotes}</span>
-			    <button class="downvoteButton"><i class="fa-solid fa-thumbs-down"></i></button>
+			    <button class="downvote-btn"><i class="fa-solid fa-thumbs-down"></i></button>
 		    </div>`;
 
         //get buttons
-        const upvoteButton = markerDiv.querySelector('.upvoteButton')
-        const downvoteButton = markerDiv.querySelector('.downvoteButton')
+        const upvoteButton = markerDiv.querySelector('.upvote-btn')
+        const downvoteButton = markerDiv.querySelector('.downvote-btn')
         //check if pressed by user
         if (markerDataIn.upVoterList.includes(userUUID))
         {
-            upvoteButton.classList.add("pressedVote")
+            upvoteButton.classList.add("pressed")
         } else if (markerDataIn.downVoterList.includes(userUUID))
         {
-            downvoteButton.classList.add("pressedVote")
+            downvoteButton.classList.add("pressed")
         }
         //add event listeners
         upvoteButton.addEventListener('click', (e) => HandleVote(e, markerDataIn.id, 'upvote', markerDiv))
@@ -286,7 +286,7 @@ async function initMap() //called by google maps API once loaded
 
             //Added delete button
             const deleteButton = document.createElement("button");
-            deleteButton.innerHTML = `<i class="fa-solid fa-xmark"></i> Delete Marker`;
+            deleteButton.innerHTML = `<i class="fa-solid fa-trash"></i> Delete Marker`;
             deleteButton.disabled = hasAdminOverButton(markerDataIn) == false;
             deleteButton.onclick = () => deleteMarker(markerDataIn.id, markerDiv, markerDataRef._markerElement)
 
@@ -396,10 +396,10 @@ async function initMap() //called by google maps API once loaded
     //logic for toggling the button appearance
     function modifyButton(button, vote) {
         if (vote > 0) {
-            button.classList.add("pressedVote");
+            button.classList.add("pressed");
 			console.log('voted!');
         } else {
-            button.classList.remove("pressedVote");
+            button.classList.remove("pressed");
         }
     }
 
@@ -410,8 +410,8 @@ async function initMap() //called by google maps API once loaded
         );
         console.log(advancedMarkerElement);
         markerDiv = advancedMarkerElement;
-        const upvoteButton = markerDiv.querySelector(".upvoteButton");
-        const downvoteButton = markerDiv.querySelector(".downvoteButton");
+        const upvoteButton = markerDiv.querySelector(".upvote-btn");
+        const downvoteButton = markerDiv.querySelector(".downvote-btn");
         const numbers = markerDiv.querySelector(".totalVotes");
         numbers.innerHTML =
             parseInt(numbers.innerHTML) + voteData.upvotes - voteData.downvotes;

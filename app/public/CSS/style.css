@@ -122,16 +122,16 @@ div.gm-style {
 .markerDiv.waste {
     color: rgb(97, 48, 13);
     border-color: rgb(97, 48, 13);
-    background-color:linen;
+    background-color: linen;
 }
 .markerDiv.power {
-    color:darkgoldenrod;
-    border-color:darkgoldenrod;
+    color: darkgoldenrod;
+    border-color: darkgoldenrod;
     background-color: lightgoldenrodyellow;
 }
 .markerDiv.other {
-    color:darkblue;
-    border-color:darkblue;
+    color: darkblue;
+    border-color: darkblue;
     background-color: azure;
 }
 
@@ -169,7 +169,7 @@ header {
 }
 
 #nav-list {
-    padding: 1%;
+    padding: 8px;
     list-style: none;
     display: flex;
     justify-content: flex-end;
@@ -383,9 +383,20 @@ p {
 .para-general {
     text-align: left;
 }
-
-.pressedVote {
-    background-color: darkgray;
+.upvote-btn {
+    color: green;
+}
+.downvote-btn {
+    color: red;
+}
+.pressed.upvote-btn {
+    color: white;
+    background-color: green;
+}
+.pressed.downvote-btn {
+    color: white;
+    background-color: red;
+    border: initial;
 }
 
 .scrollableDescription {
@@ -470,18 +481,20 @@ p {
     background-color: rgb(0, 128, 255);
     padding-left: 1rem;
     padding-top: 1rem;
-    margin: 0 1rem;
+    font-size: large;
+    /* margin: 0 1rem; */
     border-radius: 4px;
     text-decoration: none;
     color: rgb(255, 255, 255);
     font-weight: 400;
 }
 .menu-icon {
-    font-size: large;
-    flex-grow: 1;
+    font-size: x-large;
+
+    width: 48px;
 }
 .menu-btn span {
-    flex-grow: 10;
+    /* padding:0.5rem; */
 }
 /* Wide browser/Tablets */
 @media only screen and (min-width: 601px) {
