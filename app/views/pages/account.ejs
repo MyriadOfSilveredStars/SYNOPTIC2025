@@ -1,7 +1,8 @@
 <script defer src="/JS/accountPage.js"></script>
 
-<div id="main-menu">
+<div id="main-menu">    
     <h1 id="email-header"><%- includeParams.userEmail %></h1>
+    <p>Verified Status: <%- includeParams.isVerified %></p>
     <a id="sign-up-btn" class="btn" href="/sign-up">
         <i class="fa-solid fa-user-plus menu-icon"></i>
         <span>Sign Up</p>

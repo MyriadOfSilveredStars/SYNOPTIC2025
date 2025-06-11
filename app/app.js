@@ -55,8 +55,10 @@ app.get("/", (req, res) => {
 
 app.get("/account", isAuthenticated, async (req, res) => {
     const email = req.user ? req.user.email : "Not signed in";
+    const isVerified = req.user && req.user.verifiedAccount ? true : false;
     EJSrender(res, "pages/account", "Your Account", { 
             userEmail: email,
+            isVerified: isVerified,
         });
 });
 
@@ -88,6 +90,8 @@ app.get("/map", isAuthenticated ,async (req, res) => {
 
     //Gets the users admin status
     const isAdmin = req.user && req.user.isAdmin ? true : false;
+
+    //Checks if the user is verified or not
     const isVerified = req.user && req.user.verifiedAccount ? true : false;
 
     //okay that gives us flattenMarkers as an array of all markers in the database

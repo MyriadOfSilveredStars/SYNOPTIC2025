@@ -51,13 +51,13 @@ exports.signUp = async (req, res) => {
             <a href="http://localhost:3000/verifyAccount?email=${email}&code=${verificationCode}">Verify Account</a>\n\n
             Your verification code is '${verificationCode}'
         `;
-        /*
+        
         await general.sendEmail({
             to: email,
             subject: 'Account Verification',
             htmlContent: emailMessage
         });
-*/
+        
         //save the new member to the database
         await newMember.save();
 
