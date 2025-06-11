@@ -1,25 +1,26 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const loginForm = document.getElementById("logInForm");
-    const forgotPasswordLink = document.getElementById("forgotPasswordLink");
-    const backToLoginLink = document.getElementById("backToLoginLink");
-    const forgotPasswordForm = document.getElementById("forgotPasswordForm");
+    const loginForm = document.getElementById("log-in-form");
+    const forgotPasswordLink = document.getElementById("forgot-link");
+    const backToLoginLink = document.getElementById("return-btn");
+    const forgotPasswordForm = document.getElementById("reset-form");
     const loginContainer = document.getElementById("login-container");
-    const forgotContainer = document.getElementById("forgotPassword-container");
+    const forgotContainer = document.getElementById("reset-container");
 
     loginForm.addEventListener("submit", processSubmit);
 
     //Toggle to forgot password form
     forgotPasswordLink.addEventListener("click", function (e) {
         e.preventDefault();
-        loginContainer.style.display = "none";
-        forgotContainer.style.display = "block";
+        loginContainer.classList.add("hidden");
+        forgotContainer.classList.remove("hidden");
+
     });
 
     //Toggle back to log in form
     backToLoginLink.addEventListener("click", function (e) {
         e.preventDefault();
-        forgotContainer.style.display = "none";
-        loginContainer.style.display = "block";
+        forgotContainer.classList.add("hidden");
+        loginContainer.classList.remove("hidden");
     });
 
     forgotPasswordForm.addEventListener("submit", processForgotPassword);

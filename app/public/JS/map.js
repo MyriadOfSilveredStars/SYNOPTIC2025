@@ -246,6 +246,13 @@ async function initMap() {
             scrollableDescription.addEventListener("wheel", (e) => {
                 e.stopPropagation();
             });
+            scrollableDescription.addEventListener("touchstart", (e) => {
+                e.stopPropagation();
+            });
+
+            scrollableDescription.addEventListener("touchmove", (e) => {
+                e.stopPropagation();
+            });
 
             return markerDiv; // Skips adding vote buttons and their functionality
         }

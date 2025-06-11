@@ -5,7 +5,7 @@ body {
     font-optical-sizing: auto;
     font-weight: 300;
     font-style: normal;
-    font-variation-settings: "wdth" 100;
+    /* font-variation-settings: "wdth" 100; */
 }
 
 div.gm-style {
@@ -15,10 +15,11 @@ div.gm-style {
 #map {
     display: flex;
     width: 100%;
-    height: 90%;
+    height: 100%;
 }
 
 #main-content {
+    min-height: 90%;
     position: relative;
     overflow: hidden;
 }
@@ -39,16 +40,16 @@ div.gm-style {
     }
 }
 .status-green {
-    background-color: #0bbf0b;
+    background-color: green;
 }
 .status-red {
-    background-color: #c51b1b;
+    background-color: red;
 }
 
 #crosshair {
-    position: absolute;
+    position: fixed;
     left: 50%;
-    top: 50%;
+    top: 40%;
     transform: translate(-50%, -50%);
     pointer-events: none;
     z-index: 2;
@@ -154,10 +155,6 @@ body {
 }
 
 /* Main content expands to fill available space */
-.main-content {
-    flex: 1;
-    padding: 1rem;
-}
 
 /* Header styling */
 header {
@@ -233,24 +230,6 @@ h1 {
 }
 
 /* Button styling */
-.btn {
-    font-size: large;
-    /* text-align: center;
-    background: var(--blue-2);
-    background-color: #cfcfcf;
-    color: #000000;
-    padding: 1rem 2rem;
-    margin: 0 1rem;
-    border: none;
-    border-radius: 5px;
-    text-decoration: none;
-    cursor: pointer;
-    transition: background 0.1s ease, font-weight 0.1s; */
-}
-.btn:hover {
-    background: var(--blue-3);
-    font-weight: bold;
-}
 
 .delbtn {
     background: rgb(255, 99, 75);
@@ -270,31 +249,41 @@ h1 {
 
 /* Fore container styling */
 .form-container {
-    background: #fafafa;
-    padding: 2rem;
-    margin: 2rem auto;
-    border-radius: 5px;
+    /* height: 100%; */
+    margin: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+
+    padding-bottom: 2rem;
+    /* margin: 2rem auto; */
+    border-radius: 8px;
     max-width: 400px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
 }
 
 /*This is for centring buttons within forms*/
+/* 
 form button {
-    background: var(--blue-2);
+    padding:1rem;
+    width:8rem;
+    display:flex;
+    justify-content: space-between;
+    background: green;
     color: #fff;
-    padding: 1rem 2rem;
-    margin: 0 1rem;
-    position: relative;
-    left: 32%;
+     padding: 1rem 2rem; 
+    font-size: medium;
     border: none;
     border-radius: 5px;
     text-decoration: none;
     cursor: pointer;
     transition: background 0.3s ease;
-}
+} */
 
 .form-container h2 {
-    text-align: center;
+    display: flex;
+
     margin-bottom: 1.5rem;
 }
 
@@ -492,8 +481,10 @@ p {
 
 #marker-form-buttons {
     display: flex;
-    left: 0;
-
+    /* left: 0; */
+    gap: 1rem;
+    text-align: center;
+    justify-content: center;
     align-content: flex-start;
 }
 
@@ -503,42 +494,63 @@ p {
     color: red;
     border: solid red 1px;
     background: none;
+    justify-content: center;
+    width:max-content;
+    padding:1rem;
 }
 #submit-marker-btn {
-    position: static;
-
-    background-color: #04aa6d;
+    padding:1rem;
+    justify-content: center;
+    background-color: green;
     color: white;
     cursor: pointer;
-    flex-grow: 10;
+    flex-grow: 12;
     opacity: 0.8;
     width: max-content;
 }
 
 #main-menu {
+    padding: 1rem;
     display: flex;
     flex-direction: column;
     gap: 10px;
     justify-content: space-between;
     text-align: left;
 }
-.menu-btn {
+.btn {
+    border: none;
     display: flex;
     flex-grow: 2;
     background-color: rgb(0, 128, 255);
     padding-left: 1rem;
     padding-top: 1rem;
     font-size: large;
+    max-width: 100%;
+
     /* margin: 0 1rem; */
     border-radius: 4px;
     text-decoration: none;
     color: rgb(255, 255, 255);
     font-weight: 400;
 }
-.menu-icon {
+button.btn {
+    padding: 0.8rem;
+    padding-left: 0;
+    width: 100%;
+}
+.btn i {
     font-size: x-large;
 
     width: 48px;
+}
+#return-btn {
+    display: block;
+    text-decoration: none;
+    color: grey;
+    height: max-content;
+}
+#return-btn:hover {
+    text-decoration: underline;
 }
 /* Wide browser/Tablets */
 @media only screen and (min-width: 601px) {
@@ -555,8 +567,17 @@ p {
 
 @media only screen and (max-width: 600px) {
     header {
+        display: flex;
+        height: 10%;
         bottom: 0;
         position: absolute;
+    }
+    nav {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        align-self: center;
+        align-content: center;
     }
     .nav-item {
         flex-grow: 1;
@@ -564,7 +585,14 @@ p {
     .nav-icon {
         display: block !important;
     }
+    #nav-list {
+        width: 100%;
+        align-items: center;
+    }
     #newMarkerBtn {
         bottom: 20%;
+    }
+    main {
+        height: 90%;
     }
 }

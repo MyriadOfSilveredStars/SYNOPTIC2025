@@ -1,12 +1,15 @@
 <div class="form-container" id="login-container">
-    <h2 id="title-banner">Log In</h2>
-    <form id="logInForm">
+    <h1 id="title-banner">Log In</h1>
+    <form id="log-in-form">
         <div class="form-group">
-            <label for="loginEmail">Email</label>
+            <label for="loginEmail"><i class="fa-solid fa-at"></i> Email</label>
             <input type="email" id="loginEmail" name="email" required />
         </div>
         <div class="form-group">
-            <label for="loginPassword">Password</label>
+            <label for="loginPassword">
+                <i class="fa-solid fa-key"></i> Password
+                <a href="#" id="forgot-link">forgot?</a>
+            </label>
             <input
                 type="password"
                 id="loginPassword"
@@ -14,25 +17,33 @@
                 required
             />
         </div>
-        <button type="submit" class="btn">Log In</button>
+        <button type="submit" class="btn">
+            <i class="fa-solid fa-arrow-right menu-icon"></i>
+            <span>Log In</span>
+        </button>
     </form>
-    <p>
-        <a href="#" id="forgotPasswordLink">Forgot Password?</a>
-    </p>
     <p>Don't have an account? <a href="sign-up">Sign Up</a></p>
 </div>
 
 <script src="/JS/logIn.js"></script>
-<div class="form-container" id="forgotPassword-container" style="display: none">
-    <h2 id="pass-title-banner">Forgot Password</h2>
-    <form id="forgotPasswordForm">
+<div class="form-container hidden" id="reset-container">
+    <h1 id="title-banner">Forgot Password</h1>
+    <form id="reset-form">
         <div class="form-group">
-            <label for="forgotEmail">Email</label>
+            <label for="forgotEmail">
+                <i class="fa-solid fa-at"></i> Email
+            </label>
+
             <input type="email" id="forgotEmail" name="email" required />
         </div>
-        <button type="submit" class="btn">Submit</button>
+        <button type="submit" class="btn">
+            <i class="fa-solid fa-arrow-right menu-icon"></i>
+            <span>Reset</span>
+        </button>
     </form>
     <p>
-        <a href="#" id="backToLoginLink">Back to Log In</a>
+        <a href="#" id="return-btn">
+            <i class="fa-solid fa-arrow-left"></i> Back
+        </a>
     </p>
 </div>

@@ -21,7 +21,7 @@ function clearAllCookiesAndReload() {
 signUpBtn = document.getElementById("sign-up-btn");
 logInBtn = document.getElementById("log-in-btn");
 logOutBtn = document.getElementById("log-out-btn");
-
+emailTitle = document.getElementById("email-header")
 if (getSessionToken()) {
     signUpBtn.classList.add("hidden");
     logInBtn.classList.add("hidden");
@@ -30,8 +30,8 @@ if (getSessionToken()) {
         e.preventDefault();
         clearAllCookiesAndReload();
     });
-    document.getElementById("debug-text").innerHTML=`logged in`;
+
+
 } else {
     logOutBtn.classList.add("hidden");
-    document.getElementById("debug-text").innerHTML=`not logged in`;
 }
