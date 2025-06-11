@@ -13,7 +13,6 @@ document.addEventListener("DOMContentLoaded", function () {
         e.preventDefault();
         loginContainer.classList.add("hidden");
         forgotContainer.classList.remove("hidden");
-
     });
 
     //Toggle back to log in form
@@ -66,12 +65,13 @@ function onLogInResponse(response) {
 
 function onLogInTextReady(result) {
     //Displays response message from server
-    let banner = document.getElementById("title-banner");
-    banner.innerText = result.text;
-    banner.style.cssText = result.success ? "color: green" : "color: red";
-    setTimeout(() => {
-            location.replace(result.success ? "/" : "/log-in"); // Redirect on success
-    }, 500);//Wait 0.5 seconds before redirecting
+    if (result.success) {
+        location.replace(result.success ? "/account" : "/log-in"); // Redirect on success
+    } else {
+        let banner = document.getElementById("title-banner");
+        banner.innerText = result.text;
+        banner.style.cssText = result.success ? "color: green" : "color: red";
+    }
 }
 
 function processForgotPassword(e) {
