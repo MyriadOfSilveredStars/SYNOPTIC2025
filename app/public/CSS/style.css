@@ -629,3 +629,8 @@ button.btn {
         height: 90%;
     }
 }
+
+
+#verifiedTick {
+    color: rgb(37, 184, 37);
+}
