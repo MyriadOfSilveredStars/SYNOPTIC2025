@@ -53,8 +53,11 @@ app.get("/", (req, res) => {
     EJSrender(res, "pages/index", "Home");
 });
 
-app.get("/account", (req, res) => {
-    EJSrender(res, "pages/account", "Your Account");
+app.get("/account", isAuthenticated, async (req, res) => {
+    const email = req.user ? req.user.email : null;
+    EJSrender(res, "pages/account", "Your Account", { 
+            userEmailAddress: email,
+        });
 });
 
 app.get("/sign-up", (req, res) => {
