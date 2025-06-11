@@ -92,7 +92,10 @@ div.gm-style {
     transition-duration: 0.1s;
 }
 
-.markerDiv {
+.marker-div {
+    display:flex;
+    justify-content: center;
+    align-items: center;
     z-index: 1;
     text-align: center;
     width: 50px;
@@ -102,35 +105,48 @@ div.gm-style {
     border-radius: 32px;
     transition: width 0.25s, height 0.25s, border-radius 0.25s;
 }
+.marker-icon {
+    font-size:x-large;
+    vertical-align: middle;
+}
 
-.markerDiv.expand {
+.marker-div.expand p {
+    margin: 0;
+}
+
+.marker-div.expand {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-rows: 50px 50px;
+    /* flex */
+    justify-content: space-between;
     z-index: 3;
     border-radius: 8px;
-    width: 300px;
+    width: 200px;
     height: 100px;
 }
 
-.markerDiv.danger {
+.marker-div.danger {
     color: rgb(213, 0, 0);
     border-color: rgb(213, 0, 0);
     background-color: rgb(255, 218, 206);
 }
-.markerDiv.crime {
+.marker-div.crime {
     color: rgb(204, 112, 0);
     border-color: darkorange;
     background-color: rgb(255, 239, 209);
 }
-.markerDiv.waste {
+.marker-div.waste {
     color: rgb(97, 48, 13);
     border-color: rgb(97, 48, 13);
     background-color: linen;
 }
-.markerDiv.power {
+.marker-div.power {
     color: darkgoldenrod;
     border-color: darkgoldenrod;
     background-color: lightgoldenrodyellow;
 }
-.markerDiv.other {
+.marker-div.other {
     color: darkblue;
     border-color: darkblue;
     background-color: azure;
@@ -217,8 +233,9 @@ footer {
     text-decoration: none;
 }
 
-h1 {
-    margin-top: 2em;
+#title-banner {
+    justify-self: start;
+    padding-left: 1rem;
 }
 
 /* Center buttons on the main page */
@@ -253,10 +270,10 @@ h1 {
     margin: 1rem;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: start;
     justify-content: space-between;
 
-    padding-bottom: 2rem;
+    padding: 2rem;
     /* margin: 2rem auto; */
     border-radius: 8px;
     max-width: 400px;
@@ -286,9 +303,12 @@ form button {
 
     margin-bottom: 1.5rem;
 }
-
+form {
+    width: 100%;
+}
 .form-group {
     margin-bottom: 1rem;
+    width: 100%;
 }
 
 .form-group label {
@@ -373,11 +393,15 @@ p {
 .para-general {
     text-align: left;
 }
-.marker-btns {
+.vote-btns {
+    justify-content: center;
+    align-items: center;
     display: flex;
-    justify-content: space-between;
-    /* justify-items: s; */
-    gap: 10px;
+    flex-direction: column;
+    grid-row-start: 1;
+    grid-row-end: 3;
+    grid-column-start: 3;
+    grid-column-end: 4;
 }
 
 .upvote-btn,
@@ -386,10 +410,11 @@ p {
     background-color: white;
     border: solid 1px white;
     box-shadow: #cfcfcf82 0 0 4px;
-    border-radius: 4px 4px 0 0;
-    transition: 1s;
-    transition: transform 0.2s;
+    border-radius: 4px;
+    /* transition: background-color 1s; */
+    transition: 0.2s;
     height: 32px;
+    width:32px;
     font-size: large;
 }
 .upvote-btn:active,
@@ -399,13 +424,11 @@ p {
 }
 .upvote-btn {
     /* padding-top: 4px; */
-    padding-bottom: 12px;
+
     color: green;
 }
 
 .downvote-btn {
-    /* padding-top: 4px; */
-    padding-bottom: 8px;
     color: red;
 }
 .pressed.upvote-btn,
@@ -425,18 +448,25 @@ p {
     box-shadow: #ff000082 0 0 4px;
 }
 .del-marker-btn {
-    justify-self: flex-end;
-    padding-bottom: 4px;
+    margin:9px;
+vertical-align: middle;
     font-size: small;
 }
 .total-votes {
     font-size: large;
-    padding-left: 2px;
-    padding-right: 2px;
+    padding: 2px;
 }
 .scroll-desc {
-    max-height: 35px;
+    margin: auto 4px;
+    max-height: 100px;
     overflow-y: auto;
+    grid-row-start: 1;
+    grid-row-end: 3;
+    grid-column-start: 2;
+    grid-column-end: 3;
+}
+.scroll-desc p {
+    margin: 0;
 }
 
 /*The description pop up box
@@ -495,11 +525,11 @@ p {
     border: solid red 1px;
     background: none;
     justify-content: center;
-    width:max-content;
-    padding:1rem;
+    width: max-content;
+    padding: 1rem;
 }
 #submit-marker-btn {
-    padding:1rem;
+    padding: 1rem;
     justify-content: center;
     background-color: green;
     color: white;

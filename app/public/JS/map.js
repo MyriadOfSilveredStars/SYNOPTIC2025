@@ -1,4 +1,3 @@
-//var markerDiv; // wtf is this doing? global scope causing me issues grrr
 async function initMap() {
     //called by google maps API once loaded
     // Local array of markers (will have DB markers loaded initially, then any new markers pushed onto it if added)
@@ -224,14 +223,34 @@ async function initMap() {
         const userUUID = getSessionToken();
         const markerDiv = document.createElement("div");
 
-        markerDiv.classList.add("markerDiv");
+        markerDiv.classList.add("marker-div");
         markerDiv.classList.add(
             markerDataIn.markerType.replaceAll(" ", "") || "Other"
         );
 
+        let iconName;
+        switch (markerDataIn.markerType) {
+            case "power":
+                iconName = "bolt";
+                break;
+            case "crime":
+                iconName = "user-ninja";
+                break;
+            case "danger":
+                iconName = "triangle-exclamation";
+                break;
+            case "waste":
+                iconName = "recycle";
+                break;
+            default:
+                markerDataIn.markerType = "other";
+                iconName = "question";
+                break;
+        }
         // Hide voting buttons if the user is not logged in with an account
         if (!window.isLoggedIn) {
-            markerDiv.innerHTML = `<p>${markerDataIn.markerType || "Other"}</p>
+            markerDiv.innerHTML = `
+                <i class="fa-solid fa-${iconName} marker-icon"></i>
                 <div class="scroll-desc hidden">
                         ${
                             markerDataIn.description ||
@@ -257,21 +276,20 @@ async function initMap() {
             return markerDiv; // Skips adding vote buttons and their functionality
         }
 
-        markerDiv.innerHTML = `<p>${markerDataIn.markerType || "Other"}</p>
+        markerDiv.innerHTML = `
+            <i class="fa-solid fa-${iconName} marker-icon"></i>
 		    <div class="scroll-desc hidden">
                 <p>${
                     markerDataIn.description || "No description was provided"
                 }</p>
             </div>
-            <div class="marker-btns hidden">
-            <div></div>
-                <div class="vote-btns">
-                    <button class="upvote-btn"><i class="fa-solid fa-check"></i></button>
-                    <span class="total-votes" id="number">
-                        ${markerDataIn.upvotes - markerDataIn.downvotes}
-                    </span>
-                    <button class="downvote-btn"><i class="fa-solid fa-xmark"></i></button>
-                </div>
+            <div class="vote-btns hidden">
+                <button class="upvote-btn"><i class="fa-solid fa-check"></i></button>
+                <span class="total-votes" id="number">
+                    ${markerDataIn.upvotes - markerDataIn.downvotes}
+                </span>
+                <button class="downvote-btn"><i class="fa-solid fa-xmark"></i></button>
+
             </div>`;
 
         //get buttons
@@ -301,7 +319,7 @@ async function initMap() {
         if (hasAdminOverButton(markerDataIn)) {
             //Added delete button
             const deleteButton = document.createElement("button");
-            deleteButton.classList.add("del-marker-btn");
+            deleteButton.classList.add("del-marker-btn", "hidden");
             deleteButton.innerHTML = `<i class="fa-solid fa-trash"></i>`;
             deleteButton.disabled = hasAdminOverButton(markerDataIn) == false;
             deleteButton.onclick = () =>
@@ -311,11 +329,12 @@ async function initMap() {
                     markerDataRef._markerElement
                 );
 
-            markerButtons.appendChild(deleteButton);
-        } else {
-            const blankDiv = document.createElement("div");
-            markerButtons.appendChild(blankDiv);
+            markerDiv.appendChild(deleteButton);
         }
+        // else {
+        //     const blankDiv = document.createElement("div");
+        //     markerDiv.appendChild(blankDiv);
+        // }
         return markerDiv;
     }
 
@@ -354,19 +373,22 @@ async function initMap() {
     //called by event listener, takes the marker element
     function MarkerClicked(markerElementIn, MarkerDataIn) {
         console.log("Marker clicked: ", MarkerDataIn.id);
-        const markerButtons =
-            markerElementIn.content.querySelector(".marker-btns");
+        const voteButtons = markerElementIn.content.querySelector(".vote-btns");
+        const delButton =
+            markerElementIn.content.querySelector(".del-marker-btn");
         const desc = markerElementIn.content.querySelector(".scroll-desc");
         if (markerElementIn.content.classList.contains("expand")) {
             markerElementIn.content.classList.remove("expand");
             markerElementIn.zIndex = 0;
             desc.classList.add("hidden");
-            markerButtons.classList.add("hidden");
+            voteButtons.classList.add("hidden");
+            delButton.classList.add("hidden");
         } else {
             markerElementIn.content.classList.add("expand");
             markerElementIn.zIndex = 999; //front
             desc.classList.remove("hidden");
-            markerButtons.classList.remove("hidden");
+            voteButtons.classList.remove("hidden");
+            delButton.classList.remove("hidden");
         }
     }
 

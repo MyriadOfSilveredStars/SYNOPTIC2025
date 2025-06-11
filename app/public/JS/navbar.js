@@ -18,19 +18,13 @@ function clearAllCookiesAndReload() {
     location.reload();
 }
 
-/*
 function renderNav() {
     if (getSessionToken()) {
-        
         //Add signout event
-        document
-            .getElementById("signout-link")
-            .addEventListener("click", function (e) {
-                e.preventDefault();
-                clearAllCookiesAndReload();
-            });
+        document.querySelector("#nav-account i").classList.add("fa-user-check");
+    } else {
+        document.querySelector("#nav-account i").classList.add("fa-user-xmark");
     }
 }
 
 document.addEventListener("DOMContentLoaded", renderNav);
-*/

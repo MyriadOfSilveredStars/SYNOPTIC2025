@@ -54,9 +54,9 @@ app.get("/", (req, res) => {
 });
 
 app.get("/account", isAuthenticated, async (req, res) => {
-    const email = req.user ? req.user.email : null;
+    const email = req.user ? req.user.email : "Not signed in";
     EJSrender(res, "pages/account", "Your Account", { 
-            userEmailAddress: email,
+            userEmail: email,
         });
 });
 
