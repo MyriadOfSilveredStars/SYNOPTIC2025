@@ -264,15 +264,13 @@ async function initMap() {
                 `;
 
             // stop propagation of scroll event to the map
-            const scrollableDescription =
-                markerDiv.querySelector(".scroll-desc");
+            const scrollableDescription = markerDiv.querySelector(".scroll-desc");
             scrollableDescription.addEventListener("wheel", (e) => {
                 e.stopPropagation();
             });
             scrollableDescription.addEventListener("touchstart", (e) => {
                 e.stopPropagation();
             });
-
             scrollableDescription.addEventListener("touchmove", (e) => {
                 e.stopPropagation();
             });
@@ -316,6 +314,12 @@ async function initMap() {
         // stop propagation of scroll event to the map
         const scrollableDescription = markerDiv.querySelector(".scroll-desc");
         scrollableDescription.addEventListener("wheel", (e) => {
+            e.stopPropagation();
+        });
+        scrollableDescription.addEventListener("touchstart", (e) => {
+            e.stopPropagation();
+        });
+        scrollableDescription.addEventListener("touchmove", (e) => {
             e.stopPropagation();
         });
 
