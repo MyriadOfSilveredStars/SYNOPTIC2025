@@ -32,13 +32,13 @@ function ConnectionStatusSet(isConnected) {
         } else {
             countdownMessageDismiss--;
             if (countdownMessageDismiss < 8) {
-                statusEl.innerHTML = `<i class="fi-xnsuxl-signal-solid"></i> CONNECTED`
+                statusEl.innerHTML = `CONNECTED`
                 header.style.background = 'green';
             }
         }
     } else {
         countdownMessageDismiss = 10;
-        statusEl.innerHTML = `<i class="fi-xnpuxl-signal"></i> NOT CONNECTED`
+        statusEl.innerHTML = `NOT CONNECTED`
         header.style.background = 'red';
     }
 }

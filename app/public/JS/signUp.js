@@ -62,5 +62,5 @@ function onTextReady(result) {
     banner.style.cssText = result.success ? "color: green" : "color: red";
     setTimeout(() => {
         location.replace(result.success ? "/log-in" : "/"); // Redirect on success
-    }, 500);//Wait 0.5 seconds before redirecting
+    }, 1000);//Wait before redirecting
 }
