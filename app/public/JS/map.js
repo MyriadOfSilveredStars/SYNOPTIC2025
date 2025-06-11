@@ -70,6 +70,12 @@ async function initMap() {
     google.maps.event.addListener(map, "drag", MoveMapToAllowedRegion); //drag map
     google.maps.event.addListener(map, "zoom_changed", MoveMapToAllowedRegion); //zoom map
 
+    setInterval(() => //periodically check if map is in allowed region
+    {
+        MoveMapToAllowedRegion();
+    }, 2000);
+
+
     //finally place markers stored in DB
     placeMarkers(loadMarkers());
 
