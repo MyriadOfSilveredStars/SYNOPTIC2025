@@ -169,6 +169,7 @@ header {
 }
 
 #nav-list {
+    margin: 0;
     padding: 8px;
     list-style: none;
     display: flex;
@@ -233,8 +234,8 @@ h1 {
 
 /* Button styling */
 .btn {
-    text-align: center;
     font-size: large;
+    /* text-align: center;
     background: var(--blue-2);
     background-color: #cfcfcf;
     color: #000000;
@@ -244,7 +245,7 @@ h1 {
     border-radius: 5px;
     text-decoration: none;
     cursor: pointer;
-    transition: background 0.1s ease, font-weight 0.1s;
+    transition: background 0.1s ease, font-weight 0.1s; */
 }
 .btn:hover {
     background: var(--blue-3);
@@ -383,30 +384,75 @@ p {
 .para-general {
     text-align: left;
 }
-.upvote-btn {
-    color: green;
-}
-.downvote-btn {
-    color: red;
-}
-.pressed.upvote-btn {
-    color: white;
-    background-color: green;
-}
-.pressed.downvote-btn {
-    color: white;
-    background-color: red;
-    border: initial;
+.marker-btns {
+    display: flex;
+    justify-content: space-between;
+    /* justify-items: s; */
+    gap: 10px;
 }
 
-.scrollableDescription {
+.upvote-btn,
+.downvote-btn,
+.del-marker-btn {
+    background-color: white;
+    border: solid 1px white;
+    box-shadow: #cfcfcf82 0 0 4px;
+    border-radius: 4px 4px 0 0;
+    transition: 1s;
+    transition: transform 0.2s;
+    height: 32px;
+    font-size: large;
+}
+.upvote-btn:active,
+.downvote-btn:active,
+.del-marker-btn:active {
+    transform: translateY(2px);
+}
+.upvote-btn {
+    /* padding-top: 4px; */
+    padding-bottom: 12px;
+    color: green;
+}
+
+.downvote-btn {
+    /* padding-top: 4px; */
+    padding-bottom: 8px;
+    color: red;
+}
+.pressed.upvote-btn,
+.pressed.downvote-btn {
+    color: white;
+}
+
+.pressed.upvote-btn {
+    background-color: green;
+    border: solid 1px green;
+
+    box-shadow: #00800082 0 0 4px;
+}
+.pressed.downvote-btn {
+    background-color: red;
+    border: solid 1px red;
+    box-shadow: #ff000082 0 0 4px;
+}
+.del-marker-btn {
+    justify-self: flex-end;
+    padding-bottom: 4px;
+    font-size: small;
+}
+.total-votes {
+    font-size: large;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+.scroll-desc {
     max-height: 35px;
     overflow-y: auto;
 }
 
 /*The description pop up box
   /* The popup form - hidden by default */
-#descForm {
+#marker-form-div {
     position: fixed;
     left: 0;
     bottom: 0;
@@ -414,7 +460,7 @@ p {
     width: 100%;
 }
 
-.form-containerdesc {
+.marker-form {
     padding: 32px;
     /* border: solid red 4px; */
     margin: 0;
@@ -422,15 +468,16 @@ p {
     z-index: 4;
 }
 
-.form-containerdesc input[type="text"] {
+#description {
     width: 100%;
     padding: 15px;
     margin: 5px 0 22px 0;
     border: none;
     background: #f1f1f1;
+    border-radius: 4px;
 }
 
-.form-containerdesc input[type="text"]:focus {
+#description:focus {
     background-color: #ddd;
     outline: none;
 }
@@ -492,9 +539,6 @@ p {
     font-size: x-large;
 
     width: 48px;
-}
-.menu-btn span {
-    /* padding:0.5rem; */
 }
 /* Wide browser/Tablets */
 @media only screen and (min-width: 601px) {

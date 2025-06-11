@@ -1,13 +1,13 @@
 //var markerDiv; // wtf is this doing? global scope causing me issues grrr
-async function initMap() //called by google maps API once loaded
-{
-	// Local array of markers (will have DB markers loaded initially, then any new markers pushed onto it if added)
-	var markersLocal = [];
+async function initMap() {
+    //called by google maps API once loaded
+    // Local array of markers (will have DB markers loaded initially, then any new markers pushed onto it if added)
+    var markersLocal = [];
     var markerElements = [];
 
     // Hide new marker button if the user is not logged in with an account
     if (!window.isLoggedIn) {
-        document.getElementById("newMarkerBtn").style.display = "none";
+        document.getElementById("newMarkerBtn").remove();
     }
 
     //get libraries
@@ -28,8 +28,8 @@ async function initMap() //called by google maps API once loaded
     //4 edges of allowed region
     latN = -26.1837; //north latitude
     latS = -26.2036; //south latitude
-    lngE = 28.0855;  //east longitude
-    lngW = 28.0588;  //west longitude
+    lngE = 28.0855; //east longitude
+    lngW = 28.0588; //west longitude
 
     //create black rectangles to cover non-allowed region
     RectangleIfy(0, 179, latN, -179); //N, NE, NW
@@ -81,7 +81,7 @@ async function initMap() //called by google maps API once loaded
     }
 
     function clearMarkers() {
-        markerElements.forEach(markerElement => {
+        markerElements.forEach((markerElement) => {
             if (markerElement.map) {
                 markerElement.map = null; // Remove the marker from the map
             }
@@ -146,7 +146,7 @@ async function initMap() //called by google maps API once loaded
         // Obtain current values of category and description for the new marker
         var category = document.getElementById("category").value;
         var description = document.getElementById("description").value;
-        
+
         // Reset category and description fields to default for next marker to be placed
         document.getElementById("category").value = "";
         document.getElementById("description").value = "";
@@ -180,7 +180,7 @@ async function initMap() //called by google maps API once loaded
     //called by clicking in rectangle
     function PlaceNewMarker(e) {
         document.getElementById("crosshair").classList.remove("hidden");
-        document.getElementById("descForm").classList.remove("hidden");
+        document.getElementById("marker-form-div").classList.remove("hidden");
     }
 
     //for each existing marker place it
@@ -219,86 +219,102 @@ async function initMap() //called by google maps API once loaded
     }
 
     //generate the html for marker
-    function MakeMarkerContent(markerDataIn, markerDataRef)
-    {
+    function MakeMarkerContent(markerDataIn, markerDataRef) {
         //these cannot be global! stop doing it!!
         const userUUID = getSessionToken();
         const markerDiv = document.createElement("div");
 
         markerDiv.classList.add("markerDiv");
-        markerDiv.classList.add(markerDataIn.markerType.replaceAll(" ", "") || "Other");
+        markerDiv.classList.add(
+            markerDataIn.markerType.replaceAll(" ", "") || "Other"
+        );
 
         // Hide voting buttons if the user is not logged in with an account
         if (!window.isLoggedIn) {
-            markerDiv.innerHTML = 
-                `<p>${markerDataIn.markerType || "Other"}</p>
-		        <div class="voteButtons" style="display:none">
-                    <div class="scrollableDescription">
-                        ${markerDataIn.description || "No description was provided"}
-                    </div>
-		        </div>`;
+            markerDiv.innerHTML = `<p>${markerDataIn.markerType || "Other"}</p>
+                <div class="scroll-desc hidden">
+                        ${
+                            markerDataIn.description ||
+                            "No description was provided"
+                        }
+                </div>
+                `;
 
             // stop propagation of scroll event to the map
-            const scrollableDescription = markerDiv.querySelector('.scrollableDescription');
-            scrollableDescription.addEventListener('wheel', (e) => {e.stopPropagation();});
-            
+            const scrollableDescription =
+                markerDiv.querySelector(".scroll-desc");
+            scrollableDescription.addEventListener("wheel", (e) => {
+                e.stopPropagation();
+            });
+
             return markerDiv; // Skips adding vote buttons and their functionality
         }
 
-        markerDiv.innerHTML =
-            `<p>${markerDataIn.markerType || "Other"}</p>
-		    <div class="voteButtons" style="display:none">
-                <div class="scrollableDescription">
-			        <p>${markerDataIn.description || "No description was provided"}</p>
+        markerDiv.innerHTML = `<p>${markerDataIn.markerType || "Other"}</p>
+		    <div class="scroll-desc hidden">
+                <p>${
+                    markerDataIn.description || "No description was provided"
+                }</p>
+            </div>
+            <div class="marker-btns hidden">
+            <div></div>
+                <div class="vote-btns">
+                    <button class="upvote-btn"><i class="fa-solid fa-check"></i></button>
+                    <span class="total-votes" id="number">
+                        ${markerDataIn.upvotes - markerDataIn.downvotes}
+                    </span>
+                    <button class="downvote-btn"><i class="fa-solid fa-xmark"></i></button>
                 </div>
-			    <button class="upvote-btn"><i class="fa-solid fa-thumbs-up"></i></button>
-			    <span class="totalVotes" id="number">${markerDataIn.upvotes - markerDataIn.downvotes}</span>
-			    <button class="downvote-btn"><i class="fa-solid fa-thumbs-down"></i></button>
-		    </div>`;
+            </div>`;
 
         //get buttons
-        const upvoteButton = markerDiv.querySelector('.upvote-btn')
-        const downvoteButton = markerDiv.querySelector('.downvote-btn')
+        const upvoteButton = markerDiv.querySelector(".upvote-btn");
+        const downvoteButton = markerDiv.querySelector(".downvote-btn");
         //check if pressed by user
-        if (markerDataIn.upVoterList.includes(userUUID))
-        {
-            upvoteButton.classList.add("pressed")
-        } else if (markerDataIn.downVoterList.includes(userUUID))
-        {
-            downvoteButton.classList.add("pressed")
+        if (markerDataIn.upVoterList.includes(userUUID)) {
+            upvoteButton.classList.add("pressed");
+        } else if (markerDataIn.downVoterList.includes(userUUID)) {
+            downvoteButton.classList.add("pressed");
         }
         //add event listeners
-        upvoteButton.addEventListener('click', (e) => HandleVote(e, markerDataIn.id, 'upvote', markerDiv))
-        downvoteButton.addEventListener('click', (e) => HandleVote(e, markerDataIn.id, 'downvote', markerDiv))
-        
+        upvoteButton.addEventListener("click", (e) =>
+            HandleVote(e, markerDataIn.id, "upvote", markerDiv)
+        );
+        downvoteButton.addEventListener("click", (e) =>
+            HandleVote(e, markerDataIn.id, "downvote", markerDiv)
+        );
+
         // stop propagation of scroll event to the map
-        const scrollableDescription = markerDiv.querySelector('.scrollableDescription');
-        scrollableDescription.addEventListener('wheel', (e) => {e.stopPropagation();});
+        const scrollableDescription = markerDiv.querySelector(".scroll-desc");
+        scrollableDescription.addEventListener("wheel", (e) => {
+            e.stopPropagation();
+        });
 
-
-        if (hasAdminOverButton(markerDataIn))
-        {
-            const voteButtonsDiv = markerDiv.querySelector('.voteButtons');
-
-            //add br
-            // const brElement = document.createElement("br");
-            // voteButtonsDiv.appendChild(brElement);
-
+        const markerButtons = markerDiv.querySelector(".marker-btns");
+        if (hasAdminOverButton(markerDataIn)) {
             //Added delete button
             const deleteButton = document.createElement("button");
-            deleteButton.innerHTML = `<i class="fa-solid fa-trash"></i> Delete Marker`;
+            deleteButton.classList.add("del-marker-btn");
+            deleteButton.innerHTML = `<i class="fa-solid fa-trash"></i>`;
             deleteButton.disabled = hasAdminOverButton(markerDataIn) == false;
-            deleteButton.onclick = () => deleteMarker(markerDataIn.id, markerDiv, markerDataRef._markerElement)
+            deleteButton.onclick = () =>
+                deleteMarker(
+                    markerDataIn.id,
+                    markerDiv,
+                    markerDataRef._markerElement
+                );
 
-            voteButtonsDiv.appendChild(deleteButton);
+            markerButtons.appendChild(deleteButton);
+        } else {
+            const blankDiv = document.createElement("div");
+            markerButtons.appendChild(blankDiv);
         }
         return markerDiv;
     }
 
-    function hasAdminOverButton(markerDataIn)
-    {
+    function hasAdminOverButton(markerDataIn) {
         const userUUID = getSessionToken();
-        return ((userUUID && markerDataIn.creator === userUUID) || isAdmin);
+        return (userUUID && markerDataIn.creator === userUUID) || isAdmin;
     }
 
     function deleteMarker(markerId, markerDiv, markerElement) {
@@ -320,9 +336,9 @@ async function initMap() //called by google maps API once loaded
                     if (markerElement) {
                         markerElement.map = null; // Remove the marker from the map
                     }
-                    console.log("Marker deleted successfully!");
+                    console.log("Marker deleted");
                 } else {
-                    console.error("Failed to delete marker.");
+                    console.error("Failed to delete marker");
                 }
             })
             .catch((error) => console.error("Error deleting marker:", error));
@@ -331,31 +347,35 @@ async function initMap() //called by google maps API once loaded
     //called by event listener, takes the marker element
     function MarkerClicked(markerElementIn, MarkerDataIn) {
         console.log("Marker clicked: ", MarkerDataIn.id);
-        const voteButtons =
-            markerElementIn.content.querySelector(".voteButtons");
+        const markerButtons =
+            markerElementIn.content.querySelector(".marker-btns");
+        const desc = markerElementIn.content.querySelector(".scroll-desc");
         if (markerElementIn.content.classList.contains("expand")) {
             markerElementIn.content.classList.remove("expand");
             markerElementIn.zIndex = 0;
-            voteButtons.style.display = "none";
+            desc.classList.add("hidden");
+            markerButtons.classList.add("hidden");
         } else {
             markerElementIn.content.classList.add("expand");
             markerElementIn.zIndex = 999; //front
-            voteButtons.style.display = "inline";
+            desc.classList.remove("hidden");
+            markerButtons.classList.remove("hidden");
         }
     }
 
     // When the make new marker button is pressed, the PlaceNewMarker function above is called.
     const newMarkerBtn = document.getElementById("newMarkerBtn");
     newMarkerBtn.addEventListener("click", PlaceNewMarker, false);
-    descForm.addEventListener("submit", giveDescription);
+    const markerForm = document.getElementById("marker-form-div");
+    markerForm.addEventListener("submit", giveDescription);
     const cancelMarker = document.getElementById("cancel-marker-btn");
     cancelMarker.addEventListener("click", () => {
-        document.getElementById("descForm").classList.add("hidden");
+        console.log("cancelling");
+        document.getElementById("marker-form-div").classList.add("hidden");
         document.getElementById("crosshair").classList.add("hidden");
-        
-    })
+        console.log("cancelled");
+    });
     //TODO: add on click cancel button hiding the form and crosshair again
-
 
     function onResponse(response) {
         //Return the JSON data
@@ -390,7 +410,7 @@ async function initMap() //called by google maps API once loaded
     function onReceiveNewPlacedMarker(newMarkerDataFromBackend) {
         refreshMarkers(); // Refresh markers to include the new one
         console.log("New marker placed:", newMarkerDataFromBackend);
-        document.getElementById("descForm").classList.add("hidden");
+        document.getElementById("marker-form-div").classList.add("hidden");
         document.getElementById("crosshair").classList.add("hidden");
     }
 
@@ -398,7 +418,7 @@ async function initMap() //called by google maps API once loaded
     function modifyButton(button, vote) {
         if (vote > 0) {
             button.classList.add("pressed");
-			console.log('voted!');
+            console.log("voted!");
         } else {
             button.classList.remove("pressed");
         }
@@ -413,7 +433,7 @@ async function initMap() //called by google maps API once loaded
         markerDiv = advancedMarkerElement;
         const upvoteButton = markerDiv.querySelector(".upvote-btn");
         const downvoteButton = markerDiv.querySelector(".downvote-btn");
-        const numbers = markerDiv.querySelector(".totalVotes");
+        const numbers = markerDiv.querySelector(".total-votes");
         numbers.innerHTML =
             parseInt(numbers.innerHTML) + voteData.upvotes - voteData.downvotes;
         modifyButton(upvoteButton, voteData.upvotes);
