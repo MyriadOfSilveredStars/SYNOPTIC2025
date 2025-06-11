@@ -1,7 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 
 body {
-    font-family: "Noto Sans", sans-serif;
+    font-family: "Inter", "Noto Sans", sans-serif;
     font-optical-sizing: auto;
     font-weight: 300;
     font-style: normal;
@@ -9,7 +10,7 @@ body {
 }
 
 div.gm-style {
-    font-family: "Noto Sans", sans-serif;
+    font-family: "Inter", "Noto Sans", sans-serif;
 }
 
 #map {
@@ -467,12 +468,11 @@ select {
     bottom: 0;
     z-index: 4;
     width: 100%;
-
 }
 
 .marker-form {
     width: 90%;
-    padding:5%;
+    padding: 5%;
     /* border: solid red 4px; */
     margin: 0;
     background-color: white;
@@ -577,8 +577,7 @@ button.btn {
 /* Desktop view */
 @media only screen and (min-width: 601px) {
     header {
-        min-height:5%;
-
+        min-height: 5%;
     }
     main {
         max-height: 95%;
