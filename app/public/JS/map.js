@@ -13,9 +13,17 @@ async function initMap() {
     const { Map } = await google.maps.importLibrary("maps");
     const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
 
+    
+    //4 edges of allowed region
+    latN = -26.1837; //north latitude
+    latS = -26.2036; //south latitude
+    lngE = 28.0855; //east longitude
+    lngW = 28.0588; //west longitude
+    
+    
     //create map
     map = new Map(document.getElementById("map"), {
-        center: { lat: -26.193554014913836, lng: 28.069132270603006 },
+        center: { lat: (latN + latS)/2, lng: (lngE + lngW)/2 },
         zoom: 15, // Initial zoom
         minZoom: 14, // Min zoom
         maxZoom: 9999, // Max zoom
@@ -24,11 +32,7 @@ async function initMap() {
         mapId: "53ec86221c5b181adc2e8fe0",
     });
 
-    //4 edges of allowed region
-    latN = -26.1837; //north latitude
-    latS = -26.2036; //south latitude
-    lngE = 28.0855; //east longitude
-    lngW = 28.0588; //west longitude
+    
 
     //create black rectangles to cover non-allowed region
     RectangleIfy(0, 179, latN, -179); //N, NE, NW
@@ -260,13 +264,15 @@ async function initMap() {
                 `;
 
             // stop propagation of scroll event to the map
-            const scrollableDescription = markerDiv.querySelector(".scroll-desc");
+            const scrollableDescription =
+                markerDiv.querySelector(".scroll-desc");
             scrollableDescription.addEventListener("wheel", (e) => {
                 e.stopPropagation();
             });
             scrollableDescription.addEventListener("touchstart", (e) => {
                 e.stopPropagation();
             });
+
             scrollableDescription.addEventListener("touchmove", (e) => {
                 e.stopPropagation();
             });
@@ -310,12 +316,6 @@ async function initMap() {
         // stop propagation of scroll event to the map
         const scrollableDescription = markerDiv.querySelector(".scroll-desc");
         scrollableDescription.addEventListener("wheel", (e) => {
-            e.stopPropagation();
-        });
-        scrollableDescription.addEventListener("touchstart", (e) => {
-            e.stopPropagation();
-        });
-        scrollableDescription.addEventListener("touchmove", (e) => {
             e.stopPropagation();
         });
 
