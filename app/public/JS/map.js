@@ -30,6 +30,13 @@ async function initMap() {
         streetViewControl: false,
         gestureHandling: "greedy",
         mapId: "53ec86221c5b181adc2e8fe0",
+        zoomControl: false,
+        cameraControl: false,
+        mapTypeControl: false,
+        scaleControl: false,
+        streetViewControl: false,
+        rotateControl: false,
+        fullscreenControl: false
     });
 
     
