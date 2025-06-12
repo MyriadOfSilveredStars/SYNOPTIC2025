@@ -48,7 +48,7 @@ exports.signUp = async (req, res) => {
         //Send verification email
         const emailMessage = `
             Please click on the link to verify your account.\n\n
-            <a href="http://localhost:3000/verifyAccount?email=${email}&code=${verificationCode}">Verify Account</a>\n\n
+            <a href="https://synoptic-project-38.nw.r.appspot.com/verifyAccount?email=${email}&code=${verificationCode}">Verify Account</a>\n\n
             Your verification code is '${verificationCode}'
         `;
         
@@ -102,7 +102,7 @@ exports.forgotPassword = async (req, res) => {
 
         const emailMessage = `
             Please click on the link to reset your password.\n\n
-            <a href="http://localhost:3000/reset-password?code=${uniqueUserCode}">Change Password</a>\n\n
+            <a href="https://synoptic-project-38.nw.r.appspot.com/reset-password?code=${uniqueUserCode}">Change Password</a>\n\n
             Your verification code to change your password is '${uniqueUserCode}'
         `;
 
