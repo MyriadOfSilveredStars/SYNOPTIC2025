@@ -274,6 +274,11 @@ async function initMap() {
                             "No description was provided"
                         }
                 </div>
+                <div class="vote-btns hidden">
+                <span class="total-votes" id="number">
+                    Votes: ${markerDataIn.upvotes - markerDataIn.downvotes}
+                </span>
+                </div>
                 `;
 
             // stop propagation of scroll event to the map
