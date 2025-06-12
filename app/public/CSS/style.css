@@ -540,7 +540,7 @@ select {
     width: max-content;
 }
 
-main {
+#main-menu {
     padding: 1rem;
     display: flex;
     flex-direction: column;
