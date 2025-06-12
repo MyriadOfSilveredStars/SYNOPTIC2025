@@ -630,7 +630,21 @@ button.btn {
     }
 }
 
-
-#verifiedTick {
-    color: rgb(37, 184, 37);
+#verified {
+    color: #00b900;
+    /* display: inline-block; */
+    font-size: x-large;
+    align-self: center;
+}
+#account-header {
+    align-content: center;
+    display: flex;
+    padding: 1rem;
+    gap:1rem;
+}
+#email-header {
+    margin:0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }

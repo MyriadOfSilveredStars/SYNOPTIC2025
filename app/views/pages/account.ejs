@@ -1,7 +1,15 @@
 <script defer src="/JS/accountPage.js"></script>
 
+<div id="account-header">
+
+    <% if (includeParams.isVerified) { %>
+        <i id="verified" class="fa-regular fa-circle-check"></i>
+    <% } %> 
+    <h1 id="email-header">
+        <%- includeParams.userEmail %>
+    </h1>
+</div>
 <div id="main-menu">    
-    <h1 id="email-header"><%- includeParams.userEmail %> <% if (includeParams.isVerified) { %> <i id="verifiedTick" class="fa-regular fa-circle-check fa-xs"></i> <% } %></h1>
     <a id="sign-up-btn" class="btn" href="/sign-up">
         <i class="fa-solid fa-user-plus menu-icon"></i>
         <span>Sign Up</p>
